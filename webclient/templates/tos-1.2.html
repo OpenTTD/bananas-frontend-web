@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block header %}
+    <h1>{% block title %}Terms of Service{% endblock %}</h1>
+    <h3>Version 1.2, 2010-01-26</h3>
+{% endblock %}
+{% block content %}
+<ol>
+    <li>You will only upload content of which you are (one of) the original author(s).</li>
+    <li>You grant the OpenTTD team the rights to distribute the last version of your content from a central server. We will assign a globally unique identifier to each upload and everyone can download the content when they know that identifier.</li>
+    <li>You grant the OpenTTD team to distribute your latest content via our website.</li>
+    <li>You grant the OpenTTD team to retain older versions of your content for the purpose of loading save games with said older version.</li>
+    <li>You grant the OpenTTD team the rights to distribute your content from a central server when specifically asked for it by its unique identifier and MD5 checksum. The origin of the unique identifier and MD5 checksum differs per type of content:
+        <ol>
+        <li style="list-style-type: lower-alpha">Base graphics: unique identifier is constructed from the four character short name defined in the .obg file. The MD5 checksum is the exclusive or of the MD5 checksum of the 6 GRFs that are part of the graphics pack.</li>
+        <li style="list-style-type: lower-alpha">NewGRFs: unique identifier is constructed from the GRF ID. The MD5 checksum is the MD5 checksum of the .grf file.</li>
+        <li style="list-style-type: lower-alpha">AIs and AI Libraries: unique identifier is constructed from the four character short name defined in the info.nut. The MD5 checksum is the exclusive or of the MD5 checksums of all scripting files that are part of the AI or AI Library.</li>
+        <li style="list-style-type: lower-alpha">Heightmaps and scenarios: unique identifier is automatically generated when you upload the content. The MD5 checksum is the MD5 checksum of the scenario/heightmap.</li>
+        <li style="list-style-type: lower-alpha">Base sound: unique identifier is constructed from the four character short name defined in the .obs file. The MD5 checksum is the MD5 checksum of the cat file that is part of the sound pack.</li>
+        <li style="list-style-type: lower-alpha">Base music: unique identifier is constructed from the four character short name defined in the .obm file. The MD5 checksum is the exclusive or of MD5 checksum of the music files that are part of the music pack. If they are mentioned multiple times in the .obm file they are exclusive or-ed multiple times. </li>
+        </ol>
+    </li>
+    <li>You grant the OpenTTD team the rights to repackage your content before publishing it. The repackaging:
+        <ol>
+        <li style="list-style-type: lower-alpha">keeps files called "readme", "license" and "copying" with .txt or .pdf as extension or without an extension.</li>
+        <li style="list-style-type: lower-alpha">requires a "license" or "copying" file in the package file or requires that you selected a non-custom license when uploading the package. In the latter case that license will be added to the package.</li>
+        <li style="list-style-type: lower-alpha">renames files called "copying" to "license" retaining the extension.</li>
+        <li style="list-style-type: lower-alpha">requires exactly one .grf file in NewGRF packages.</li>
+        <li style="list-style-type: lower-alpha">requires exactly one .obg file and exactly six .grf files in Base graphics packages as named in the .obg file and with the same MD5 checksums as defined in the .obg file.</li>
+        <li style="list-style-type: lower-alpha">requires .nut files in AI and AI Library packages.</li>
+        <li style="list-style-type: lower-alpha">changes newlines from .txt files to "DOS" (\r\n) newlines.</li>
+        <li style="list-style-type: lower-alpha">changes newlines from .nut, .obg and .obs files to "unix" (\n) newlines.</li>
+        <li style="list-style-type: lower-alpha">requires a "main.nut" and "info.nut" in AI packages.</li>
+        <li style="list-style-type: lower-alpha">requires a "main.nut" and "library.nut" in AI Library packages.</li>
+        <li style="list-style-type: lower-alpha">requires exactly one .scn or one .sv0 or one .ss0 file in Scenario packages.</li>
+        <li style="list-style-type: lower-alpha">requires exactly one .png or one .bmp file in Heightmap packages.</li>
+        <li style="list-style-type: lower-alpha">requires exactly one .obs file and exactly one .cat file in Base sound packages as named in the .obs file and with the same MD5 checksum as defined in the .obs file.</li>
+        <li style="list-style-type: lower-alpha">requires exactly one .obm file and a number of music files in Base music packages as named in the .obm file and with the same MD5 checksum as defined in the .obm file.</li>
+        </ol>
+    </li>
+</ol>
+{% endblock %}

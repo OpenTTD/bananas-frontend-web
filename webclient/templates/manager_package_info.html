@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block header %}
+    <h1>{% block title %}{{ package["name"] }}{% endblock %}</h1>
+    <h3>{{ package["content-type"] }}/{{ package["unique-id"] }}</h3>
+{% endblock %}
+{% block content %}
+
+<a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/edit">Edit package meta data</a>
+<table>
+<tr><td>Content Id</td><td>{{ package["content-type"] }}/{{ package["unique-id"] }}</td></tr>
+<tr><td>Name</td><td>{{ package["name"] }}</td></tr>
+<tr><td>Project site</td><td>
+{% if package["url"] %}
+<a href="{{ package["url"] }}" target="_blank">{{ package["url"] }}</a>
+{% endif %}
+</td></tr>
+<tr><td>Tags</td><td><ul>
+{% for t in package["tags"] %}
+    <li>{{ t }}</li>
+{% endfor %}
+</ul></td></tr>
+<tr><td>Authors</td><td><ul>
+{% for a in package["authors"] %}
+    <li>{{ a["display-name"] }}</li>
+{% endfor %}
+</ul></td></tr>
+<tr><td>Description</td><td>{{ package["description"] }}</td></tr>
+</table>
+
+<form method="post">
+<input type="hidden" name="csrf_token" value={{ csrf_token }}/>
+<table>
+<tr>
+    <th>Version</th>
+    <th>Upload date</th>
+    <th>MD5 (partial)</th>
+    <th>License</th>
+    <th>Availability</th>
+    <th>Edit meta data</th>
+</tr>
+{% for version in package["versions"] %}
+<tr>
+    <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["upload-date"] }}">{{ version["version"] }}</a></td>
+    <td>{{ version["upload-date"] }}</td>
+    <td>{{ version["md5sum-partial"] }}</td>
+    <td>{{ version["license"] }}</td>
+    <td>
+        <select name="availability_{{ version["upload-date"] }}" value="{{ version["availability"] }}">
+            <option value="savegames-only">Savegames only</option>
+            <option value="new-games">New games</option>
+        </select>
+    </td>
+    <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["upload-date"] }}/edit">Edit</a></td>
+</tr>
+{% endfor %}
+<tr>
+    <td></td><td></td><td></td><td></td>
+    <td><input type="submit" value="Save"/></td>
+    <td></td>
+</tr>
+</table>
+</form>
+
+{% endblock %}

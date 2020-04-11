@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block header %}
+    <h1>{% block title %}{{ content_type }}{% endblock %}</h1>
+{% endblock %}
+{% block content %}
+
+<table>
+<tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Project site</th>
+    <th>Latest version</th>
+    <th>Upload date</th>
+    <th>License</th>
+    <th>Download</th>
+</tr>
+{% for package in packages %}
+<tr>
+    <td>{{ package["unique-id"] }}</td>
+    <td><a href="/package/{{ package["content-type"] }}/{{ package["unique-id"] }}">{{ package["name"] }}</a></td>
+    <td>
+        {% if package["url"] %}
+        <a href="{{ package["url"] }}" target="_blank">{{ package["url"] }}</a>
+        {% endif %}
+    </td>
+    {% if package["latest"] %}
+        <td><a href="/package/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ package["latest"]["upload-date"] }}">{{ package["latest"]["version"] }}</a></td>
+        <td>{{ package["latest"]["upload-date"] }}</td>
+        <td>{{ package["latest"]["license"] }}</td>
+        {% if package["latest"]["download-url"] %}
+            <td><a href="{{ package["latest"]["download-url"] }}">{{ (package["latest"]["filesize"] | int) // 1024 }} kB</a></td>
+        {% else %}
+            <td>Not available</td>
+        {% endif %}
+    {% else %}
+        <td></td><td></td><td></td><td>Not available</td>
+    {% endif %}
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

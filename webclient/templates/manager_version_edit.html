@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block header %}
+    <h1>{% block title %}{{ version["name"] }} {{ version["version"] }}{% endblock %}</h1>
+    <h3>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["upload-date"] }}</h3>
+{% endblock %}
+{% block content %}
+
+<form method="post">
+<input type="hidden" name="csrf_token" value={{ csrf_token }}/>
+<table>
+<tr><td>Content Id</td><td>{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
+<tr><td>Name</td><td>
+    Leave empty to use the name from the package.<br/>
+    <input type="text" name="name" value="{{ version["name"] }}" placeholder="{{ package["name"] }}"/>
+</td></tr>
+<tr><td>Project site</td><td>
+    Leave empty to use the URL from the package.<br/>
+    <input type="url" name="url" value="{{ version["url"] }}" placeholder="{{ package["url"] }}"/>
+</td></tr>
+<tr><td>Version</td><td>
+    <input type="text" name="version" value="{{ version["version"] }}"/>
+</td></tr>
+<tr><td>Download availability</td><td>
+    <select name="availability" value="{{ version["availability"] }}">
+        <option value="savegames-only">Savegames only</option>
+        <option value="new-games">New games</option>
+    </select>
+</td></tr>
+<tr><td>Compatibility</td><td>
+    Enter version requirements like "&gt;= 1.2.0" or "&lt; 1.10.0".
+    <table>
+        <tr>
+            <th>Branch</th>
+            <th>Minimum requirement</th>
+            <th>Maximum requirement</th>
+        </tr>
+        <tr>
+        {% for c in compatibility %}
+            <td>{{ c[0] }}</td>
+            <td><input type="text" name="compatibility_{{ c[0] }}_min" value="{{ c[1] }}"/></td>
+            <td><input type="text" name="compatibility_{{ c[0] }}_max" value="{{ c[2] }}"/></td>
+        {% endfor %}
+        </tr>
+    </table>
+</td></tr>
+<tr><td>Dependencies</td><td>
+{% if deps_editable %}
+Enter one content-id per row. You can find the 'Content Id' on the version detail page of every content item.<br/>
+<textarea name="dependencies" cols="30" rows="10">
+{%- for dep in version["dependencies"] -%}
+{{ dep["content-type"] }}/{{ dep["unique-id"] }}/{{ dep["md5sum-partial"] }}
+{% endfor -%}
+</textarea>
+{% else %}
+<ul>
+{% for dep in version["dependencies"] %}
+    <li><a href="/package/{{ dep["content-type"] }}/{{ dep["unique-id"] }}/{{ dep["upload-date"] }}" target="_blank">{{ dep["name"] }} {{ dep["version"] }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+</td></tr>
+<tr><td>Tags</td><td>Enter one tag per row, leave empty to use the tags from the package:<br/>
+<textarea name="tags" cols="20" rows="10" placeholder="
+{%- for t in package["tags"] -%}
+{{ t }}
+{% endfor -%}
+">
+{%- for t in version["tags"] -%}
+{{ t }}
+{% endfor -%}
+</textarea></td></tr>
+<tr><td>Description</td><td>
+    Leave empty to use the description from the package.<br/>
+<textarea name="description" cols="50" rows="20" placeholder="{{ package["description"] }}">
+{{- version["description"] -}}
+</textarea></td></tr>
+</table>
+<input type="submit" value="Save"/>
+</form>
+
+{% endblock %}
