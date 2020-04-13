@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block header %}
-    <h1>{% block title %}{{ version["name"] }} {{ version["version"] }}{% endblock %}</h1>
+    <h1>{% block title %}{{ version["name"] or package["name"] }} {{ version["version"] }}{% endblock %}</h1>
     <h3>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["upload-date"] }}</h3>
 {% endblock %}
 {% block content %}
 
 <form method="post">
-<input type="hidden" name="csrf_token" value={{ csrf_token }}/>
+<input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
 <table>
 <tr><td>Content Id</td><td>{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
 <tr><td>Name</td><td>
@@ -21,9 +21,9 @@
     <input type="text" name="version" value="{{ version["version"] }}"/>
 </td></tr>
 <tr><td>Download availability</td><td>
-    <select name="availability" value="{{ version["availability"] }}">
-        <option value="savegames-only">Savegames only</option>
-        <option value="new-games">New games</option>
+    <select name="availability">
+        <option value="savegames-only" {% if version["availability"] == "savegames-only" %}selected{% endif %}>Savegames only</option>
+        <option value="new-games" {% if version["availability"] == "new-games" %}selected{% endif %}>New games</option>
     </select>
 </td></tr>
 <tr><td>Compatibility</td><td>
@@ -46,7 +46,7 @@
 <tr><td>Dependencies</td><td>
 {% if deps_editable %}
 Enter one content-id per row. You can find the 'Content Id' on the version detail page of every content item.<br/>
-<textarea name="dependencies" cols="30" rows="10">
+<textarea name="dependencies" cols="50" rows="10">
 {%- for dep in version["dependencies"] -%}
 {{ dep["content-type"] }}/{{ dep["unique-id"] }}/{{ dep["md5sum-partial"] }}
 {% endfor -%}

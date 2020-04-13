@@ -24,11 +24,15 @@
     <li>{{ a["display-name"] }}</li>
 {% endfor %}
 </ul></td></tr>
-<tr><td>Description</td><td>{{ package["description"] }}</td></tr>
+<tr><td>Description</td><td>
+    {% for l in package["description"].splitlines() %}
+    {{ l }}<br/>
+    {% endfor %}
+</td></tr>
 </table>
 
 <form method="post">
-<input type="hidden" name="csrf_token" value={{ csrf_token }}/>
+<input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
 <table>
 <tr>
     <th>Version</th>
@@ -45,9 +49,9 @@
     <td>{{ version["md5sum-partial"] }}</td>
     <td>{{ version["license"] }}</td>
     <td>
-        <select name="availability_{{ version["upload-date"] }}" value="{{ version["availability"] }}">
-            <option value="savegames-only">Savegames only</option>
-            <option value="new-games">New games</option>
+        <select name="availability_{{ version["upload-date"] }}">
+            <option value="savegames-only" {% if version["availability"] == "savegames-only" %}selected{% endif %}>Savegames only</option>
+            <option value="new-games" {% if version["availability"] == "new-games" %}selected{% endif %}>New games</option>
         </select>
     </td>
     <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["upload-date"] }}/edit">Edit</a></td>

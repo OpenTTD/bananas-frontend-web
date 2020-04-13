@@ -5,7 +5,7 @@
 {% block content %}
 
 <form method="post">
-<input type="hidden" name="csrf_token" value={{ csrf_token }}/>
+<input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
 <h3>Step 1: Terms of service</h3>
 <p>Please read our <a href="/manager/tos" target="_blank">terms of service</a>. This is no lawyer blah-blah. This is a volunteer project, please do not try to cheat the system.</p>
 <p>
@@ -48,16 +48,16 @@ Note: Some of the info is filled automatically after uploading the files.
 </td></tr>
 <tr><td>License</td><td>
     Unsure which license to pick? <a href="https://www.tt-forums.net/viewtopic.php?f=68&amp;t=55814" target="_blank">Look here</a><br/>
-    <select name="license" value="{{ version["license"] }}">
+    <select name="license">
     {% for license in licenses %}
-        <option value="{{ license }}">{{ license }}</option>
+        <option value="{{ license }}" {% if version["license"] == license %}{% endif %}>{{ license }}</option>
     {% endfor %}
     </select>
 </td></tr>
 <tr><td>Download availability</td><td>
-    <select name="availability" value="{{ version["availability"] }}">
-        <option value="savegames-only">Savegames only</option>
-        <option value="new-games">New games</option>
+    <select name="availability">
+        <option value="savegames-only" {% if version["availability"] == "savegames-only" %}selected{% endif %}>Savegames only</option>
+        <option value="new-games" {% if version["availability"] == "new-games" %}selected{% endif %}>New games</option>
     </select>
 </td></tr>
 <tr><td>Compatibility</td><td>
@@ -80,7 +80,7 @@ Note: Some of the info is filled automatically after uploading the files.
 <tr><td>Dependencies</td><td>
 {% if deps_editable %}
 Enter one content-id per row. You can find the 'Content Id' on the version detail page of every content item.<br/>
-<textarea name="dependencies" cols="30" rows="10">
+<textarea name="dependencies" cols="50" rows="10">
 {%- for dep in version["dependencies"] -%}
 {{ dep["content-type"] }}/{{ dep["unique-id"] }}/{{ dep["md5sum-partial"] }}
 {% endfor -%}

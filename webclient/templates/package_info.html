@@ -9,7 +9,7 @@
 <p><b> This content is archived and is no longer available for new games. </b></p>
 {% endif %}
 {% if package.get("replaced-by") %}
-<p><b> This content is deprecated. Please use <a href="/package/{{ package["content-type"] }}/{{ package["replaced-by"]["unique-id"] }}">{{ package["replaced-by"]["name"] }}</a> instead. </b></p>
+<p><b> This content is deprecated. Please use <a href="/package/{{ package["content-type"] }}/{{ package["replaced-by"]["unique-id"] }}">{{ package["replaced-by"]["name"] }} ({{ package["replaced-by"]["unique-id"] }})</a> instead. </b></p>
 {% endif %}
 
 <table>
@@ -31,7 +31,11 @@
     <li>{{ a["display-name"] }}</li>
 {% endfor %}
 </ul></td></tr>
-<tr><td>Description</td><td>{{ package["description"] }}</td></tr>
+<tr><td>Description</td><td>
+    {% for l in package["description"].splitlines() %}
+    {{ l }}<br/>
+    {% endfor %}
+</td></tr>
 </table>
 
 <table>

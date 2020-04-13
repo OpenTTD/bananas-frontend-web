@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block header %}
-    <h1>{% block title %}{{ version["name"] }} {{ version["version"] }}{% endblock %}</h1>
+    <h1>{% block title %}{{ version["name"] or package["name"] }} {{ version["version"] }}{% endblock %}</h1>
     <h3>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["upload-date"] }}</h3>
 {% endblock %}
 {% block content %}
@@ -9,8 +9,8 @@
 <p><b> This content is archived and is no longer available for new games. </b></p>
 {% endif %}
 {% if package.get("replaced-by") %}
-<p><b> This content is deprecated. Please use <a href="/package/{{ package["content-type"] }}/{{ package["replaced-by"]["unique-id"] }}">{{ package["replaced-by"]["name"] }}</a> instead. </b></p>
-{% elif latest and latest["download-url"] %}
+<p><b> This content is deprecated. Please use <a href="/package/{{ package["content-type"] }}/{{ package["replaced-by"]["unique-id"] }}">{{ package["replaced-by"]["name"] }} ({{ package["replaced-by"]["unique-id"] }})</a> instead. </b></p>
+{% elif latest %}
 <p><b> There is a newer version of this content available. Please use <a href="/package/{{ latest["content-type"] }}/{{ latest["unique-id"] }}/{{ latest["upload-date"] }}">version {{ latest["version"] }}</a> for new games. </b></p>
 {% endif %}
 <table>
@@ -54,7 +54,11 @@
     <li>{{ a["display-name"] }}</li>
 {% endfor %}
 </ul></td></tr>
-<tr><td>Description</td><td>{{ version["description"] or package["description"] }}</td></tr>
+<tr><td>Description</td><td>
+    {% for l in (version["description"] or package["description"]).splitlines() %}
+    {{ l }}<br/>
+    {% endfor %}
+</td></tr>
 </table>
 
 {% endblock %}

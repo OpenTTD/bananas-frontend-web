@@ -6,7 +6,7 @@
 {% block content %}
 
 <form method="post">
-<input type="hidden" name="csrf_token" value={{ csrf_token }}/>
+<input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
 <table>
 <tr><td>Content Id</td><td>{{ package["content-type"] }}/{{ package["unique-id"] }}</td></tr>
 <tr><td>Name</td><td>
