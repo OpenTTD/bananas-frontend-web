@@ -1,4 +1,4 @@
-from webclient.main import app, template, redirect, notfound
+from webclient.main import app, template, redirect, not_found
 
 
 _tos_versions = {
@@ -22,4 +22,4 @@ def tos(version):
     if t:
         return template(t)
     else:
-        return notfound()
+        return not_found()

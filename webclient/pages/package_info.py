@@ -1,86 +1,103 @@
 import flask
-from webclient.main import app, template, redirect, notfound, protected
+from webclient.main import app, template, protected, api_get, api_put
 
 
 @app.route("/package/<content_type>/<unique_id>")
 def package_info(content_type, unique_id):
-    # TODO query replaced-by for name
+    package = api_get(("package", content_type, unique_id))
 
-    package = {
-        "content-type": content_type,
-        "unique-id" : unique_id,
-        "name": "Another banana content daemon",
-        "description": "bla <b>bla\" bla",
-        "url": "",
-        "archived": True,
-        "replaced-by": {"unique-id": "ff112233", "name": "BaNaNaS 8"},
-        "tags": ["old", "deprecated", "better"],
-        "authors": [{"display-name": "anna"}, {"display-name": "berta"}],
-        "versions": [
-            {"version": "0.1", "upload-date": "2020-02-29T11:11:11", "md5sum-partial": "12346678", "license": "custom", "download-url": "https://openttd.org", "filesize": "123456"},
-            {"version": "0.0", "upload-date": "2016-02-29T11:11:11", "md5sum-partial": "12346678", "license": "custom", "download-url": None, "filesize": None}
-        ]
-    }
+    upgrade = package.get("replaced-by")
+    if upgrade and "unique-id" in upgrade:
+        upgrade_info, _ = api_get(("package", content_type, upgrade["unique-id"]), return_errors=True)
+        if upgrade_info:
+            upgrade.update(upgrade_info)
+
+    package.setdefault("versions", []).sort(reverse=True, key=lambda v: v.get("upload-date", ""))
 
     return template("package_info.html", package=package)
+
+
+def record_change(changes, data, key, value):
+    if value is not None:
+        o = data.get(key)
+        if o is None or o != value:
+            changes[key] = value
 
 
 @app.route("/manager/<content_type>/<unique_id>", methods=['GET', 'POST'])
 @protected
 def manager_package_info(session, content_type, unique_id):
     csrf_context = ("manager_package_info", content_type, unique_id)
+    package = api_get(("package", content_type, unique_id), session=session)
+    messages = []
 
     if flask.request.method == 'POST':
-        # TODO
-        pass
+        form = flask.request.form
+        valid_csrf = session.validate_csrf_token(form.get("csrf_token"), csrf_context)
 
-    # TODO query replaced-by for name
+        any_changes = False
+        success = True
+        for v in package.get("versions", []):
+            key = v.get("upload-date")
+            if key:
+                changes = dict()
+                record_change(changes, v, "availability", form.get("availability_" + key))
+                v.update(changes)
 
-    package = {
-        "content-type": content_type,
-        "unique-id" : unique_id,
-        "name": "Another banana content daemon",
-        "description": "bla <b>bla\" bla",
-        "url": "",
-        "archived": True,
-        "replaced-by": {"unique-id": "ff112233", "name": "BaNaNaS 8"},
-        "tags": ["old", "deprecated", "better"],
-        "authors": [{"display-name": "anna"}, {"display-name": "berta"}],
-        "versions": [
-            {"version": "0.1", "upload-date": "2020-02-29T11:11:11", "md5sum-partial": "12346678", "license": "custom", "download-url": "https://openttd.org", "filesize": "123456"},
-            {"version": "0.0", "upload-date": "2016-02-29T11:11:11", "md5sum-partial": "12346678", "license": "custom", "download-url": None, "filesize": None}
-        ]
-    }
+                if len(changes) > 0 and valid_csrf:
+                    any_changes = True
+                    _, error = api_put(("package", content_type, unique_id, key),
+                                       json=changes, session=session, return_errors=True)
+                    if error:
+                        messages.append(error)
+                        success = False
+
+        if not valid_csrf:
+            messages.append("CSRF token expired. Please reconfirm your changes.")
+        elif any_changes and success:
+            messages.append("Data updated")
+
+    package.setdefault("versions", []).sort(reverse=True, key=lambda v: v.get("upload-date", ""))
 
     csrf_token = session.create_csrf_token(csrf_context)
-    return template("manager_package_info.html", session=session, package=package, csrf_token=csrf_token)
+    return template("manager_package_info.html", session=session, package=package,
+                    messages=messages, csrf_token=csrf_token)
 
 
 @app.route("/manager/<content_type>/<unique_id>/edit", methods=['GET', 'POST'])
 @protected
 def manager_package_edit(session, content_type, unique_id):
     csrf_context = ("manager_package_edit", content_type, unique_id)
+    package = api_get(("package", content_type, unique_id), session=session)
+    messages = []
 
     if flask.request.method == 'POST':
-        # TODO strip whitespace
+        form = flask.request.form
+        valid_csrf = session.validate_csrf_token(form.get("csrf_token"), csrf_context)
 
-        pass
+        changes = dict()
+        record_change(changes, package, "name", form.get("name").strip())
+        record_change(changes, package, "url", form.get("url").strip())
 
-    package = {
-        "content-type": content_type,
-        "unique-id" : unique_id,
-        "name": "Another banana content daemon",
-        "description": "bla <b>bla\" bla",
-        "url": "",
-        "archived": True,
-        "replaced-by": {"unique-id": "ff112233", "name": "BaNaNaS 8"},
-        "tags": ["old", "deprecated", "better"],
-        "authors": [{"display-name": "anna"}, {"display-name": "berta"}],
-        "versions": [
-            {"version": "0.1", "upload-date": "2020-02-29T11:11:11", "md5sum-partial": "12346678", "license": "custom", "download-url": "https://openttd.org", "filesize": "123456"},
-            {"version": "0.0", "upload-date": "2016-02-29T11:11:11", "md5sum-partial": "12346678", "license": "custom", "download-url": None, "filesize": None}
-        ]
-    }
+        tags = form.get("tags").strip().splitlines()
+        tags = set(t.strip() for t in tags)
+        tags.discard("")
+        tags = sorted(tags)
+        record_change(changes, package, "tags", tags)
+
+        desc = "\n".join(t.rstrip() for t in form.get("description").strip().splitlines())
+        record_change(changes, package, "description", desc)
+
+        package.update(changes)
+        if not valid_csrf:
+            messages.append("CSRF token expired. Please reconfirm your changes.")
+        elif len(changes) > 0:
+            _, error = api_put(("package", content_type, unique_id), json=changes, session=session, return_errors=True)
+            if error:
+                messages.append(error)
+            else:
+                messages.append("Data updated")
 
     csrf_token = session.create_csrf_token(csrf_context)
-    return template("manager_package_edit.html", session=session, package=package, csrf_token=csrf_token)
+    return template("manager_package_edit.html", session=session, package=package,
+                    messages=messages, csrf_token=csrf_token)

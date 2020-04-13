@@ -1,13 +1,17 @@
 import datetime
 import secrets
 import flask
+import urllib
+import requests
 
 _sessions = dict()
+_api_url = "http://localhost:8080"  # TODO environment or something
+_frontend_url = "http://localhost:5000"  # TODO
 SESSION_COOKIE = "bananas_sid"
 MAX_SESSION_AGE = datetime.timedelta(hours=16)
 MAX_CSRF_AGE = datetime.timedelta(minutes=30)
 
-app = flask.Flask(__name__)
+app = flask.Flask("webclient")
 
 
 class SessionData:
@@ -18,7 +22,6 @@ class SessionData:
     @ivar expires:      Session expire date
     @ivar is_auth:      Whether user is authenticated.
     @ivar display_name: User's displayname, or None
-    @ivar github_id:    User id.
     @ivar api_token:    Token for backend API.
     @ivar csrf_token:   CSRF tokens.
     """
@@ -28,7 +31,6 @@ class SessionData:
         self.expires = datetime.datetime.utcnow() + MAX_SESSION_AGE
         self.is_auth = False
         self.display_name = None
-        self.github_id = None
         self.api_token = None
         self.csrf_tokens = dict()
 
@@ -97,29 +99,94 @@ def stop_session():
 def protected(fun):
     def wrapper(*args, **kwargs):
         session = get_session()
-        if (session is not None) and session.is_auth:
-            return fun(session, *args, **kwargs)
-        else:
-            return redirect("login")
+        if session and session.api_token:
+            if not session.is_auth:
+                # TODO call API to check login status
+                session.is_auth = True  # TODO test only
+                session.display_name = "unknown"
+
+            if session.is_auth:
+                return fun(session, *args, **kwargs)
+
+        return redirect("login")
 
     wrapper.__name__ = fun.__name__
     return wrapper
 
 
 def template(*args, **kwargs):
-    if 'session' not in kwargs:
-        kwargs['session'] = None
-    if 'message' not in kwargs:
-        kwargs['message'] = None
+    if 'message' in kwargs:
+        kwargs.setdefault('messages', []).append(kwargs['message'])
 
     response = flask.make_response(flask.render_template(*args, **kwargs))
     response.headers['Content-Security-Policy'] = "default-src 'self'"
     return response
 
 
+def external_url_for(*args, **kwargs):
+    return _frontend_url + flask.url_for(*args, **kwargs)
+
+
 def redirect(*args, **kwargs):
     return flask.redirect(flask.url_for(*args, **kwargs))
 
 
-def notfound():
+def not_found():
     flask.abort(404)
+
+
+def api_error():
+    flask.abort(500)
+
+
+def api_call(method, path, params=None, json=None, session=None, return_errors=False):
+    url = _api_url + "/" + "/".join(urllib.parse.quote(p, safe='') for p in path)
+    headers = None
+    if session and session.api_token:
+        headers = {"Authorization": "Bearer " + session.api_token}
+    try:
+        app.logger.info("API request to '{}': {}".format(url, json))
+        r = method(url, params=params, headers=headers, json=json)
+
+        success = r.status_code in (200, 201, 204)
+        if not success:
+            app.logger.warning("API failed: {}".format(r.text))
+
+        if success:
+            if return_errors:
+                return (r.json(), None)
+            else:
+                return r.json()
+        elif return_errors:
+            error = str(r.json().get("errors", "API call failed"))
+            return (None, error)
+        elif r.status_code == 404:
+            not_found()
+        elif r.status_code == 401:
+            if session and session.is_auth:
+                redirect("root", message="Access denied")
+            else:
+                redirect("login")
+    except Exception:
+        pass
+
+    if return_errors:
+        return (None, "API call failed")
+    else:
+        api_error()
+
+
+def api_get(*args, **kwargs):
+    return api_call(requests.get, *args, **kwargs)
+
+
+def api_post(*args, **kwargs):
+    return api_call(requests.post, *args, **kwargs)
+
+
+def api_put(*args, **kwargs):
+    return api_call(requests.put, *args, **kwargs)
+
+
+def api_delete(*args, **kwargs):
+    return api_call(requests.delete, *args, **kwargs)
