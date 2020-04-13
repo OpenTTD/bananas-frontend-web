@@ -1,2 +1,2 @@
-from .main import app
-from . import pages
+from .main import app  # noqa
+from . import pages  # noqa
