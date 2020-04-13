@@ -49,17 +49,22 @@ Note: Some of the info is filled automatically after uploading the files.
 <tr><td>License</td><td>
     Unsure which license to pick? <a href="https://www.tt-forums.net/viewtopic.php?f=68&amp;t=55814" target="_blank">Look here</a><br/>
     <select name="license">
+    {% if not version["license"] %}
+        <option value="empty">Choose a license</option>
+    {% endif %}
     {% for license in licenses %}
-        <option value="{{ license }}" {% if version["license"] == license %}{% endif %}>{{ license }}</option>
+        <option value="{{ license }}" {% if version["license"] == license %}selected{% endif %}>{{ license }}</option>
     {% endfor %}
     </select>
 </td></tr>
+{#
 <tr><td>Download availability</td><td>
     <select name="availability">
         <option value="savegames-only" {% if version["availability"] == "savegames-only" %}selected{% endif %}>Savegames only</option>
         <option value="new-games" {% if version["availability"] == "new-games" %}selected{% endif %}>New games</option>
     </select>
 </td></tr>
+#}
 <tr><td>Compatibility</td><td>
     Enter version requirements like "&gt;= 1.2.0" or "&lt; 1.10.0".
     <table>

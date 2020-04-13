@@ -153,10 +153,15 @@ def api_call(method, path, params=None, json=None, session=None, return_errors=F
             app.logger.warning("API failed: {}".format(r.text))
 
         if success:
+            result = None
+            try:
+                result = r.json()
+            except Exception:
+                result = None
             if return_errors:
-                return (r.json(), None)
+                return (result, None)
             else:
-                return r.json()
+                return result
         elif return_errors:
             error = str(r.json().get("errors", "API call failed"))
             return (None, error)

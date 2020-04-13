@@ -157,7 +157,7 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
         record_change(changes, version, "name", form.get("name").strip(), True)
         record_change(changes, version, "url", form.get("url").strip(), True)
         record_change(changes, version, "version", form.get("version").strip())
-        record_change(changes, version, "availability", form.get("availability").strip())
+        # TODO record_change(changes, version, "availability", form.get("availability").strip())
         record_change_compatibility(changes, version, form)
         if not record_change_dependencies(changes, version, form, messages):
             valid_data = False
@@ -211,8 +211,9 @@ def manager_new_package_upload(session, token):
         record_change(changes, version, "name", form.get("name").strip(), True)
         record_change(changes, version, "url", form.get("url").strip(), True)
         record_change(changes, version, "version", form.get("version").strip())
-        record_change(changes, version, "license", form.get("license").strip())
-        record_change(changes, version, "availability", form.get("availability").strip())
+        if form.get("license", "empty") != "empty":
+            record_change(changes, version, "license", form.get("license").strip())
+        # TODO record_change(changes, version, "availability", form.get("availability").strip())
         record_change_compatibility(changes, version, form)
         if not record_change_dependencies(changes, version, form, messages):
             valid_data = False
@@ -223,11 +224,11 @@ def manager_new_package_upload(session, token):
         if not valid_csrf:
             messages.append("CSRF token expired. Please reconfirm your changes.")
         elif valid_data and len(changes) > 0:
-            new_version, error = api_put(("new-package", token), json=changes, session=session, return_errors=True)
+            _, error = api_put(("new-package", token), json=changes, session=session, return_errors=True)
             if error:
                 messages.append(error)
             else:
-                version = new_version
+                version = api_get(("new-package", token), session=session)  # rerun validation
                 messages.append("Data updated")
 
         new_files = []

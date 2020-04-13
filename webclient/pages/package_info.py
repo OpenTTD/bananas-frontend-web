@@ -41,7 +41,7 @@ def manager_package_info(session, content_type, unique_id):
             key = v.get("upload-date")
             if key:
                 changes = dict()
-                record_change(changes, v, "availability", form.get("availability_" + key))
+                # TODO record_change(changes, v, "availability", form.get("availability_" + key))
                 v.update(changes)
 
                 if len(changes) > 0 and valid_csrf:

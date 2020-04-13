@@ -31,8 +31,10 @@
 </td></tr>
 </table>
 
+{#
 <form method="post">
 <input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
+#}
 <table>
 <tr>
     <th>Version</th>
@@ -48,21 +50,28 @@
     <td>{{ version["upload-date"] }}</td>
     <td>{{ version["md5sum-partial"] }}</td>
     <td>{{ version["license"] }}</td>
+{#
     <td>
         <select name="availability_{{ version["upload-date"] }}">
             <option value="savegames-only" {% if version["availability"] == "savegames-only" %}selected{% endif %}>Savegames only</option>
             <option value="new-games" {% if version["availability"] == "new-games" %}selected{% endif %}>New games</option>
         </select>
     </td>
+#}
+    <td>{{ version["availability"] }}</td>
     <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["upload-date"] }}/edit">Edit</a></td>
 </tr>
 {% endfor %}
+{#
 <tr>
     <td></td><td></td><td></td><td></td>
     <td><input type="submit" value="Save"/></td>
     <td></td>
 </tr>
+#}
 </table>
+{#
 </form>
+#}
 
 {% endblock %}
