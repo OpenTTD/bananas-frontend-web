@@ -3,7 +3,10 @@ import re
 from webclient.main import app, template, redirect, protected, api_get, api_post, api_put, api_delete
 
 
-_licenses = ["GPL v2", "GPL v3", "LGPL v2.1", "CC-0 v1.0", "CC-BY v3.0", "CC-BY-SA v3.0", "CC-BY-NC-SA v3.0", "CC-BY-NC-ND v3.0", "Custom"]
+_licenses = ["GPL v2", "GPL v3", "LGPL v2.1",
+             "CC-0 v1.0",
+             "CC-BY v3.0", "CC-BY-SA v3.0", "CC-BY-NC-SA v3.0", "CC-BY-NC-ND v3.0",
+             "Custom"]
 _branches = ["master"]
 _dep_pattern = re.compile("([-a-z]*)/([0-9a-f]{8})/([0-9a-f]{8})$")
 
@@ -29,7 +32,7 @@ def record_change(changes, data, key, value, empty_values=False):
         return
 
     o = data.get(key)
-    if o is not None and o == value:
+    if o == value:
         return
 
     if empty_values and (o is None) and (not value):
@@ -162,7 +165,7 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
         version.update(changes)
         if not valid_csrf:
             messages.append("CSRF token expired. Please reconfirm your changes.")
-        elif valid_data and len(changes) > 0:
+        elif valid_data and len(changes):
             _, error = api_put(("package", content_type, unique_id, upload_date), json=changes,
                                session=session, return_errors=True)
             if error:
@@ -215,7 +218,7 @@ def manager_new_package_upload(session, token):
         version.update(changes)
         if not valid_csrf:
             messages.append("CSRF token expired. Please reconfirm your changes.")
-        elif valid_data and len(changes) > 0:
+        elif valid_data and len(changes):
             _, error = api_put(("new-package", token), json=changes, session=session, return_errors=True)
             if error:
                 messages.append(error)

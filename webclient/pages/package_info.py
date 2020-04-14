@@ -2,6 +2,13 @@ import flask
 from webclient.main import app, template, protected, api_get, api_put
 
 
+def record_change(changes, data, key, value):
+    if value is not None:
+        o = data.get(key)
+        if o != value:
+            changes[key] = value
+
+
 @app.route("/package/<content_type>/<unique_id>")
 def package_info(content_type, unique_id):
     package = api_get(("package", content_type, unique_id))
@@ -15,13 +22,6 @@ def package_info(content_type, unique_id):
     package.setdefault("versions", []).sort(reverse=True, key=lambda v: v.get("upload-date", ""))
 
     return template("package_info.html", package=package)
-
-
-def record_change(changes, data, key, value):
-    if value is not None:
-        o = data.get(key)
-        if o is None or o != value:
-            changes[key] = value
 
 
 @app.route("/manager/<content_type>/<unique_id>")
@@ -60,7 +60,7 @@ def manager_package_edit(session, content_type, unique_id):
         package.update(changes)
         if not valid_csrf:
             messages.append("CSRF token expired. Please reconfirm your changes.")
-        elif len(changes) > 0:
+        elif len(changes):
             _, error = api_put(("package", content_type, unique_id), json=changes, session=session, return_errors=True)
             if error:
                 messages.append(error)
