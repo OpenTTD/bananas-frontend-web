@@ -4,9 +4,11 @@ import flask
 import urllib
 import requests
 
-_sessions = dict()
 _api_url = "http://localhost:8080"  # TODO environment or something
-_frontend_url = "http://localhost:5000"  # TODO
+_frontend_url = "https://localhost:5000"  # TODO
+auth_backend = {"method": "developer", "username": "frosch"}
+
+_sessions = dict()
 SESSION_COOKIE = "bananas_sid"
 MAX_SESSION_AGE = datetime.timedelta(hours=16)
 MAX_CSRF_AGE = datetime.timedelta(minutes=30)

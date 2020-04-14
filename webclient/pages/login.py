@@ -1,4 +1,5 @@
-from webclient.main import app, redirect, get_session, start_session, stop_session, api_get, api_post, external_url_for
+from webclient.main import app, redirect, api_get, api_post, external_url_for
+from webclient.main import get_session, start_session, stop_session, auth_backend
 import flask
 
 
@@ -12,14 +13,16 @@ def login():
         return redirect("manager_package_list")
     else:
         answer = api_get(("user", "login"), params={
-            "method": "developer",  # TODO github
-            "redirect-uri": external_url_for("manager_package_list").replace("http://", "https://")  # TODO replace is debug only
+            "method": auth_backend.get("method"),
+            "redirect-uri": external_url_for("manager_package_list")
         })
 
         s.api_token = answer.get("bearer-token")
 
-        # TODO debug only
-        api_post(("user", "developer"), json={"username": "frosch"}, session=s, return_errors=True)
+        if auth_backend.get("method") == "developer":
+            api_post(("user", "developer"),
+                     json={"username": auth_backend.get("username")},
+                     session=s, return_errors=True)
 
         url = answer.get("authorize-url")
         if url:
