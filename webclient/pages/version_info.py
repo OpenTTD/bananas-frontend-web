@@ -183,7 +183,7 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
 @protected
 def manager_new_package(session):
     new = api_post(("new-package",), json={}, session=session)
-    return redirect("manager_new_package_upload", token=new.get("token", ""))
+    return redirect("manager_new_package_upload", token=new.get("upload-token", ""))
 
 
 @app.route("/manager/new-package/<token>", methods=['GET', 'POST'])

@@ -101,9 +101,10 @@ def protected(fun):
         session = get_session()
         if session and session.api_token:
             if not session.is_auth:
-                # TODO call API to check login status
-                session.is_auth = True  # TODO test only
-                session.display_name = "unknown"
+                user, error = api_get(("user", ), session=session, return_errors=True)
+                if error is None:
+                    session.is_auth = True
+                    session.display_name = user.get("display-name", "")
 
             if session.is_auth:
                 return fun(session, *args, **kwargs)
