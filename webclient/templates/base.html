@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %} - BaNaNaS - OpenTTD</title>
+</head>
+<body>
+<table><tr>
+    <td><a href="/">BaNaNaS</a></td>
+    <td><a href="/package/base-graphics">Base-Graphics</a><br/>
+        <a href="/package/base-sounds">Base-Sounds</a><br/>
+        <a href="/package/base-music">Base-Music</a></td>
+    <td><a href="/package/newgrf">NewGRFs</a></td>
+    <td><a href="/package/ai">AIs</a><br/>
+        <a href="/package/ai-library">AI-Libraries</a></td>
+    <td><a href="/package/game-script">Game-Scripts</a><br/>
+        <a href="/package/game-script-library">Game-Script-Libraries</a></td>
+    <td><a href="/package/scenario">Scenarios</a><br/>
+        <a href="/package/heightmap">Heightmaps</a></td>
+    <td>
+        {% if session and session.is_auth %}
+        <marquee>{{ session.display_name }}</marquee><br/>
+        <a href="/manager">Manager</a><br/>
+        <a href="/logout">Logout</a>
+        {% else %}
+        <a href="/login">Login</a>
+        {% endif %}
+    </td>
+</tr></table>
+
+{% block header %}{% endblock %}
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% block content %}{% endblock %}
+</body>
+</html>

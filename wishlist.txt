@@ -1,0 +1,16 @@
+frontend:
+* config parameters: api-url, frontend-url, mode: github, devauth, static
+* make messages from query-param work
+* uploading files
+* tos 1.3: drop .pdf, add .md
+* nice enums for content-type, availability, compatibility, license
+
+api:
+* meta info for new package goes to package? it should
+* set version members to "" should delete them (so that package data becomes active). None is used for "unchanged".
+* get download-url
+* license/changelog/readme-url
+* new list of licenses (cc 4.0), deprecated licenses (cc 3.0)
+* dependencies only editable for ai/gs, automatic for other content
+* endpoints to get list of licenses and branches
+* upload updates to savegames and heightmaps, keeping the unique-id
