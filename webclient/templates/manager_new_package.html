@@ -27,7 +27,6 @@
     </li>
 {% endfor %}
 </ul>
-TODO choose file
 
 <h3>Step 3: Complete the description</h3>
 Note: Some of the info is filled automatically after uploading the files.
@@ -57,14 +56,6 @@ Note: Some of the info is filled automatically after uploading the files.
     {% endfor %}
     </select>
 </td></tr>
-{#
-<tr><td>Download availability</td><td>
-    <select name="availability">
-        <option value="savegames-only" {% if version["availability"] == "savegames-only" %}selected{% endif %}>Savegames only</option>
-        <option value="new-games" {% if version["availability"] == "new-games" %}selected{% endif %}>New games</option>
-    </select>
-</td></tr>
-#}
 <tr><td>Compatibility</td><td>
     Enter version requirements like "&gt;= 1.2.0" or "&lt; 1.10.0".
     <table>

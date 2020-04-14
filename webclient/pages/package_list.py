@@ -8,7 +8,6 @@ def package_list(content_type):
     for p in packages:
         p["latest"] = max(p.get("versions", []), default=None, key=lambda v: v.get("upload-date", ""))
 
-    # TODO filter for archived = False ?
     packages.sort(key=lambda p: p.get("name", ""))
     packages.sort(reverse=True, key=lambda p: p["latest"].get("upload-date", "") if p["latest"] else "")
 

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% block title %}{{ version["name"] or package["name"] }} {{ version["version"] }}{% endblock %}
 {% block header %}
-    <h1>{% block title %}{{ version["name"] or package["name"] }} {{ version["version"] }}{% endblock %}</h1>
+    <h1><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}">{{ version["name"] or package["name"] }}</a> {{ version["version"] }}</h1>
     <h3>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["upload-date"] }}</h3>
 {% endblock %}
 {% block content %}
@@ -20,14 +21,6 @@
 <tr><td>Version</td><td>
     <input type="text" name="version" value="{{ version["version"] }}"/>
 </td></tr>
-{#
-<tr><td>Download availability</td><td>
-    <select name="availability">
-        <option value="savegames-only" {% if version["availability"] == "savegames-only" %}selected{% endif %}>Savegames only</option>
-        <option value="new-games" {% if version["availability"] == "new-games" %}selected{% endif %}>New games</option>
-    </select>
-</td></tr>
-#}
 <tr><td>Compatibility</td><td>
     Enter version requirements like "&gt;= 1.2.0" or "&lt; 1.10.0".
     <table>

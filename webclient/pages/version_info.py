@@ -3,12 +3,8 @@ import re
 from webclient.main import app, template, redirect, protected, api_get, api_post, api_put, api_delete
 
 
-# TODO get list of licenses from the API
 _licenses = ["GPL v2", "GPL v3", "LGPL v2.1", "CC-0 v1.0", "CC-BY v3.0", "CC-BY-SA v3.0", "CC-BY-NC-SA v3.0", "CC-BY-NC-ND v3.0", "Custom"]
-
-# TODO get list of ottd branches from the API
 _branches = ["master"]
-
 _dep_pattern = re.compile("([-a-z]*)/([0-9a-f]{8})/([0-9a-f]{8})$")
 
 
@@ -157,7 +153,6 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
         record_change(changes, version, "name", form.get("name").strip(), True)
         record_change(changes, version, "url", form.get("url").strip(), True)
         record_change(changes, version, "version", form.get("version").strip())
-        # TODO record_change(changes, version, "availability", form.get("availability").strip())
         record_change_compatibility(changes, version, form)
         if not record_change_dependencies(changes, version, form, messages):
             valid_data = False
@@ -175,7 +170,7 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
             else:
                 messages.append("Data updated")
 
-    deps_editable = True  # TODO content_type in ("ai", "game-script")
+    deps_editable = True
     compatibility = get_compatibility(version)
 
     csrf_token = session.create_csrf_token(csrf_context)
@@ -188,8 +183,6 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
 @protected
 def manager_new_package(session):
     new = api_post(("new-package",), json={}, session=session)
-    # TODO process optional args, like uniqueid...
-
     return redirect("manager_new_package_upload", token=new.get("token", ""))
 
 
@@ -213,7 +206,6 @@ def manager_new_package_upload(session, token):
         record_change(changes, version, "version", form.get("version").strip())
         if form.get("license", "empty") != "empty":
             record_change(changes, version, "license", form.get("license").strip())
-        # TODO record_change(changes, version, "availability", form.get("availability").strip())
         record_change_compatibility(changes, version, form)
         if not record_change_dependencies(changes, version, form, messages):
             valid_data = False
@@ -228,7 +220,8 @@ def manager_new_package_upload(session, token):
             if error:
                 messages.append(error)
             else:
-                version = api_get(("new-package", token), session=session)  # rerun validation
+                # rerun validation
+                version = api_get(("new-package", token), session=session)
                 messages.append("Data updated")
 
         new_files = []
@@ -258,8 +251,7 @@ def manager_new_package_upload(session, token):
     else:
         package = None
 
-    # TODO distinguish upload package/version
-    deps_editable = True  # TODO content_type in ("ai", "game-script")
+    deps_editable = True
     compatibility = get_compatibility(version)
 
     csrf_token = session.create_csrf_token(csrf_context)
