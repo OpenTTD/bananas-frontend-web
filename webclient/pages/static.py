@@ -1,4 +1,4 @@
-from ..main import (
+from ..helpers import (
     app,
     not_found,
     redirect,
