@@ -1,5 +1,5 @@
+from ..app import app
 from ..helpers import (
-    app,
     not_found,
     redirect,
     template,

@@ -2,10 +2,20 @@ import flask
 import requests
 import urllib
 
-from .main import app
+from .app import app
 
-_api_url = "http://localhost:8080"  # TODO environment or something
-_frontend_url = "https://localhost:5000"  # TODO
+_api_url = None
+_frontend_url = None
+
+
+def set_api_url(url):
+    global _api_url
+    _api_url = url
+
+
+def set_frontend_url(url):
+    global _frontend_url
+    _frontend_url = url
 
 
 def template(*args, **kwargs):

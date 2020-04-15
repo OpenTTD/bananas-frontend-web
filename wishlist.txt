@@ -1,4 +1,3 @@
-- config parameters: api-url, frontend-url, mode: github, devauth, static
 - make messages from query-param work
 - uploading files
 - tos 1.3: drop .pdf, add .md

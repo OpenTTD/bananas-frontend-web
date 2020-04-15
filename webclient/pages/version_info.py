@@ -1,12 +1,12 @@
 import flask
 import re
 
+from ..app import app
 from ..helpers import (
     api_delete,
     api_get,
     api_post,
     api_put,
-    app,
     redirect,
     template,
 )
