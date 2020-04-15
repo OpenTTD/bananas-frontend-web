@@ -12,7 +12,6 @@ from ..helpers import (
 )
 from ..session import protected
 
-
 _licenses = [
     "GPL v2",
     "GPL v3",
@@ -31,67 +30,69 @@ _dep_pattern = re.compile("([-a-z]*)/([0-9a-f]{8})/([0-9a-f]{8})$")
 def get_compatibility(version):
     data = dict((c["name"], c["conditions"]) for c in version.get("compatibility", []))
 
-    res = []
-    for b in _branches:
-        c = ["", ""]
-        for s in data.get(b, []):
-            if s.startswith(">="):
-                c[0] = s
-            elif s.startswith("<"):
-                c[1] = s
+    result = []
+    for branch in _branches:
+        conditions = ["", ""]
+        for condition in data.get(branch, []):
+            if condition.startswith(">="):
+                conditions[0] = condition
+            elif condition.startswith("<"):
+                conditions[1] = condition
 
-        res.append((b, c[0], c[1]))
-    return res
+        result.append((branch, conditions[0], conditions[1]))
+    return result
 
 
 def record_change(changes, data, key, value, empty_values=False):
     if value is None:
         return
 
-    o = data.get(key)
-    if o == value:
+    original = data.get(key)
+    if original == value:
         return
 
-    if empty_values and (o is None) and (not value):
+    if empty_values and original is None and not value:
         return
 
     changes[key] = value
 
 
 def record_change_compatibility(changes, data, form):
-    compat = []
-    for b in _branches:
-        conds = []
-        c1 = form.get("compatibility_{}_min".format(b), "").strip()
-        c2 = form.get("compatibility_{}_max".format(b), "").strip()
+    compatability = []
+    for branch in _branches:
+        conditions = []
+        condition_min = form.get("compatibility_{}_min".format(branch), "").strip()
+        condition_max = form.get("compatibility_{}_max".format(branch), "").strip()
 
-        if c1:
-            conds.append(c1)
-        if c2:
-            conds.append(c2)
+        if condition_min:
+            conditions.append(condition_min)
+        if condition_max:
+            conditions.append(condition_max)
 
-        if conds:
-            compat.append({"name": b, "conditions": conds})
+        if conditions:
+            compatability.append({"name": branch, "conditions": conditions})
 
-    record_change(changes, data, "compatibility", compat, True)
+    record_change(changes, data, "compatibility", compatability, True)
 
 
 def record_change_dependencies(changes, data, form, messages):
     valid_data = True
-    deps = set()
-    for d in form.get("dependencies").splitlines():
-        d = d.strip()
-        if len(d) == 0:
+    dependencies = set()
+    for dependency in form.get("dependencies").splitlines():
+        dependency = dependency.strip()
+        if not len(dependency):
             continue
-        m = _dep_pattern.match(d)
-        if m:
-            deps.add((m.group(1), m.group(2), m.group(3)))
+
+        match = _dep_pattern.match(dependency)
+        if match:
+            dependencies.add((match.group(1), match.group(2), match.group(3)))
         else:
             valid_data = False
-            messages.append("Invalid dependency: {}".format(d))
-    deps = sorted(deps)
-    deps = [{"content-type": d[0], "unique-id": d[1], "md5sum-partial": d[2]} for d in deps]
-    record_change(changes, data, "dependencies", deps, True)
+            messages.append("Invalid dependency: {}".format(dependency))
+
+    dependencies = sorted(dependencies)
+    dependencies = [{"content-type": d[0], "unique-id": d[1], "md5sum-partial": d[2]} for d in dependencies]
+    record_change(changes, data, "dependencies", dependencies, True)
 
     return valid_data
 

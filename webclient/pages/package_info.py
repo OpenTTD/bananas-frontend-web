@@ -11,8 +11,8 @@ from ..session import protected
 
 def record_change(changes, data, key, value):
     if value is not None:
-        o = data.get(key)
-        if o != value:
+        original = data.get(key)
+        if original != value:
             changes[key] = value
 
 
