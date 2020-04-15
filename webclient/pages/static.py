@@ -5,7 +5,6 @@ from ..helpers import (
     template,
 )
 
-
 _tos_versions = {"1.2": "tos-1.2.html"}
 
 
@@ -21,8 +20,8 @@ def tos_latest():
 
 @app.route("/manager/tos/<version>")
 def tos(version):
-    t = _tos_versions.get(version)
-    if t:
-        return template(t)
-    else:
+    tos = _tos_versions.get(version)
+    if not tos:
         return not_found()
+
+    return template(tos)

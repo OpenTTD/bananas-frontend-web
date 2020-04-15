@@ -10,8 +10,8 @@ from ..session import protected
 def package_list(content_type):
     packages = api_get(("package", content_type))
 
-    for p in packages:
-        p["latest"] = max(p.get("versions", []), default=None, key=lambda v: v.get("upload-date", ""))
+    for package in packages:
+        package["latest"] = max(package.get("versions", []), default=None, key=lambda v: v.get("upload-date", ""))
 
     packages.sort(key=lambda p: p.get("name", ""))
     packages.sort(reverse=True, key=lambda p: p["latest"].get("upload-date", "") if p["latest"] else "")
@@ -24,13 +24,13 @@ def package_list(content_type):
 def manager_package_list(session):
     packages = api_get(("package", "self"), session=session)
 
-    for p in packages:
-        versions = p.setdefault("versions", [])
+    for package in packages:
+        versions = package.setdefault("versions", [])
         newgame = [v for v in versions if v.get("availability", "") == "new-games"]
-        p["num-all"] = len(versions)
-        p["num-newgame"] = len(newgame)
-        p["latest-all"] = max(versions, default=None, key=lambda v: v.get("upload-date", ""))
-        p["latest-newgame"] = max(newgame, default=None, key=lambda v: v.get("upload-date", ""))
+        package["num-all"] = len(versions)
+        package["num-newgame"] = len(newgame)
+        package["latest-all"] = max(versions, default=None, key=lambda v: v.get("upload-date", ""))
+        package["latest-newgame"] = max(newgame, default=None, key=lambda v: v.get("upload-date", ""))
 
     packages.sort(key=lambda p: p.get("name", ""))
     packages.sort(reverse=True, key=lambda p: p["latest-all"].get("upload-date", "") if p["latest-all"] else "")
