@@ -6,14 +6,25 @@ from .helpers import (
     api_get,
     redirect,
 )
-from .main import app
 
-auth_backend = {"method": "developer", "developer-username": "frosch"}
-
+_max_session_age = None
+_max_csrf_age = None
 _sessions = dict()
+
+auth_backend = {"method": None, "developer-username": None}
 SESSION_COOKIE = "bananas_sid"
-MAX_SESSION_AGE = datetime.timedelta(hours=16)
-MAX_CSRF_AGE = datetime.timedelta(minutes=30)
+
+
+def set_auth_backend(method, developer_username=None):
+    auth_backend["method"] = method
+    auth_backend["developer-username"] = developer_username
+
+
+def set_max_age(session_age, csrf_age):
+    global _max_session_age, _max_csrf_age
+
+    _max_session_age = session_age
+    _max_csrf_age = csrf_age
 
 
 class SessionData:
@@ -30,7 +41,7 @@ class SessionData:
 
     def __init__(self):
         self.sid = secrets.token_hex(32)
-        self.expires = datetime.datetime.utcnow() + MAX_SESSION_AGE
+        self.expires = datetime.datetime.utcnow() + _max_session_age
         self.is_auth = False
         self.display_name = None
         self.api_token = None
@@ -41,7 +52,7 @@ class SessionData:
             return None
 
         token = secrets.token_hex(8)
-        expires = datetime.datetime.utcnow() + MAX_SESSION_AGE
+        expires = datetime.datetime.utcnow() + _max_csrf_age
         self.csrf_tokens[token] = (context, expires)
         return token
 

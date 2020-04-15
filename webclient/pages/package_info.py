@@ -1,9 +1,9 @@
 import flask
 
+from ..app import app
 from ..helpers import (
     api_get,
     api_put,
-    app,
     template,
 )
 from ..session import protected

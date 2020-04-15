@@ -1,9 +1,9 @@
 import flask
 
+from ..app import app
 from ..helpers import (
     api_get,
     api_post,
-    app,
     external_url_for,
     redirect,
 )
