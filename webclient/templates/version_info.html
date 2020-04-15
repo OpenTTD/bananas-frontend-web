@@ -17,51 +17,61 @@
 <p><b> There is a newer version of this content available. Please use <a href="/package/{{ latest["content-type"] }}/{{ latest["unique-id"] }}/{{ latest["upload-date"] }}">version {{ latest["version"] }}</a> for new games. </b></p>
 {% endif %}
 <table>
-<tr><td>Content Id</td><td>{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
-<tr><td>Name</td><td>{{ version["name"] or package["name"] }}</td></tr>
-<tr><td>Project site</td><td>
-{% set url = version["url"] or package["url"] %}
-{% if url %}
-<a href="{{ url }}" target="_blank">{{ url }}</a>
-{% endif %}
-</td></tr>
-<tr><td>Version</td><td>{{ version["version"] }}</td></tr>
-<tr><td>Upload date</td><td>{{ version["upload-date"] }}</td></tr>
-<tr><td>MD5 (partial)</td><td>{{ version["md5sum-partial"] }}</td></tr>
-<tr><td>License</td><td>{{ version["license"] }}</td></tr>
-<tr><td>Download</td>
-{% if version["download-url"] %}
-    <td><a href="{{ version["download-url"] }}">{{ (version["filesize"] | int) // 1024 }} kB</a></td>
-{% else %}
-    <td>Not available</td>
-{% endif %}
-</tr>
-<tr><td>Compatibility</td><td><ul>
-{% for compat in version["compatibility"] %}
-    <li>{{ compat["name"] }}: {{ compat["conditions"] | join(", ") }}</li>
-{% endfor %}
-</ul></td></tr>
-<tr><td>Dependencies</td><td><ul>
-{% for dep in version["dependencies"] %}
-    <li><a href="/package/{{ dep["content-type"] }}/{{ dep["unique-id"] }}/{{ dep["upload-date"] }}">{{ dep["name"] }} {{ dep["version"] }}</a></li>
-{% endfor %}
-</ul></td></tr>
-<tr><td>Tags</td><td><ul>
-{% set tags = version["tags"] or package["tags"] %}
-{% for t in tags %}
-    <li>{{ t }}</li>
-{% endfor %}
-</ul></td></tr>
-<tr><td>Authors</td><td><ul>
-{% for a in package["authors"] %}
-    <li>{{ a["display-name"] }}</li>
-{% endfor %}
-</ul></td></tr>
-<tr><td>Description</td><td>
+<tbody>
+    <tr><th>Content Id</th><td>{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
+    <tr><th>Name</th><td>{{ version["name"] or package["name"] }}</td></tr>
+    <tr><th>Project site</th><td>
+    {% set url = version["url"] or package["url"] %}
+    {% if url %}
+        <a href="{{ url }}" target="_blank">{{ url }}</a>
+    {% endif %}
+    </td></tr>
+    <tr><th>Version</th><td>{{ version["version"] }}</td></tr>
+    <tr><th>Upload date</th><td>{{ version["upload-date"] }}</td></tr>
+    <tr><th>MD5 (partial)</th><td>{{ version["md5sum-partial"] }}</td></tr>
+    <tr><th>License</th><td>{{ version["license"] }}</td></tr>
+    <tr><th>Download</th>
+    {% if version["download-url"] %}
+        <td><a href="{{ version["download-url"] }}">{{ (version["filesize"] | int) // 1024 }} kB</a></td>
+    {% else %}
+        <td>Not available</td>
+    {% endif %}
+    </tr>
+    <tr><th>Compatibility</th><td>
+        <ul>
+        {% for compat in version["compatibility"] %}
+            <li>{{ compat["name"] }}: {{ compat["conditions"] | join(", ") }}</li>
+        {% endfor %}
+        </ul>
+    </td></tr>
+    <tr><th>Dependencies</th><td>
+        <ul>
+        {% for dep in version["dependencies"] %}
+            <li><a href="/package/{{ dep["content-type"] }}/{{ dep["unique-id"] }}/{{ dep["upload-date"] }}">{{ dep["name"] }} {{ dep["version"] }}</a></li>
+        {% endfor %}
+        </ul>
+    </td></tr>
+    <tr><th>Tags</th><td>
+        <ul>
+    {% set tags = version["tags"] or package["tags"] %}
+    {% for t in tags %}
+            <li>{{ t }}</li>
+    {% endfor %}
+        </ul>
+    </td></tr>
+    <tr><th>Authors</th><td>
+        <ul>
+    {% for a in package["authors"] %}
+            <li>{{ a["display-name"] }}</li>
+    {% endfor %}
+        </ul>
+    </td></tr>
+    <tr><th>Description</th><td>
     {% for l in (version["description"] or package["description"]).splitlines() %}
     {{ l }}<br/>
     {% endfor %}
-</td></tr>
+    </td></tr>
+</tbody>
 </table>
 
 {% endblock %}
