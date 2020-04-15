@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block header %}
+<header>
     <h1>{% block title %}{{ package["name"] }}{% endblock %}</h1>
     <h3>{{ package["content-type"] }}/{{ package["unique-id"] }}</h3>
+</header>
 {% endblock %}
 {% block content %}
 
