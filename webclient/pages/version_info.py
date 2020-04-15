@@ -1,12 +1,29 @@
 import flask
 import re
-from webclient.main import app, template, redirect, protected, api_get, api_post, api_put, api_delete
+
+from ..main import (
+    api_delete,
+    api_get,
+    api_post,
+    api_put,
+    app,
+    protected,
+    redirect,
+    template,
+)
 
 
-_licenses = ["GPL v2", "GPL v3", "LGPL v2.1",
-             "CC-0 v1.0",
-             "CC-BY v3.0", "CC-BY-SA v3.0", "CC-BY-NC-SA v3.0", "CC-BY-NC-ND v3.0",
-             "Custom"]
+_licenses = [
+    "GPL v2",
+    "GPL v3",
+    "LGPL v2.1",
+    "CC-0 v1.0",
+    "CC-BY v3.0",
+    "CC-BY-SA v3.0",
+    "CC-BY-NC-SA v3.0",
+    "CC-BY-NC-ND v3.0",
+    "Custom",
+]
 _branches = ["master"]
 _dep_pattern = re.compile("([-a-z]*)/([0-9a-f]{8})/([0-9a-f]{8})$")
 
@@ -108,11 +125,11 @@ def version_info(content_type, unique_id, upload_date):
             upgrade.update(upgrade_info)
 
     for dep in version.get("dependencies", []):
-        dep_package, _ = api_get(("package", dep.get("content-type", ""), dep.get("unique-id", "")),
-                                 return_errors=True)
+        dep_package, _ = api_get(("package", dep.get("content-type", ""), dep.get("unique-id", "")), return_errors=True)
         if dep_package:
-            dep_version = list(filter(lambda v: v.get("md5sum-partial") == dep.get("md5sum-partial"),
-                                      dep_package.get("versions", [])))
+            dep_version = list(
+                filter(lambda v: v.get("md5sum-partial") == dep.get("md5sum-partial"), dep_package.get("versions", []))
+            )
             dep.update(dep_package)
             if len(dep_version) == 1:
                 dep.update(dep_version[0])
@@ -127,11 +144,13 @@ def manager_version_info(session, content_type, unique_id, upload_date):
     package = api_get(("package", content_type, unique_id), session=session)
 
     for dep in version.get("dependencies", []):
-        dep_package, _ = api_get(("package", dep.get("content-type", ""), dep.get("unique-id", "")),
-                                 session=session, return_errors=True)
+        dep_package, _ = api_get(
+            ("package", dep.get("content-type", ""), dep.get("unique-id", "")), session=session, return_errors=True
+        )
         if dep_package:
-            dep_version = list(filter(lambda v: v.get("md5sum-partial") == dep.get("md5sum-partial"),
-                                      dep_package.get("versions", [])))
+            dep_version = list(
+                filter(lambda v: v.get("md5sum-partial") == dep.get("md5sum-partial"), dep_package.get("versions", []))
+            )
             dep.update(dep_package)
             if len(dep_version) == 1:
                 dep.update(dep_version[0])
@@ -139,7 +158,7 @@ def manager_version_info(session, content_type, unique_id, upload_date):
     return template("manager_version_info.html", session=session, package=package, version=version)
 
 
-@app.route("/manager/<content_type>/<unique_id>/<upload_date>/edit", methods=['GET', 'POST'])
+@app.route("/manager/<content_type>/<unique_id>/<upload_date>/edit", methods=["GET", "POST"])
 @protected
 def manager_version_edit(session, content_type, unique_id, upload_date):
     csrf_context = ("manager_version_edit", content_type, unique_id, upload_date)
@@ -147,7 +166,7 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
     package = api_get(("package", content_type, unique_id), session=session)
     messages = []
 
-    if flask.request.method == 'POST':
+    if flask.request.method == "POST":
         form = flask.request.form
         valid_csrf = session.validate_csrf_token(form.get("csrf_token"), csrf_context)
 
@@ -166,8 +185,9 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
         if not valid_csrf:
             messages.append("CSRF token expired. Please reconfirm your changes.")
         elif valid_data and len(changes):
-            _, error = api_put(("package", content_type, unique_id, upload_date), json=changes,
-                               session=session, return_errors=True)
+            _, error = api_put(
+                ("package", content_type, unique_id, upload_date), json=changes, session=session, return_errors=True
+            )
             if error:
                 messages.append(error)
             else:
@@ -177,9 +197,16 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
     compatibility = get_compatibility(version)
 
     csrf_token = session.create_csrf_token(csrf_context)
-    return template("manager_version_edit.html", session=session, package=package, version=version,
-                    compatibility=compatibility, deps_editable=deps_editable,
-                    messages=messages, csrf_token=csrf_token)
+    return template(
+        "manager_version_edit.html",
+        session=session,
+        package=package,
+        version=version,
+        compatibility=compatibility,
+        deps_editable=deps_editable,
+        messages=messages,
+        csrf_token=csrf_token,
+    )
 
 
 @app.route("/manager/new-package")
@@ -189,7 +216,7 @@ def manager_new_package(session):
     return redirect("manager_new_package_upload", token=new.get("upload-token", ""))
 
 
-@app.route("/manager/new-package/<token>", methods=['GET', 'POST'])
+@app.route("/manager/new-package/<token>", methods=["GET", "POST"])
 @protected
 def manager_new_package_upload(session, token):
     csrf_context = ("manager_new_package_upload", token)
@@ -197,7 +224,7 @@ def manager_new_package_upload(session, token):
     accept_tos = False
     messages = []
 
-    if flask.request.method == 'POST':
+    if flask.request.method == "POST":
         form = flask.request.form
         valid_csrf = session.validate_csrf_token(form.get("csrf_token"), csrf_context)
         accept_tos = form.get("tos", "") == "accepted"
@@ -258,6 +285,15 @@ def manager_new_package_upload(session, token):
     compatibility = get_compatibility(version)
 
     csrf_token = session.create_csrf_token(csrf_context)
-    return template("manager_new_package.html", session=session, package=package, version=version,
-                    compatibility=compatibility, licenses=_licenses, accept_tos=accept_tos, deps_editable=deps_editable,
-                    messages=messages, csrf_token=csrf_token)
+    return template(
+        "manager_new_package.html",
+        session=session,
+        package=package,
+        version=version,
+        compatibility=compatibility,
+        licenses=_licenses,
+        accept_tos=accept_tos,
+        deps_editable=deps_editable,
+        messages=messages,
+        csrf_token=csrf_token,
+    )

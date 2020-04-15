@@ -1,8 +1,8 @@
 import datetime
-import secrets
 import flask
-import urllib
 import requests
+import secrets
+import urllib
 
 _api_url = "http://localhost:8080"  # TODO environment or something
 _frontend_url = "https://localhost:5000"  # TODO
@@ -103,7 +103,7 @@ def protected(fun):
         session = get_session()
         if session and session.api_token:
             if not session.is_auth:
-                user, error = api_get(("user", ), session=session, return_errors=True)
+                user, error = api_get(("user",), session=session, return_errors=True)
                 if error is None:
                     session.is_auth = True
                     session.display_name = user.get("display-name", "")
@@ -118,11 +118,11 @@ def protected(fun):
 
 
 def template(*args, **kwargs):
-    if 'message' in kwargs:
-        kwargs.setdefault('messages', []).append(kwargs['message'])
+    if "message" in kwargs:
+        kwargs.setdefault("messages", []).append(kwargs["message"])
 
     response = flask.make_response(flask.render_template(*args, **kwargs))
-    response.headers['Content-Security-Policy'] = "default-src 'self'"
+    response.headers["Content-Security-Policy"] = "default-src 'self'"
     return response
 
 
@@ -143,7 +143,7 @@ def api_error():
 
 
 def api_call(method, path, params=None, json=None, session=None, return_errors=False):
-    url = _api_url + "/" + "/".join(urllib.parse.quote(p, safe='') for p in path)
+    url = _api_url + "/" + "/".join(urllib.parse.quote(p, safe="") for p in path)
     headers = None
     if session and session.api_token:
         headers = {"Authorization": "Bearer " + session.api_token}

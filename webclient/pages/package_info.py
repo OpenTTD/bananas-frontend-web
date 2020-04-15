@@ -1,5 +1,12 @@
 import flask
-from webclient.main import app, template, protected, api_get, api_put
+
+from ..main import (
+    api_get,
+    api_put,
+    app,
+    protected,
+    template,
+)
 
 
 def record_change(changes, data, key, value):
@@ -33,14 +40,14 @@ def manager_package_info(session, content_type, unique_id):
     return template("manager_package_info.html", session=session, package=package)
 
 
-@app.route("/manager/<content_type>/<unique_id>/edit", methods=['GET', 'POST'])
+@app.route("/manager/<content_type>/<unique_id>/edit", methods=["GET", "POST"])
 @protected
 def manager_package_edit(session, content_type, unique_id):
     csrf_context = ("manager_package_edit", content_type, unique_id)
     package = api_get(("package", content_type, unique_id), session=session)
     messages = []
 
-    if flask.request.method == 'POST':
+    if flask.request.method == "POST":
         form = flask.request.form
         valid_csrf = session.validate_csrf_token(form.get("csrf_token"), csrf_context)
 
@@ -68,5 +75,6 @@ def manager_package_edit(session, content_type, unique_id):
                 messages.append("Data updated")
 
     csrf_token = session.create_csrf_token(csrf_context)
-    return template("manager_package_edit.html", session=session, package=package,
-                    messages=messages, csrf_token=csrf_token)
+    return template(
+        "manager_package_edit.html", session=session, package=package, messages=messages, csrf_token=csrf_token
+    )
