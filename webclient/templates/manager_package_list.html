@@ -7,46 +7,50 @@
 {% block content %}
 
 <table>
-<tr>
-    <th rowspan="2">Type</th>
-    <th rowspan="2">Id</th>
-    <th rowspan="2">Name</th>
-    <th colspan="3">All versions</th>
-    <th colspan="3">Versions for new games</th>
-    <th rowspan="2">Upload</th>
-</tr>
-<tr>
-    <th>Number</th>
-    <th>Latest version</th>
-    <th>Upload date</th>
-    <th>Number</th>
-    <th>Latest version</th>
-    <th>Upload date</th>
-</tr>
+<thead>
+    <tr>
+        <th rowspan="2">Type</th>
+        <th rowspan="2">Id</th>
+        <th rowspan="2">Name</th>
+        <th colspan="3">All versions</th>
+        <th colspan="3">Versions for new games</th>
+        <th rowspan="2">Upload</th>
+    </tr>
+    <tr>
+        <th>Number</th>
+        <th>Latest version</th>
+        <th>Upload date</th>
+        <th>Number</th>
+        <th>Latest version</th>
+        <th>Upload date</th>
+    </tr>
+</thead>
+<tbody>
 {% for package in packages %}
-<tr>
-    <td>{{ package["content-type"] }}</td>
-    <td>{{ package["unique-id"] }}</td>
-    <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}">{{ package["name"] }}</a></td>
-    <td>{{ package["num-all"] }}</td>
-    {% set latest = package["latest-all"] %}
-    {% if latest %}
-        <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ latest["upload-date"] }}">{{ latest["version"] }}</a></td>
-        <td>{{ latest["upload-date"] }}</td>
-    {% else %}
-        <td></td><td></td>
-    {% endif %}
-    <td>{{ package["num-newgame"] }}</td>
-    {% set latest = package["latest-newgame"] %}
-    {% if latest %}
-        <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ latest["upload-date"] }}">{{ latest["version"] }}</a></td>
-        <td>{{ latest["upload-date"] }}</td>
-    {% else %}
-        <td></td><td></td>
-    {% endif %}
-    <td><a href="/manager/new-package?unique-id={{ package["unique-id"] }}">Upload update</a></td>
-</tr>
+    <tr>
+        <td>{{ package["content-type"] }}</td>
+        <td>{{ package["unique-id"] }}</td>
+        <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}">{{ package["name"] }}</a></td>
+        <td>{{ package["num-all"] }}</td>
+        {% set latest = package["latest-all"] %}
+        {% if latest %}
+            <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ latest["upload-date"] }}">{{ latest["version"] }}</a></td>
+            <td>{{ latest["upload-date"] }}</td>
+        {% else %}
+            <td></td><td></td>
+        {% endif %}
+        <td>{{ package["num-newgame"] }}</td>
+        {% set latest = package["latest-newgame"] %}
+        {% if latest %}
+            <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ latest["upload-date"] }}">{{ latest["version"] }}</a></td>
+            <td>{{ latest["upload-date"] }}</td>
+        {% else %}
+            <td></td><td></td>
+        {% endif %}
+        <td><a href="/manager/new-package?unique-id={{ package["unique-id"] }}">Upload update</a></td>
+    </tr>
 {% endfor %}
+</tbody>
 </table>
 <a href="/manager/new-package">Upload new content</a>
 

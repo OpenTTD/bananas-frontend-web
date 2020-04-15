@@ -9,49 +9,59 @@
 
 <a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/edit">Edit package meta data</a>
 <table>
-<tr><td>Content Id</td><td>{{ package["content-type"] }}/{{ package["unique-id"] }}</td></tr>
-<tr><td>Name</td><td>{{ package["name"] }}</td></tr>
-<tr><td>Project site</td><td>
-{% if package["url"] %}
-<a href="{{ package["url"] }}" target="_blank">{{ package["url"] }}</a>
-{% endif %}
-</td></tr>
-<tr><td>Tags</td><td><ul>
-{% for t in package["tags"] %}
-    <li>{{ t }}</li>
-{% endfor %}
-</ul></td></tr>
-<tr><td>Authors</td><td><ul>
-{% for a in package["authors"] %}
-    <li>{{ a["display-name"] }}</li>
-{% endfor %}
-</ul></td></tr>
-<tr><td>Description</td><td>
+<tbody>
+    <tr><th>Content Id</th><td>{{ package["content-type"] }}/{{ package["unique-id"] }}</td></tr>
+    <tr><th>Name</th><td>{{ package["name"] }}</td></tr>
+    <tr><th>Project site</th><td>
+    {% if package["url"] %}
+        <a href="{{ package["url"] }}" target="_blank">{{ package["url"] }}</a>
+    {% endif %}
+    </td></tr>
+    <tr><th>Tags</th><td>
+        <ul>
+        {% for t in package["tags"] %}
+            <li>{{ t }}</li>
+        {% endfor %}
+        </ul>
+    </td></tr>
+    <tr><th>Authors</th><td>
+        <ul>
+        {% for a in package["authors"] %}
+            <li>{{ a["display-name"] }}</li>
+        {% endfor %}
+        </ul>
+    </td></tr>
+    <tr><th>Description</th><td>
     {% for l in package["description"].splitlines() %}
-    {{ l }}<br/>
+        {{ l }}<br/>
     {% endfor %}
-</td></tr>
+    </td></tr>
+</tbody>
 </table>
 
 <table>
-<tr>
-    <th>Version</th>
-    <th>Upload date</th>
-    <th>MD5 (partial)</th>
-    <th>License</th>
-    <th>Availability</th>
-    <th>Edit meta data</th>
-</tr>
+<thead>
+    <tr>
+        <th>Version</th>
+        <th>Upload date</th>
+        <th>MD5 (partial)</th>
+        <th>License</th>
+        <th>Availability</th>
+        <th>Edit meta data</th>
+    </tr>
+</thead>
+<tbody>
 {% for version in package["versions"] %}
-<tr>
-    <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["upload-date"] }}">{{ version["version"] }}</a></td>
-    <td>{{ version["upload-date"] }}</td>
-    <td>{{ version["md5sum-partial"] }}</td>
-    <td>{{ version["license"] }}</td>
-    <td>{{ version["availability"] }}</td>
-    <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["upload-date"] }}/edit">Edit</a></td>
-</tr>
+    <tr>
+        <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["upload-date"] }}">{{ version["version"] }}</a></td>
+        <td>{{ version["upload-date"] }}</td>
+        <td>{{ version["md5sum-partial"] }}</td>
+        <td>{{ version["license"] }}</td>
+        <td>{{ version["availability"] }}</td>
+        <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["upload-date"] }}/edit">Edit</a></td>
+    </tr>
 {% endfor %}
+</tbody>
 </table>
 
 {% endblock %}
