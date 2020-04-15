@@ -8,7 +8,7 @@ from .helpers import (
 )
 from .main import app
 
-auth_backend = {"method": "developer", "username": "frosch"}
+auth_backend = {"method": "developer", "developer-username": "frosch"}
 
 _sessions = dict()
 SESSION_COOKIE = "bananas_sid"

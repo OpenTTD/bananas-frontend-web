@@ -33,7 +33,10 @@ def login():
 
     if auth_backend.get("method") == "developer":
         api_post(
-            ("user", "developer"), json={"username": auth_backend.get("username")}, session=session, return_errors=True
+            ("user", "developer"),
+            json={"username": auth_backend.get("developer-username")},
+            session=session,
+            return_errors=True,
         )
 
     url = answer.get("authorize-url")
