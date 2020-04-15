@@ -18,12 +18,10 @@
     <td><a href="/package/scenario">Scenarios</a><br/>
         <a href="/package/heightmap">Heightmaps</a></td>
     <td>
+        <a href="/manager">Manager</a><br/>
         {% if session and session.is_auth %}
         <marquee>{{ session.display_name }}</marquee><br/>
-        <a href="/manager">Manager</a><br/>
         <a href="/logout">Logout</a>
-        {% else %}
-        <a href="/login">Login</a>
         {% endif %}
     </td>
 </tr></table>
