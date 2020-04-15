@@ -1,6 +1,16 @@
-from webclient.main import app, redirect, api_get, api_post, external_url_for
-from webclient.main import get_session, start_session, stop_session, auth_backend
 import flask
+
+from ..main import (
+    api_get,
+    api_post,
+    app,
+    auth_backend,
+    external_url_for,
+    get_session,
+    redirect,
+    start_session,
+    stop_session,
+)
 
 
 @app.route("/login")
@@ -12,17 +22,17 @@ def login():
     if s.is_auth:
         return redirect("manager_package_list")
     else:
-        answer = api_get(("user", "login"), params={
-            "method": auth_backend.get("method"),
-            "redirect-uri": external_url_for("manager_package_list")
-        })
+        answer = api_get(
+            ("user", "login"),
+            params={"method": auth_backend.get("method"), "redirect-uri": external_url_for("manager_package_list")},
+        )
 
         s.api_token = answer.get("bearer-token")
 
         if auth_backend.get("method") == "developer":
-            api_post(("user", "developer"),
-                     json={"username": auth_backend.get("username")},
-                     session=s, return_errors=True)
+            api_post(
+                ("user", "developer"), json={"username": auth_backend.get("username")}, session=s, return_errors=True
+            )
 
         url = answer.get("authorize-url")
         if url:

@@ -1,9 +1,12 @@
-from webclient.main import app, template, redirect, not_found
+from ..main import (
+    app,
+    not_found,
+    redirect,
+    template,
+)
 
 
-_tos_versions = {
-    "1.2": "tos-1.2.html"
-}
+_tos_versions = {"1.2": "tos-1.2.html"}
 
 
 @app.route("/")

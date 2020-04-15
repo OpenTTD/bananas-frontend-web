@@ -1,4 +1,9 @@
-from webclient.main import app, template, protected, api_get
+from ..main import (
+    api_get,
+    app,
+    protected,
+    template,
+)
 
 
 @app.route("/package/<content_type>")
