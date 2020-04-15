@@ -3,7 +3,7 @@
 {% block header %}
 <header>
     <h1><a href="/package/{{ package["content-type"] }}/{{ package["unique-id"] }}">{{ version["name"] or package["name"] }}</a> {{ version["version"] }}</h1>
-    <h3>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["upload-date"] }}</h3>
+    <p>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["upload-date"] }}</p>
 </header>
 {% endblock %}
 {% block content %}
