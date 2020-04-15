@@ -1,13 +1,15 @@
 import flask
 
-from ..main import (
+from ..helpers import (
     api_get,
     api_post,
     app,
-    auth_backend,
     external_url_for,
-    get_session,
     redirect,
+)
+from ..session import (
+    auth_backend,
+    get_session,
     start_session,
     stop_session,
 )

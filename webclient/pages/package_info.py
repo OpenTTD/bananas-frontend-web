@@ -1,12 +1,12 @@
 import flask
 
-from ..main import (
+from ..helpers import (
     api_get,
     api_put,
     app,
-    protected,
     template,
 )
+from ..session import protected
 
 
 def record_change(changes, data, key, value):

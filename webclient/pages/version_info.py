@@ -1,16 +1,16 @@
 import flask
 import re
 
-from ..main import (
+from ..helpers import (
     api_delete,
     api_get,
     api_post,
     api_put,
     app,
-    protected,
     redirect,
     template,
 )
+from ..session import protected
 
 
 _licenses = [

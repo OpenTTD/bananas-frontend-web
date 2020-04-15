@@ -1,9 +1,9 @@
-from ..main import (
+from ..helpers import (
     api_get,
     app,
-    protected,
     template,
 )
+from ..session import protected
 
 
 @app.route("/package/<content_type>")
