@@ -58,7 +58,6 @@ def api_call(method, path, params=None, json=None, session=None, return_errors=F
     if session and session.api_token:
         headers = {"Authorization": "Bearer " + session.api_token}
     try:
-        app.logger.info("API request to '{}': {}".format(url, json))
         r = method(url, params=params, headers=headers, json=json)
 
         success = r.status_code in (200, 201, 204)
