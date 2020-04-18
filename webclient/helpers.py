@@ -1,21 +1,30 @@
+import click
 import flask
 import requests
 import urllib
 
 from .app import app
+from .click import click_additional_options
 
 _api_url = None
 _frontend_url = None
 
 
-def set_api_url(url):
-    global _api_url
-    _api_url = url
-
-
-def set_frontend_url(url):
-    global _frontend_url
-    _frontend_url = url
+@click_additional_options
+@click.option(
+    "--api-url", help="BaNaNaS API URL.", default="https://api.bananas.openttd.org", show_default=True, metavar="URL",
+)
+@click.option(
+    "--frontend-url",
+    help="Frontend URL (this server).",
+    default="https://bananas.openttd.org",
+    show_default=True,
+    metavar="URL",
+)
+def click_urls(api_url, frontend_url):
+    global _api_url, _frontend_url
+    _api_url = api_url
+    _frontend_url = frontend_url
 
 
 def template(*args, **kwargs):

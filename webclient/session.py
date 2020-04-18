@@ -1,7 +1,9 @@
+import click
 import datetime
 import flask
 import secrets
 
+from .click import click_additional_options
 from .helpers import (
     api_get,
     redirect,
@@ -15,16 +17,39 @@ auth_backend = {"method": None, "developer-username": None}
 SESSION_COOKIE = "bananas_sid"
 
 
-def set_auth_backend(method, developer_username=None):
-    auth_backend["method"] = method
+@click_additional_options
+@click.option(
+    "--authentication-method",
+    help="Authentication method to use.",
+    type=click.Choice(["developer", "github", "openttd"], case_sensitive=False),
+    default="github",
+    show_default=True,
+)
+@click.option("--developer-username", help="Username to use if authentication is set to 'developer'.")
+def click_auth_backend(authentication_method, developer_username=None):
+    if authentication_method == "developer" and not developer_username:
+        raise click.UsageError("'developer-username' should be set if 'authentication-method' is 'developer'")
+
+    auth_backend["method"] = authentication_method
     auth_backend["developer-username"] = developer_username
 
 
-def set_max_age(session_age, csrf_age):
+@click_additional_options
+@click.option(
+    "--session-expire",
+    help="Time for a session to expire.",
+    default=60 * 60 * 14,
+    show_default=True,
+    metavar="SECONDS",
+)
+@click.option(
+    "--csrf-expire", help="Time for the CSRF token to expire.", default=60 * 30, show_default=True, metavar="SECONDS",
+)
+def click_max_age(session_expire, csrf_expire):
     global _max_session_age, _max_csrf_age
 
-    _max_session_age = session_age
-    _max_csrf_age = csrf_age
+    _max_session_age = datetime.timedelta(seconds=session_expire)
+    _max_csrf_age = datetime.timedelta(seconds=csrf_expire)
 
 
 class SessionData:
