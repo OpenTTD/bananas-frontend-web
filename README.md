@@ -23,6 +23,7 @@ This front-end is written in Python 3.7 with Flask.
 To start it, you are advised to first create a virtualenv:
 
 ```bash
+npm install
 python3 -m venv .env
 .env/bin/pip install -r requirements.txt
 ```

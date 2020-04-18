@@ -9,6 +9,8 @@ from ..helpers import (
     api_put,
     redirect,
     template,
+    tus_host,
+    tus_url,
 )
 from ..session import protected
 
@@ -255,10 +257,11 @@ def manager_new_package_upload(session, token):
                 version = api_get(("new-package", token), session=session)
                 messages.append("Data updated")
 
+        remove_files = set(form.get("removed_files", "").split(","))
         new_files = []
         for f in version.get("files", []):
-            if form.get("delete_{}".format(f["uuid"])) is not None:
-                _, error = api_delete(("new-package", token, f["uuid"]), session=session, return_errors=True)
+            if f["uuid"] in remove_files:
+                api_delete(("new-package", token, f["uuid"]), session=session, return_errors=True)
             else:
                 new_files.append(f)
         version["files"] = new_files
@@ -282,11 +285,13 @@ def manager_new_package_upload(session, token):
     else:
         package = None
 
+    version.setdefault("files", []).sort(key=lambda v: v.get("filename", ""))
+
     deps_editable = True
     compatibility = get_compatibility(version)
 
     csrf_token = session.create_csrf_token(csrf_context)
-    return template(
+    response = template(
         "manager_new_package.html",
         session=session,
         package=package,
@@ -296,5 +301,11 @@ def manager_new_package_upload(session, token):
         accept_tos=accept_tos,
         deps_editable=deps_editable,
         messages=messages,
+        tus_url=tus_url(),
+        upload_token=token,
         csrf_token=csrf_token,
     )
+    tus = tus_host()  # None in production
+    if tus:
+        response.headers["Content-Security-Policy"] = "default-src 'self'; connect-src " + tus
+    return response
