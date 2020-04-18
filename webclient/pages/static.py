@@ -1,3 +1,5 @@
+import flask
+
 from ..app import app
 from ..helpers import (
     not_found,
@@ -11,6 +13,13 @@ _tos_versions = {"1.2": "tos-1.2.html"}
 @app.route("/")
 def root():
     return template("main.html")
+
+
+@app.route("/healthz")
+def healthz_handler():
+    response = flask.make_response("200: OK")
+    response.headers["Content-Type"] = "text/plain"
+    return response
 
 
 @app.route("/manager/tos")
