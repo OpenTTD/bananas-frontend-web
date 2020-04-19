@@ -305,7 +305,8 @@ def manager_new_package_upload(session, token):
         upload_token=token,
         csrf_token=csrf_token,
     )
-    tus = tus_host()  # None in production
+    tus = tus_host()
     if tus:
+        # if tus host is not the same as api host, replace the CSP from template() with a slightly relaxed one.
         response.headers["Content-Security-Policy"] = "default-src 'self'; connect-src " + tus
     return response
