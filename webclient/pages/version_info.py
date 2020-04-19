@@ -248,7 +248,8 @@ def manager_new_package_upload(session, token):
         version.update(changes)
         if not valid_csrf:
             messages.append("CSRF token expired. Please reconfirm your changes.")
-        elif valid_data and len(changes):
+
+        if valid_csrf and valid_data and len(changes):
             _, error = api_put(("new-package", token), json=changes, session=session, return_errors=True)
             if error:
                 messages.append(error)
@@ -257,19 +258,20 @@ def manager_new_package_upload(session, token):
                 version = api_get(("new-package", token), session=session)
                 messages.append("Data updated")
 
-        remove_files = set(form.get("removed_files", "").split(","))
-        new_files = []
-        for f in version.get("files", []):
-            if f["uuid"] in remove_files:
-                api_delete(("new-package", token, f["uuid"]), session=session, return_errors=True)
-            else:
-                new_files.append(f)
-        version["files"] = new_files
+        if valid_csrf:
+            remove_files = set(form.get("removed_files", "").split(","))
+            new_files = []
+            for f in version.get("files", []):
+                if f["uuid"] in remove_files:
+                    api_delete(("new-package", token, f["uuid"]), session=session, return_errors=True)
+                else:
+                    new_files.append(f)
+            version["files"] = new_files
 
         if not accept_tos:
             version.setdefault("errors", []).append("TOS not accepted")
 
-        if accept_tos and valid_data and form.get("publish") is not None:
+        if accept_tos and valid_csrf and valid_data and form.get("publish") is not None:
             _, error = api_put(("new-package", token, "publish"), json=changes, session=session, return_errors=True)
             if error:
                 messages.append(error)
