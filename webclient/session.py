@@ -92,7 +92,7 @@ class SessionData:
 
 def cleanup_sessions():
     now = datetime.datetime.utcnow()
-    for sid, session in _sessions.items():
+    for sid, session in list(_sessions.items()):
         if now > session.expires:
             del _sessions[sid]
 
