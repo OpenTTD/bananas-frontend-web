@@ -13,7 +13,7 @@ _max_session_age = None
 _max_csrf_age = None
 _sessions = dict()
 
-auth_backend = {"method": None, "developer-username": None}
+auth_backend = {"method": None}
 SESSION_COOKIE = "bananas_sid"
 
 
@@ -25,13 +25,8 @@ SESSION_COOKIE = "bananas_sid"
     default="github",
     show_default=True,
 )
-@click.option("--developer-username", help="Username to use if authentication is set to 'developer'.")
-def click_auth_backend(authentication_method, developer_username=None):
-    if authentication_method == "developer" and not developer_username:
-        raise click.UsageError("'developer-username' should be set if 'authentication-method' is 'developer'")
-
+def click_auth_backend(authentication_method):
     auth_backend["method"] = authentication_method
-    auth_backend["developer-username"] = developer_username
 
 
 @click_additional_options
