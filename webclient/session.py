@@ -61,6 +61,7 @@ class SessionData:
     @ivar is_auth:      Whether user is authenticated.
     @ivar display_name: User's displayname, or None
     @ivar api_token:    Token for backend API.
+    @ivar code_verifier: Code used during authentication (part of OAuth2 PCKE flow).
     @ivar csrf_token:   CSRF tokens.
     """
 
@@ -70,6 +71,7 @@ class SessionData:
         self.is_auth = False
         self.display_name = None
         self.api_token = None
+        self.code_verifier = secrets.token_hex(32)
         self.csrf_tokens = dict()
 
     def create_csrf_token(self, context):

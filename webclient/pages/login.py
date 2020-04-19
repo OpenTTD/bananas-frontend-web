@@ -1,10 +1,13 @@
-import flask
+import base64
+import hashlib
+
+from flask import request
 
 from ..app import app
 from ..helpers import (
     api_get,
-    api_post,
-    external_url_for,
+    api_login_redirect,
+    api_login_token,
     redirect,
 )
 from ..session import (
@@ -24,25 +27,28 @@ def login():
     if session.is_auth:
         return redirect("manager_package_list")
 
-    answer = api_get(
-        ("user", "login"),
-        params={"method": auth_backend.get("method"), "redirect-uri": external_url_for("manager_package_list")},
-    )
+    digest = hashlib.sha256(session.code_verifier.encode()).digest()
+    code_challenge = base64.urlsafe_b64encode(digest).decode().rstrip("=")
 
-    session.api_token = answer.get("bearer-token")
+    return api_login_redirect(auth_backend.get("method"), code_challenge)
 
-    if auth_backend.get("method") == "developer":
-        api_post(
-            ("user", "developer"),
-            json={"username": auth_backend.get("developer-username")},
-            session=session,
-            return_errors=True,
-        )
 
-    url = answer.get("authorize-url")
-    if url:
-        return flask.redirect(url)
+@app.route("/login-callback")
+def login_callback():
+    code = request.args.get("code")
 
+    session = get_session()
+    if session is None:
+        return redirect("login")
+
+    if session.is_auth:
+        return redirect("manager_package_list")
+
+    answer, error = api_login_token(code, session.code_verifier)
+    if error:
+        return redirect("login")
+
+    session.api_token = answer.get("access_token")
     return redirect("manager_package_list")
 
 
