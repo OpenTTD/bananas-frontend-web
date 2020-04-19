@@ -67,7 +67,7 @@
         </ul>
     </td></tr>
     <tr><th>Description</th><td>
-    {% for l in (version["description"] or package["description"]).splitlines() %}
+    {% for l in (version["description"] or package["description"] or "").splitlines() %}
     {{ l }}<br/>
     {% endfor %}
     </td></tr>
