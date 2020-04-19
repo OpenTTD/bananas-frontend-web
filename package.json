@@ -1,0 +1,21 @@
+{
+  "name": "bananas-frontend-web",
+  "version": "1.0.0",
+  "description": "Bananas frontend",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenTTD/bananas-frontend-web.git"
+  },
+  "author": "",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/OpenTTD/bananas-frontend-web/issues"
+  },
+  "homepage": "https://github.com/OpenTTD/bananas-frontend-web#readme",
+  "dependencies": {
+    "tus-js-client": "^1.8.0"
+  }
+}

@@ -16,11 +16,14 @@
 </p>
 
 <h3>Step 2: Upload files</h3>
-<ul>
+<input type="hidden" name="removed_files" id="removed_files" value=""/>
+<ul id="file_list"
+    data-tus-url="{{ tus_url }}"
+    data-upload-token="{{ upload_token }}">
 {% for file in version["files"] %}
-    <li>
+    <li data-filename="{{ file["filename"] }}" data-uuid="{{ file["uuid"] }}">
         {{ file["filename"] }} ({{ (file["filesize"] | int) // 1024 }} kB)
-        <button type="submit" name="delete_{{ file["uuid"] }}">Delete file</button>
+        <button type="button">Delete file</button>
         <ul>
         {% for error in file["errors"] %}
             <li>{{ error }}</li>
@@ -28,6 +31,10 @@
         </ul>
     </li>
 {% endfor %}
+    <li id="more_files">
+        <input type="file" multiple id="file_selector"/>
+        <button type="button" id="start_upload">Add</button>
+    </li>
 </ul>
 
 <h3>Step 3: Complete the description</h3>
@@ -128,9 +135,12 @@ Warnings:
 </ul>
 {% endif  %}
 
-<button type="submit" name="validate">Validate</button>
-<button type="submit" name="publish">Publish</button>
+<button type="submit" name="validate" id="validate">Validate</button>
+<button type="submit" name="publish" id="publish">Publish</button>
 
 </form>
+
+<script src="/static/tus.min.js"></script>
+<script src="/static/uploader.js"></script>
 
 {% endblock %}

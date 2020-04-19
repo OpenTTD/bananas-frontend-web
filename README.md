@@ -23,6 +23,7 @@ This front-end is written in Python 3.7 with Flask.
 To start it, you are advised to first create a virtualenv:
 
 ```bash
+npm install
 python3 -m venv .env
 .env/bin/pip install -r requirements.txt
 ```
@@ -39,5 +40,3 @@ make run
 docker build -t openttd/bananas-frontend-web:local .
 docker run --rm -p 127.0.0.1:5000:80 openttd/bananas-frontend-web:local
 ```
-
-The mount assumes that [bananas-api](https://github.com/OpenTTD/bananas-api) is already running on the system.

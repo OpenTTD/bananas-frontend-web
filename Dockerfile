@@ -1,3 +1,13 @@
+FROM node:13 as nodejs
+
+WORKDIR /code
+
+COPY package-lock.json \
+        package.json \
+        /code/
+
+RUN npm install
+
 FROM python:3.8-slim
 
 ARG BUILD_DATE=""
@@ -27,6 +37,8 @@ RUN pip freeze 2>/dev/null > requirements.installed \
         && exit 1 ) 1>&2
 
 COPY webclient /code/webclient
+COPY --from=nodejs /code/node_modules/tus-js-client/dist/tus.min.js /code/webclient/static/tus.min.js
+COPY --from=nodejs /code/node_modules/tus-js-client/dist/tus.min.js.map /code/webclient/static/tus.min.js.map
 
 ENTRYPOINT ["python", "-m", "webclient"]
-CMD ["--authentication-method", "developer", "--developer-username", "developer", "--api-url", "http://127.0.0.1:8080", "--frontend-url", "https://127.0.0.1:5000", "run", "-p", "80", "-h", "0.0.0.0"]
+CMD ["--authentication-method", "github", "--api-url", "https://api.bananas.staging.openttd.org", "--frontend-url", "http://localhost:5000", "run", "-p", "80", "-h", "0.0.0.0"]
