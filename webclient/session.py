@@ -4,9 +4,7 @@ import flask
 import secrets
 
 from .click import click_additional_options
-from .helpers import (
-    redirect,
-)
+from .helpers import redirect
 
 _max_session_age = None
 _max_csrf_age = None
