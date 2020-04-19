@@ -4,16 +4,13 @@ import flask
 import secrets
 
 from .click import click_additional_options
-from .helpers import (
-    api_get,
-    redirect,
-)
+from .helpers import redirect
 
 _max_session_age = None
 _max_csrf_age = None
 _sessions = dict()
 
-auth_backend = {"method": None, "developer-username": None}
+auth_backend = {"method": None}
 SESSION_COOKIE = "bananas_sid"
 
 
@@ -25,13 +22,8 @@ SESSION_COOKIE = "bananas_sid"
     default="github",
     show_default=True,
 )
-@click.option("--developer-username", help="Username to use if authentication is set to 'developer'.")
-def click_auth_backend(authentication_method, developer_username=None):
-    if authentication_method == "developer" and not developer_username:
-        raise click.UsageError("'developer-username' should be set if 'authentication-method' is 'developer'")
-
+def click_auth_backend(authentication_method):
     auth_backend["method"] = authentication_method
-    auth_backend["developer-username"] = developer_username
 
 
 @click_additional_options
@@ -61,6 +53,7 @@ class SessionData:
     @ivar is_auth:      Whether user is authenticated.
     @ivar display_name: User's displayname, or None
     @ivar api_token:    Token for backend API.
+    @ivar code_verifier: Code used during authentication (part of OAuth2 PCKE flow).
     @ivar csrf_token:   CSRF tokens.
     """
 
@@ -70,6 +63,7 @@ class SessionData:
         self.is_auth = False
         self.display_name = None
         self.api_token = None
+        self.code_verifier = secrets.token_hex(32)
         self.csrf_tokens = dict()
 
     def create_csrf_token(self, context):
@@ -137,15 +131,8 @@ def stop_session():
 def protected(fun):
     def wrapper(*args, **kwargs):
         session = get_session()
-        if session and session.api_token:
-            if not session.is_auth:
-                user, error = api_get(("user",), session=session, return_errors=True)
-                if error is None:
-                    session.is_auth = True
-                    session.display_name = user.get("display-name", "")
-
-            if session.is_auth:
-                return fun(session, *args, **kwargs)
+        if session and session.is_auth:
+            return fun(session, *args, **kwargs)
 
         return redirect("login")
 

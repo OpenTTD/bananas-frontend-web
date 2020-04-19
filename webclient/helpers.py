@@ -7,6 +7,7 @@ from .app import app
 from .click import click_additional_options
 
 _api_url = None
+_client_id = None
 _frontend_url = None
 _tus_url = None  # None means equal to _api_url
 
@@ -29,11 +30,13 @@ _tus_url = None  # None means equal to _api_url
     show_default=True,
     metavar="URL",
 )
-def click_urls(api_url, frontend_url, tus_url):
-    global _api_url, _frontend_url, _tus_url
+@click.option("--client-id", help="Client-id to use for authentication", default="webclient", show_default=True)
+def click_urls(api_url, frontend_url, tus_url, client_id):
+    global _api_url, _frontend_url, _tus_url, _client_id
     _api_url = api_url
     _frontend_url = frontend_url
     _tus_url = tus_url
+    _client_id = client_id
 
 
 def template(*args, **kwargs):
@@ -67,6 +70,34 @@ def not_found():
 
 def api_error():
     flask.abort(500)
+
+
+def api_login_redirect(audience, code_challenge):
+    params = {
+        "audience": audience,
+        "response_type": "code",
+        "client_id": _client_id,
+        "redirect_uri": external_url_for("login_callback"),
+        "code_challenge": code_challenge,
+        "code_challenge_method": "S256",
+    }
+
+    url = _api_url + "/user/authorize?" + urllib.parse.urlencode(params)
+    return flask.redirect(url)
+
+
+def api_login_token(code, code_verifier):
+    return api_post(
+        ("user", "token"),
+        json={
+            "client_id": _client_id,
+            "code_verifier": code_verifier,
+            "code": code,
+            "redirect_uri": external_url_for("login_callback"),
+            "grant_type": "authorization_code",
+        },
+        return_errors=True,
+    )
 
 
 def api_call(method, path, params=None, json=None, session=None, return_errors=False):
