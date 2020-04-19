@@ -49,6 +49,12 @@ def login_callback():
         return redirect("login")
 
     session.api_token = answer.get("access_token")
+
+    user, error = api_get(("user",), session=session, return_errors=True)
+    if error is None:
+        session.is_auth = True
+        session.display_name = user.get("display-name", "")
+
     return redirect("manager_package_list")
 
 

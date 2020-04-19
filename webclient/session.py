@@ -5,7 +5,6 @@ import secrets
 
 from .click import click_additional_options
 from .helpers import (
-    api_get,
     redirect,
 )
 
@@ -134,15 +133,8 @@ def stop_session():
 def protected(fun):
     def wrapper(*args, **kwargs):
         session = get_session()
-        if session and session.api_token:
-            if not session.is_auth:
-                user, error = api_get(("user",), session=session, return_errors=True)
-                if error is None:
-                    session.is_auth = True
-                    session.display_name = user.get("display-name", "")
-
-            if session.is_auth:
-                return fun(session, *args, **kwargs)
+        if session and session.is_auth:
+            return fun(session, *args, **kwargs)
 
         return redirect("login")
 
