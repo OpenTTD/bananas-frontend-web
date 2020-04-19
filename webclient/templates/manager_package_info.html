@@ -32,7 +32,7 @@
         </ul>
     </td></tr>
     <tr><th>Description</th><td>
-    {% for l in package["description"].splitlines() %}
+    {% for l in package.get("description", "").splitlines() %}
         {{ l }}<br/>
     {% endfor %}
     </td></tr>
