@@ -7,7 +7,11 @@ from ..helpers import (
     template,
 )
 
-_tos_versions = {"1.2": "tos-1.2.html"}
+_tos_versions = {
+    "1.0": "tos-1.0.html",
+    "1.1": "tos-1.1.html",
+    "1.2": "tos-1.2.html",
+}
 
 
 @app.route("/")
