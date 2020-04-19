@@ -29,4 +29,4 @@ RUN pip freeze 2>/dev/null > requirements.installed \
 COPY webclient /code/webclient
 
 ENTRYPOINT ["python", "-m", "webclient"]
-CMD ["--authentication-method", "developer", "--developer-username", "developer", "--api-url", "http://127.0.0.1:8080", "--frontend-url", "https://127.0.0.1:5000", "run", "-p", "80", "-h", "0.0.0.0"]
+CMD ["--authentication-method", "developer", "--developer-username", "developer", "--api-url", "http://localhost:8080", "--frontend-url", "http://localhost:5000", "run", "-p", "80", "-h", "0.0.0.0"]
