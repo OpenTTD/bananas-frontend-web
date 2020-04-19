@@ -50,11 +50,11 @@ def external_url_for(*args, **kwargs):
 
 
 def tus_host():
-    return _tus_url
+    return _tus_url or _api_url
 
 
 def tus_url():
-    return urllib.parse.urljoin(_tus_url or _api_url, "/new-package/tus/")
+    return urllib.parse.urljoin(tus_host(), "/new-package/tus/")
 
 
 def redirect(*args, **kwargs):

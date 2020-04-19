@@ -305,8 +305,8 @@ def manager_new_package_upload(session, token):
         upload_token=token,
         csrf_token=csrf_token,
     )
-    tus = tus_host()
-    if tus:
-        # if tus host is not the same as api host, replace the CSP from template() with a slightly relaxed one.
-        response.headers["Content-Security-Policy"] = "default-src 'self'; connect-src " + tus
+
+    # Allow connecting to the tus host from this page. It is always on a
+    # different domain than we are.
+    response.headers["Content-Security-Policy"] = "default-src 'self'; connect-src " + tus_host()
     return response
