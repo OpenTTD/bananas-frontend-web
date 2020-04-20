@@ -5,6 +5,7 @@
     <title>{% block title %}{% endblock %} - BaNaNaS - OpenTTD</title>
 </head>
 <body>
+<nav>
 <table><tr>
     <td><a href="/">BaNaNaS</a></td>
     <td><a href="/package/base-graphics">Base-Graphics</a><br/>
@@ -25,10 +26,11 @@
         {% endif %}
     </td>
 </tr></table>
-
+</nav>
 <header>
 {% block header %}{% endblock %}
 </header>
+<main>
 {% if messages %}
 <ul>
     {% for message in messages %}
@@ -37,5 +39,6 @@
 </ul>
 {% endif %}
 {% block content %}{% endblock %}
+</main>
 </body>
 </html>
