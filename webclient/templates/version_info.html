@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}{{ version["name"] or package["name"] }} {{ version["version"] }}{% endblock %}
 {% block header %}
-<header>
     <h1><a href="/package/{{ package["content-type"] }}/{{ package["unique-id"] }}">{{ version["name"] or package["name"] }}</a> {{ version["version"] }}</h1>
     <p>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["upload-date"] }}</p>
-</header>
 {% endblock %}
 {% block content %}
 
