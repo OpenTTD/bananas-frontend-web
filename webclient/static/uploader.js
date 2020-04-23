@@ -24,7 +24,6 @@ button_start.addEventListener("click", add_upload);
 
 var upload_queue = [];
 var upload_file = null;
-var upload_id = null;
 var upload_instance = null;
 
 function get_uuid() {
@@ -114,7 +113,6 @@ function start_next_upload() {
         onError : function(error) {
             set_file_status(upload_file.name, get_uuid(), error);
             upload_file = null;
-            upload_id = null;
             upload_instance = null;
             start_next_upload();
         },
@@ -125,7 +123,6 @@ function start_next_upload() {
         onSuccess: function() {
             set_file_status(upload_file.name, get_uuid(), "(" + Math.floor(upload_file.size / 1024) + " kB)");
             upload_file = null;
-            upload_id = null;
             upload_instance = null;
             start_next_upload();
         }
