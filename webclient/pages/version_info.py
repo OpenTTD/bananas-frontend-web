@@ -278,13 +278,15 @@ def manager_new_package_upload(session, token):
             version.setdefault("errors", []).append("TOS not accepted")
 
         if accept_tos and valid_csrf and valid_data and form.get("publish") is not None:
-            _, error = api_post(("new-package", token, "publish"), json=changes, session=session, return_errors=True)
+            published, error = api_post(
+                ("new-package", token, "publish"), json=changes, session=session, return_errors=True
+            )
             if error:
                 messages.append(error)
             else:
-                content_type = version.get("content-type")
-                unique_id = version.get("unique-id")
-                redirect("manager_package_info", content_type=content_type, unique_id=unique_id)
+                content_type = published.get("content-type")
+                unique_id = published.get("unique-id")
+                return redirect("manager_package_info", content_type=content_type, unique_id=unique_id)
 
     content_type = version.get("content-type")
     unique_id = version.get("unique-id")
