@@ -68,7 +68,7 @@ def manager_package_edit(session, content_type, unique_id):
         package.update(changes)
         if not valid_csrf:
             messages.append("CSRF token expired. Please reconfirm your changes.")
-        elif len(changes):
+        elif changes:
             _, error = api_put(("package", content_type, unique_id), json=changes, session=session, return_errors=True)
             if error:
                 messages.append(error)
