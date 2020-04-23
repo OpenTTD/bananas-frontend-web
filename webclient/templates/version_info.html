@@ -10,9 +10,9 @@
 <p><b> This content is archived and is no longer available for new games. </b></p>
 {% endif %}
 {% if package.get("replaced-by") %}
-<p><b> This content is deprecated. Please use <a href="/package/{{ package["content-type"] }}/{{ package["replaced-by"]["unique-id"] }}">{{ package["replaced-by"]["name"] }} ({{ package["replaced-by"]["unique-id"] }})</a> instead. </b></p>
+<p><b> This content is deprecated. Please use <a href="/package/{{ package["replaced-by"]["content-type"] }}/{{ package["replaced-by"]["unique-id"] }}">{{ package["replaced-by"]["name"] }} ({{ package["replaced-by"]["unique-id"] }})</a> instead. </b></p>
 {% elif latest %}
-<p><b> There is a newer version of this content available. Please use <a href="/package/{{ latest["content-type"] }}/{{ latest["unique-id"] }}/{{ latest["upload-date"] }}">version {{ latest["version"] }}</a> for new games. </b></p>
+<p><b> There is a newer version of this content available. Please use <a href="/package/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ latest["upload-date"] }}">version {{ latest["version"] }}</a> for new games. </b></p>
 {% endif %}
 <table>
 <tbody>
