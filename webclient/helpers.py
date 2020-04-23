@@ -40,8 +40,11 @@ def click_urls(api_url, frontend_url, tus_url, client_id):
 
 
 def template(*args, **kwargs):
+    messages = kwargs.setdefault("messages", [])
     if "message" in kwargs:
-        kwargs.setdefault("messages", []).append(kwargs["message"])
+        messages.append(kwargs["message"])
+    if "message" in flask.request.args:
+        messages.append(flask.request.args["message"])
 
     response = flask.make_response(flask.render_template(*args, **kwargs))
     response.headers["Content-Security-Policy"] = "default-src 'self'"
