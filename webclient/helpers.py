@@ -127,16 +127,22 @@ def api_call(method, path, params=None, json=None, session=None, return_errors=F
                 return (result, None)
             else:
                 return result
-        elif return_errors:
-            error = str(r.json().get("errors", "API call failed"))
-            return (None, error)
         elif r.status_code == 404:
+            if return_errors:
+                return (None, "Data not found")
             not_found()
         elif r.status_code == 401:
             if session and session.is_auth:
+                if return_errors:
+                    return (None, "Access denied")
                 redirect("root", message="Access denied")
             else:
+                if return_errors:
+                    return (None, "Login required")
                 redirect("login")
+        elif return_errors:
+            error = str(r.json().get("errors", "API call failed"))
+            return (None, error)
     except Exception:
         pass
 
