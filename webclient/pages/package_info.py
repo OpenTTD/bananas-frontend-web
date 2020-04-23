@@ -4,6 +4,7 @@ from ..app import app
 from ..helpers import (
     api_get,
     api_put,
+    redirect,
     template,
 )
 from ..session import protected
@@ -72,7 +73,11 @@ def manager_package_edit(session, content_type, unique_id):
             if error:
                 messages.append(error)
             else:
-                messages.append("Data updated")
+                return redirect(
+                    "manager_package_info", content_type=content_type, unique_id=unique_id, message="Data updated"
+                )
+        else:
+            return redirect("manager_package_info", content_type=content_type, unique_id=unique_id)
 
     csrf_token = session.create_csrf_token(csrf_context)
     return template(

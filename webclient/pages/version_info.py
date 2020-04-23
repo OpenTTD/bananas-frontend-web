@@ -194,7 +194,17 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
             if error:
                 messages.append(error)
             else:
-                messages.append("Data updated")
+                return redirect(
+                    "manager_version_info",
+                    content_type=content_type,
+                    unique_id=unique_id,
+                    upload_date=upload_date,
+                    message="Data updated",
+                )
+        else:
+            return redirect(
+                "manager_version_info", content_type=content_type, unique_id=unique_id, upload_date=upload_date
+            )
 
     deps_editable = True
     compatibility = get_compatibility(version)
