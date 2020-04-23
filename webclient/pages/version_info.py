@@ -249,24 +249,30 @@ def manager_new_package_upload(session, token):
         if not valid_csrf:
             messages.append("CSRF token expired. Please reconfirm your changes.")
 
-        if valid_csrf and valid_data and len(changes):
-            _, error = api_put(("new-package", token), json=changes, session=session, return_errors=True)
-            if error:
-                messages.append(error)
-            else:
-                # rerun validation
-                version = api_get(("new-package", token), session=session)
-                messages.append("Data updated")
-
+        revalidate = False
         if valid_csrf:
             remove_files = set(form.get("removed_files", "").split(","))
             new_files = []
             for f in version.get("files", []):
                 if f["uuid"] in remove_files:
                     api_delete(("new-package", token, f["uuid"]), session=session, return_errors=True)
+                    revalidate = True
                 else:
                     new_files.append(f)
             version["files"] = new_files
+
+        if valid_csrf and valid_data and len(changes):
+            revalidate = True
+            _, error = api_put(("new-package", token), json=changes, session=session, return_errors=True)
+            if error:
+                messages.append(error)
+                revalidate = False  # keep pending form data
+            else:
+                messages.append("Data updated")
+
+        if revalidate:
+            # rerun validation
+            version = api_get(("new-package", token), session=session)
 
         if not accept_tos:
             version.setdefault("errors", []).append("TOS not accepted")
