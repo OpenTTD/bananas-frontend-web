@@ -1,4 +1,5 @@
 import click
+import datetime
 import flask
 import requests
 import urllib
@@ -45,6 +46,7 @@ def template(*args, **kwargs):
         messages.append(kwargs["message"])
     if "message" in flask.request.args:
         messages.append(flask.request.args["message"])
+    kwargs["copyyear"] = datetime.datetime.utcnow().year
 
     response = flask.make_response(flask.render_template(*args, **kwargs))
     response.headers["Content-Security-Policy"] = "default-src 'self'"
