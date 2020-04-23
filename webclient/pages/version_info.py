@@ -187,7 +187,7 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
         version.update(changes)
         if not valid_csrf:
             messages.append("CSRF token expired. Please reconfirm your changes.")
-        elif valid_data and len(changes):
+        elif valid_data and changes:
             _, error = api_put(
                 ("package", content_type, unique_id, upload_date), json=changes, session=session, return_errors=True
             )
@@ -271,7 +271,7 @@ def manager_new_package_upload(session, token):
                     new_files.append(f)
             version["files"] = new_files
 
-        if valid_csrf and valid_data and len(changes):
+        if valid_csrf and valid_data and changes:
             revalidate = True
             _, error = api_put(("new-package", token), json=changes, session=session, return_errors=True)
             if error:
