@@ -22,23 +22,22 @@
     <div id="navigation-left"></div>
     <div id="navigation-right"></div>
     <ul id="navigation-bar">
-        <li class="selected"><a href="/">BaNaNaS</a></li>
-        <li><a href="/package/base-graphics">Base-Graphics</a></li>
-        <li><a href="/package/base-sounds">Base-Sounds</a></li>
-        <li><a href="/package/base-music">Base-Music</a></li>
-        <li><a href="/package/newgrf">NewGRFs</a></li>
-        <li><a href="/package/ai">AIs</a></li>
-        <li><a href="/package/ai-library">AI-Libraries</a></li>
-        <li><a href="/package/game-script">Game-Scripts</a></li>
-        <li><a href="/package/game-script-library">Game-Script-Libraries</a></li>
-        <li><a href="/package/scenario">Scenarios</a></li>
-        <li><a href="/package/heightmap">Heightmaps</a></li>
-        <li>
-            <a href="/manager">Manager</a><br/>
-            {% if session and session.is_auth %}
-            <marquee>{{ session.display_name }}</marquee><br/>
-            <a href="/logout">Logout</a>
-            {% endif %}
+        <li {% if selected_nav == "bananas" %}class="selected"{% endif %}><a href="/">BaNaNaS</a></li>
+        <li {% if selected_nav == "base-graphics" %}class="selected"{% endif %}><a href="/package/base-graphics">Base-Graphics</a></li>
+        <li {% if selected_nav == "base-sounds" %}class="selected"{% endif %}><a href="/package/base-sounds">Base-Sounds</a></li>
+        <li {% if selected_nav == "base-music" %}class="selected"{% endif %}><a href="/package/base-music">Base-Music</a></li>
+        <li {% if selected_nav == "newgrf" %}class="selected"{% endif %}><a href="/package/newgrf">NewGRFs</a></li>
+        <li {% if selected_nav == "ai" %}class="selected"{% endif %}><a href="/package/ai">AIs</a></li>
+        <li {% if selected_nav == "ai-library" %}class="selected"{% endif %}><a href="/package/ai-library">AI-Libraries</a></li>
+        <li {% if selected_nav == "game-script" %}class="selected"{% endif %}><a href="/package/game-script">Game-Scripts</a></li>
+        <li {% if selected_nav == "game-script-library" %}class="selected"{% endif %}><a href="/package/game-script-library">Game-Script-Libraries</a></li>
+        <li {% if selected_nav == "scenario" %}class="selected"{% endif %}><a href="/package/scenario">Scenarios</a></li>
+        <li {% if selected_nav == "heightmap" %}class="selected"{% endif %}><a href="/package/heightmap">Heightmaps</a></li>
+        <li {% if selected_nav == "manager" %}class="selected"{% endif %}><a href="/manager">Manager</a></li>
+        {% if session and session.is_auth %}
+        <li>{{ session.display_name }}</li>
+        <li><a href="/logout">Logout</a></li>
+        {% endif %}
         </li>
     </ul>
 </nav>
