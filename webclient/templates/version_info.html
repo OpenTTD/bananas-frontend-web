@@ -2,7 +2,6 @@
 {% block title %}{{ version["name"] or package["name"] }} {{ version["version"] }}{% endblock %}
 {% block header %}
     <h1><a href="/package/{{ package["content-type"] }}/{{ package["unique-id"] }}">{{ version["name"] or package["name"] }}</a> {{ version["version"] }}</h1>
-    <p>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["upload-date"] }}</p>
 {% endblock %}
 {% block content %}
 
@@ -14,7 +13,7 @@
 {% elif latest %}
 <p><b> There is a newer version of this content available. Please use <a href="/package/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ latest["upload-date"] }}">version {{ latest["version"] }}</a> for new games. </b></p>
 {% endif %}
-<table>
+<table class="package-version-info-table">
 <tbody>
     <tr><th>Content Id</th><td>{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
     <tr><th>Name</th><td>{{ version["name"] or package["name"] }}</td></tr>

@@ -2,26 +2,25 @@
 {% block title %}{{ version["name"] or package["name"] }} {{ version["version"] }}{% endblock %}
 {% block header %}
     <h1><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}">{{ version["name"] or package["name"] }}</a> {{ version["version"] }}</h1>
-    <p>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["upload-date"] }}</p>
 {% endblock %}
 {% block content %}
 
 <form method="post">
 <input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
-<table>
-<tr><td>Content Id</td><td>{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
-<tr><td>Name</td><td>
+<table class="package-version-edit-table">
+<tr><th>Content Id</th><td>{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
+<tr><th>Name</th><td>
     Leave empty to use the name from the package.<br/>
     <input type="text" name="name" value="{{ version["name"] }}" placeholder="{{ package["name"] }}"/>
 </td></tr>
-<tr><td>Project site</td><td>
+<tr><th>Project site</th><td>
     Leave empty to use the URL from the package.<br/>
     <input type="url" name="url" value="{{ version["url"] }}" placeholder="{{ package["url"] }}"/>
 </td></tr>
-<tr><td>Version</td><td>
+<tr><th>Version</th><td>
     <input type="text" name="version" value="{{ version["version"] }}"/>
 </td></tr>
-<tr><td>Compatibility</td><td>
+<tr><th>Compatibility</th><td>
     Enter version requirements like "&gt;= 1.2.0" or "&lt; 1.10.0".
     <table>
         <tr>
@@ -38,7 +37,7 @@
         </tr>
     </table>
 </td></tr>
-<tr><td>Dependencies</td><td>
+<tr><th>Dependencies</th><td>
 {% if deps_editable %}
 Enter one content-id per row. You can find the 'Content Id' on the version detail page of every content item.<br/>
 <textarea name="dependencies" cols="50" rows="10">
@@ -54,7 +53,7 @@ Enter one content-id per row. You can find the 'Content Id' on the version detai
 </ul>
 {% endif %}
 </td></tr>
-<tr><td>Tags</td><td>Enter one tag per row, leave empty to use the tags from the package:<br/>
+<tr><th>Tags</th><td>Enter one tag per row, leave empty to use the tags from the package:<br/>
 <textarea name="tags" cols="20" rows="10" placeholder="
 {%- for t in package["tags"] -%}
 {{ t }}
@@ -64,7 +63,7 @@ Enter one content-id per row. You can find the 'Content Id' on the version detai
 {{ t }}
 {% endfor -%}
 </textarea></td></tr>
-<tr><td>Description</td><td>
+<tr><th>Description</th><td>
     Leave empty to use the description from the package.<br/>
 <textarea name="description" cols="50" rows="20" placeholder="{{ package["description"] }}">
 {{- version["description"] -}}

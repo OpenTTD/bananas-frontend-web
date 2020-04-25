@@ -38,21 +38,21 @@
 <h3>Step 3: Complete the description</h3>
 Note: Some of the info is filled automatically after uploading the files.
 
-<table>
-<tr><td>Content Id</td><td>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
-<tr><td>Name</td><td>
+<table class="package-upload-table">
+<tr><th>Content Id</th><td>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
+<tr><th>Name</th><td>
     Enter the name of the package <b>without version number</b>. There is a separate entry for the version.
     {% if package %}Leave empty to use the name from the package.{% endif %}<br/>
     <input type="text" name="name" value="{{ version["name"] }}" placeholder="{{ package["name"] }}"/>
 </td></tr>
-<tr><td>Project site</td><td>
+<tr><th>Project site</th><td>
     {% if package %}Leave empty to use the URL from the package.{% endif %}<br/>
     <input type="url" name="url" value="{{ version["url"] }}" placeholder="{{ package["url"] }}"/>
 </td></tr>
-<tr><td>Version</td><td>
+<tr><th>Version</th><td>
     <input type="text" name="version" value="{{ version["version"] }}"/>
 </td></tr>
-<tr><td>License</td><td>
+<tr><th>License</th><td>
     Unsure which license to pick? <a href="https://www.tt-forums.net/viewtopic.php?f=68&amp;t=55814" target="_blank">Look here</a><br/>
     <select name="license">
     {% if not version["license"] %}
@@ -63,7 +63,7 @@ Note: Some of the info is filled automatically after uploading the files.
     {% endfor %}
     </select>
 </td></tr>
-<tr><td>Compatibility</td><td>
+<tr><th>Compatibility</th><td>
     Enter version requirements like "&gt;= 1.2.0" or "&lt; 1.10.0".
     <table>
         <tr>
@@ -80,7 +80,7 @@ Note: Some of the info is filled automatically after uploading the files.
         </tr>
     </table>
 </td></tr>
-<tr><td>Dependencies</td><td>
+<tr><th>Dependencies</th><td>
 {% if deps_editable %}
 Enter one content-id per row. You can find the 'Content Id' on the version detail page of every content item.<br/>
 <textarea name="dependencies" cols="50" rows="10">
@@ -96,7 +96,7 @@ Enter one content-id per row. You can find the 'Content Id' on the version detai
 </ul>
 {% endif %}
 </td></tr>
-<tr><td>Tags</td><td>Enter one tag per row{% if package %}, leave empty to use the tags from the package{% endif %}:<br/>
+<tr><th>Tags</th><td>Enter one tag per row{% if package %}, leave empty to use the tags from the package{% endif %}:<br/>
 <textarea name="tags" cols="20" rows="10" placeholder="
 {%- for t in package["tags"] -%}
 {{ t }}
@@ -106,7 +106,7 @@ Enter one content-id per row. You can find the 'Content Id' on the version detai
 {{ t }}
 {% endfor -%}
 </textarea></td></tr>
-<tr><td>Description</td><td>
+<tr><th>Description</th><td>
     {% if package %}Leave empty to use the description from the package.{% endif %}<br/>
 <textarea name="description" cols="50" rows="20" placeholder="{{ package["description"] }}">
 {{- version["description"] -}}

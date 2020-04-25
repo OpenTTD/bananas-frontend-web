@@ -1,32 +1,31 @@
 {% extends 'base.html' %}
 {% block header %}
     <h1>{% block title %}{{ package["name"] }}{% endblock %}</h1>
-    <p>{{ package["content-type"] }}/{{ package["unique-id"] }}</p>
 {% endblock %}
 {% block content %}
 
 <form method="post">
 <input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
-<table>
-<tr><td>Content Id</td><td>{{ package["content-type"] }}/{{ package["unique-id"] }}</td></tr>
+<table class="package-edit-table">
+<tr><th>Content Id</th><td>{{ package["content-type"] }}/{{ package["unique-id"] }}</td></tr>
 <tr><td>Name</td><td>
     <input type="text" name="name" value="{{ package["name"] }}"/>
 </td></tr>
-<tr><td>Project site</td><td>
+<tr><th>Project site</th><td>
     <input type="url" name="url" value="{{ package["url"] }}"/>
 </td></tr>
-<tr><td>Tags</td><td>Enter one tag per row:<br/>
+<tr><th>Tags</th><td>Enter one tag per row:<br/>
 <textarea name="tags" cols="20" rows="10">
 {%- for t in package["tags"] -%}
 {{ t }}
 {% endfor -%}
 </textarea></td></tr>
-<tr><td>Authors</td><td><ul>
+<tr><th>Authors</th><td><ul class="author-list">
 {% for a in package["authors"] %}
     <li>{{ a["display-name"] }}</li>
 {% endfor %}
 </ul></td></tr>
-<tr><td>Description</td><td>
+<tr><th>Description</th><td>
 <textarea name="description" cols="50" rows="20">
 {{- package["description"] -}}
 </textarea></td></tr>

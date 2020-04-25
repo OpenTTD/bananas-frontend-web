@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block header %}
     <h1>{% block title %}{{ package["name"] }}{% endblock %}</h1>
-    <p>{{ package["content-type"] }}/{{ package["unique-id"] }}</p>
 {% endblock %}
 {% block content %}
 
-<a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/edit">Edit package meta data</a>
-<table>
+<p><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/edit">Edit package meta data</a></p>
+
+<table class="package-info-table">
 <tbody>
     <tr><th>Content Id</th><td>{{ package["content-type"] }}/{{ package["unique-id"] }}</td></tr>
     <tr><th>Name</th><td>{{ package["name"] }}</td></tr>
@@ -16,14 +16,14 @@
     {% endif %}
     </td></tr>
     <tr><th>Tags</th><td>
-        <ul>
+        <ul class="tag-list">
         {% for t in package["tags"] %}
             <li>{{ t }}</li>
         {% endfor %}
         </ul>
     </td></tr>
     <tr><th>Authors</th><td>
-        <ul>
+        <ul class="author-list">
         {% for a in package["authors"] %}
             <li>{{ a["display-name"] }}</li>
         {% endfor %}
@@ -37,7 +37,9 @@
 </tbody>
 </table>
 
-<table>
+<hr />
+
+<table id="bananas-table">
 <thead>
     <tr>
         <th>Version</th>

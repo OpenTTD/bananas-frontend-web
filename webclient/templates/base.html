@@ -3,35 +3,52 @@
 <head>
     <meta charset="utf-8">
     <title>{% block title %}{% endblock %} - BaNaNaS - OpenTTD</title>
+    <link rel="icon" href="/static/favicon.ico" type="image/icon" />
+    <link rel="stylesheet" href="/static/css/base.css" />
     <link rel="stylesheet" href="/static/css/page.css" />
+    <link rel="stylesheet" href="/static/css/bananas.css" />
 </head>
 <body>
-<nav>
-<table><tr>
-    <td><a href="/">BaNaNaS</a></td>
-    <td><a href="/package/base-graphics">Base-Graphics</a><br/>
-        <a href="/package/base-sounds">Base-Sounds</a><br/>
-        <a href="/package/base-music">Base-Music</a></td>
-    <td><a href="/package/newgrf">NewGRFs</a></td>
-    <td><a href="/package/ai">AIs</a><br/>
-        <a href="/package/ai-library">AI-Libraries</a></td>
-    <td><a href="/package/game-script">Game-Scripts</a><br/>
-        <a href="/package/game-script-library">Game-Script-Libraries</a></td>
-    <td><a href="/package/scenario">Scenarios</a><br/>
-        <a href="/package/heightmap">Heightmaps</a></td>
-    <td>
-        <a href="/manager">Manager</a><br/>
-        {% if session and session.is_auth %}
-        <marquee>{{ session.display_name }}</marquee><br/>
-        <a href="/logout">Logout</a>
-        {% endif %}
-    </td>
-</tr></table>
+<header id="header">
+    <div id="header-left"></div>
+    <div id="header-right"></div>
+    <div id="header-logo">
+        <div id="openttd-logo">
+            <div id="openttd-logo-text-bananas"><a href="/"><img src="/static/img/openttd-logo-bananas.png" alt="BaNaNaS"></a></div>
+        </div>
+    </div>
+</header>
+<nav id="navigation">
+    <div id="navigation-left"></div>
+    <div id="navigation-right"></div>
+    <ul id="navigation-bar">
+        <li class="selected"><a href="/">BaNaNaS</a></li>
+        <li><a href="/package/base-graphics">Base-Graphics</a></li>
+        <li><a href="/package/base-sounds">Base-Sounds</a></li>
+        <li><a href="/package/base-music">Base-Music</a></li>
+        <li><a href="/package/newgrf">NewGRFs</a></li>
+        <li><a href="/package/ai">AIs</a></li>
+        <li><a href="/package/ai-library">AI-Libraries</a></li>
+        <li><a href="/package/game-script">Game-Scripts</a></li>
+        <li><a href="/package/game-script-library">Game-Script-Libraries</a></li>
+        <li><a href="/package/scenario">Scenarios</a></li>
+        <li><a href="/package/heightmap">Heightmaps</a></li>
+        <li>
+            <a href="/manager">Manager</a><br/>
+            {% if session and session.is_auth %}
+            <marquee>{{ session.display_name }}</marquee><br/>
+            <a href="/logout">Logout</a>
+            {% endif %}
+        </li>
+    </ul>
 </nav>
-<header>
+<div id="content-main">
+<div id="section-full">
+<header class="section-header">
 {% block header %}{% endblock %}
 </header>
-<main>
+<main class="section-item">
+<div class="content">
 {% if messages %}
 <ul id="system-notices">
     {% for message in messages %}
@@ -40,12 +57,17 @@
 </ul>
 {% endif %}
 {% block content %}{% endblock %}
+</div>
 </main>
-<footer>
-    <p>
-        <a href="https://www.openttd.org/policy.html">Privacy Policy</a> |
+</div>
+</div>
+<footer id="footer">
+    <div id="content-bottom-links">
+        <a href="https://www.openttd.org/policy.html">Privacy Policy</a>
+    </div>
+    <div id="content-bottom-copyright">
         Copyright &copy; 2005-{{ copyyear }} OpenTTD Team
-    </p>
+    </div>
 </footer>
 </body>
 </html>
