@@ -1,4 +1,0 @@
-- make messages from query-param work
-- nice enums for content-type, availability, compatibility, license
-- either allow this app to run multiple processes or switch to aiohttp
-  (flask only handles 1 request at the time, and uses a few globals)
