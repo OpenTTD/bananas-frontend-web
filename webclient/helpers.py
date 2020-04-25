@@ -69,8 +69,4 @@ def redirect(*args, **kwargs):
 
 
 def not_found():
-    flask.abort(404)
-
-
-def api_error():
-    flask.abort(500)
+    flask.abort(redirect("root", message="Data not found"))
