@@ -1,8 +1,6 @@
 from ..app import app
-from ..helpers import (
-    api_get,
-    template,
-)
+from ..api import api_get
+from ..helpers import template
 from ..session import protected
 
 
