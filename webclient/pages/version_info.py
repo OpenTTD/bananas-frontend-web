@@ -303,7 +303,7 @@ def manager_new_package_upload(session, token):
     content_type = version.get("content-type")
     unique_id = version.get("unique-id")
     if content_type and unique_id:
-        package = api_get(("package", content_type, unique_id), session=session)
+        package, _ = api_get(("package", content_type, unique_id), session=session, return_errors=True)
     else:
         package = None
 
