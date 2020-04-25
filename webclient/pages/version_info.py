@@ -201,7 +201,7 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
                     upload_date=upload_date,
                     message="Data updated",
                 )
-        else:
+        elif valid_data:
             return redirect(
                 "manager_version_info", content_type=content_type, unique_id=unique_id, upload_date=upload_date
             )
