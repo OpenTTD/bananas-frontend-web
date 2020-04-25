@@ -4,12 +4,12 @@ import hashlib
 from flask import request
 
 from ..app import app
-from ..helpers import (
+from ..api import (
     api_get,
     api_login_redirect,
     api_login_token,
-    redirect,
 )
+from ..helpers import redirect
 from ..session import (
     auth_backend,
     get_session,

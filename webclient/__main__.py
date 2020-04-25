@@ -5,6 +5,7 @@ import logging
 from werkzeug import serving
 
 from . import pages  # noqa
+from .api import click_api
 from .app import app
 from .click import click_additional_options
 from .helpers import click_urls
@@ -37,6 +38,7 @@ def click_logging():
 @click_logging
 @click_sentry
 @click_urls
+@click_api
 @click_auth_backend
 @click_max_age
 def cli():
