@@ -1,0 +1,213 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+}
+html {
+	background: url("/static/img/background.png") repeat;
+	color: black;
+	font-family: "Trebuchet MS", Arial, Verdana, Sans-Serif;
+	font-size: 12px;
+}
+select {
+	color: black;
+}
+img {
+	border: 0px;
+}
+a {
+	color: #DD6000;
+}
+hr {
+	background: url("/static/img/hr.png") repeat-x;
+	border: none;
+	height: 2px;
+	width: 95%;
+}
+h3, .h3 {
+	font-weight: normal;
+	font-size: 16px;
+	margin: 0px;
+	text-decoration: underline;
+}
+h4, .h4 {
+	font-weight: normal;
+	font-size: 14px;
+	margin: 0px;
+}
+h5, .h5 {
+	font-weight: normal;
+	font-size: 12px;
+	margin: 0px;
+}
+
+.nowrap {
+	overflow: hidden;
+	white-space: nowrap;
+
+	/* The following elements are not part of CSS2, but are required for some
+	 *  (broken) browsers who do not understand the former definitions. */
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+}
+
+#header {
+	background: url("/static/img/header-bg.png") repeat;
+	height: 90px;
+	margin: 0px auto;
+	width: 940px;
+}
+#header-left {
+	background: url("/static/img/header-bg-left.png") repeat-y;
+	float: left;
+	height: 90px;
+	width: 15px;
+}
+#header-right {
+	background: url("/static/img/header-bg-right.png") repeat-y;
+	float: right;
+	height: 90px;
+	width: 15px;
+}
+
+#header-logo {
+	float: right;
+	width: 400px;
+}
+
+#ovh-header {
+	float: right;
+	height: 90px;
+	line-height: 11px;
+	margin-top: -2px;
+	margin-right: -6px;
+	padding: 0px;
+	width: 90px;
+}
+#openttd-logo {
+	background: url("/static/img/openttd-64.gif") no-repeat;
+	background-position: left center;
+	float: right;
+	height: 75px;
+	margin-top: 6px;
+	width: 250px;
+}
+#openttd-logo-text {
+	height: 29px;
+	margin: 36px 0px 0px 77px;
+	width: 151px;
+}
+#openttd-logo-text-noai {
+	height: 29px;
+	margin: 15px 0px 0px 75px;
+	width: 151px;
+}
+#openttd-logo-text-bananas {
+	height: 29px;
+	margin: 18px 0px 0px 75px;
+	width: 151px;
+}
+#openttd-logo-text-security {
+	height: 29px;
+	margin: 18px 0px 0px 75px;
+	width: 151px;
+}
+#openttd-logo-text-binaries {
+	height: 29px;
+	margin: 36px 0px 0px 77px;
+	width: 151px;
+}
+#openttd-logo-text-translator {
+	height: 29px;
+	margin: 28px 0px 0px 75px;
+	width: 151px;
+}
+
+#navigation {
+	background: url("/static/img/navigation-bg.png") repeat-x;
+	height: auto !important;
+	height: 32px;
+	margin: 0px auto;
+	min-height: 32px;
+	overflow: hidden;
+	width: 940px;
+}
+#navigation-left {
+	background: url("/static/img/navigation-bg-left.png") no-repeat;
+	float: left;
+	height: 32px;
+	width: 15px;
+}
+#navigation-right {
+	background: url("/static/img/navigation-bg-right.png") no-repeat;
+	float: right;
+	height: 32px;
+	width: 15px;
+}
+#navigation-bar {
+	float: left;
+	margin: 0px;
+	padding: 0px;
+}
+#navigation-bar li {
+	font-size: 12px;
+	float: left;
+	line-height: 32px;
+	list-style-type: none;
+}
+#navigation-bar li a {
+	color: #DDDDDD;
+	display: block;
+	padding: 0px 7px 0px 7px;
+	text-decoration: none;
+}
+#navigation-bar li a:hover {
+	background: url("/static/img/navigation-bg-hover.png") repeat-x;
+	color: #444444;
+}
+#navigation-bar li.selected {
+	background: url("/static/img/navigation-bg-selected.png") repeat-x;
+}
+#navigation-bar li.selected a {
+	color: #444444;
+}
+
+#content-main {
+	background-color: white;
+	margin: 7px auto;
+	width: 916px;
+	padding: 7px;
+    border-radius: 4px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+#content-bottom-links {
+	float: left;
+	font-size: 11px;
+	padding: 7px 5px 0px 5px;
+}
+#content-bottom-copyright {
+	float: right;
+	font-size: 11px;
+	padding: 7px 5px 0px 5px;
+}
+#content {
+	margin: 0px 12px 0px 12px;
+	padding-top: 12px;
+}
+body > footer {
+	background-color: white;
+	margin: 12px auto 36px auto;
+	padding: 7px 7px 6px 7px;
+	overflow: hidden;
+	border-radius: 5px;
+	box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.11);
+	width: 916px;
+}
+
+#hr-clear {
+	clear: both;
+}
+
+.mono {
+	font-family: 'Courier New', monospace;
+}

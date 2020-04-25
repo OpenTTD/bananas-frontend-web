@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
 
-<table>
+<table id="bananas-table">
 <thead>
     <tr>
         <th rowspan="2">Type</th>
@@ -25,7 +25,7 @@
 </thead>
 <tbody>
 {% for package in packages %}
-    <tr>
+    <tr class="{{ loop.cycle('odd', 'even') }}">
         <td>{{ package["content-type"] }}</td>
         <td>{{ package["unique-id"] }}</td>
         <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}">{{ package["name"] }}</a></td>
@@ -50,6 +50,7 @@
 {% endfor %}
 </tbody>
 </table>
+<hr />
 <a href="/manager/new-package">Upload new content</a>
 
 {% endblock %}

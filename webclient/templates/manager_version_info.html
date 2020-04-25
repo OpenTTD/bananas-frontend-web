@@ -2,12 +2,12 @@
 {% block title %}{{ version["name"] or package["name"] }} {{ version["version"] }}{% endblock %}
 {% block header %}
     <h1><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}">{{ version["name"] or package["name"] }}</a> {{ version["version"] }}</h1>
-    <p>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["upload-date"] }}</p>
 {% endblock %}
 {% block content %}
 
-<a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["upload-date"] }}/edit">Edit version meta data</a>
-<table>
+<p><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["upload-date"] }}/edit">Edit version meta data</a></p>
+
+<table class="package-info-table">
 <tbody>
     <tr><th>Content Id</th><td>{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
     <tr><th>Name</th><td>{{ version["name"] or package["name"] }}</td></tr>
@@ -44,7 +44,7 @@
         </ul>
     </td></tr>
     <tr><th>Tags</th><td>
-        <ul>
+        <ul class="tag-list">
         {% set tags = version["tags"] or package["tags"] %}
         {% for t in tags %}
             <li>{{ t }}</li>
@@ -52,7 +52,7 @@
         </ul>
     </td></tr>
     <tr><th>Authors</th><td>
-        <ul>
+        <ul class="author-list">
         {% for a in package["authors"] %}
             <li>{{ a["display-name"] }}</li>
         {% endfor %}

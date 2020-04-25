@@ -1,0 +1,168 @@
+
+.manager-table {
+	font-size: 12px;
+	table-layout: fixed;
+	width: 738px;
+}
+
+.manager-table th {
+	text-align: left;
+	vertical-align: top;
+	width: 120px;
+}
+
+.manager-table td {
+	border-bottom: 1px solid #FFFFFF;
+	border-top: 1px solid #FFFFFF;
+	padding: 1px 3px 1px 3px;
+	text-align: left;
+}
+
+.depList {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-left: 20px;
+}
+
+#bananas-table {
+	font-size: 12px;
+	width: 100%;
+}
+
+#bananas-table th {
+	text-align: left;
+	text-decoration: underline;
+}
+
+#bananas-table td {
+	border-bottom: 1px solid #FFFFFF;
+	border-top: 1px solid #FFFFFF;
+	padding: 1px 3px 1px 3px;
+	text-align: left;
+	vertical-align: top;
+}
+
+#bananas-table .odd {
+	background-color: #EEEEEE;
+}
+#bananas-table .even {
+	background-color: #FFFFFF;
+}
+#bananas-table tr.odd:hover, #bananas-table tr.even:hover, #bananas-table tr.odd:hover td, #bananas-table tr.even:hover td {
+	background-color: #CCCCCC;
+	border-bottom: 1px dashed #000000;
+	border-top: 1px dashed #000000;
+}
+
+#bananas-table .name {
+	width: 250px;
+}
+#bananas-table .type {
+	width: 80px;
+}
+#bananas-table .version {
+	width: 80px;
+}
+#bananas-table .grf {
+	width: 70px;
+}
+#bananas-table .downloads {
+	width: 70px;
+}
+#bananas-table .date {
+	width: 70px;
+}
+#bananas-table .author {
+	width: 70px;
+}
+#bananas-table .deps {
+	width: 70px;
+}
+#bananas-table .license {
+	width: 100px;
+}
+
+/* the package table declarations are repetitive and can possibly be consolidated, they were written in a situation where JFDI > DRY */
+.package-info-table {
+    width: 100%;
+}
+.package-info-table th {
+    width: 150px;
+    vertical-align: top;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.package-info-table .tag-list {
+    margin: 0;
+    padding: 0;
+}
+.package-info-table .tag-list li {
+    display: inline-block;
+    padding-right: 10px;
+    margin-right: 10px;
+    border-right: solid 1px #ddd;
+}
+.package-info-table .author-list {
+    margin: 0;
+    padding: 0;
+}
+.package-info-table .author-list li {
+    list-style-type: none;
+}
+
+.package-edit-table th {
+    width: 150px;
+    vertical-align: top;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.package-edit-table .author-list {
+    margin: 0;
+    padding: 0;
+}
+.package-edit-table .author-list li {
+    list-style-type: none;
+}
+
+.package-upload-table th {
+    width: 150px;
+    vertical-align: top;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.package-upload-table .author-list {
+    margin: 0;
+    padding: 0;
+}
+.package-upload-table .author-list li {
+    list-style-type: none;
+}
+
+.package-version-edit-table th {
+    width: 150px;
+    vertical-align: top;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.package-version-edit-table .author-list {
+    margin: 0;
+    padding: 0;
+}
+.package-version-edit-table .author-list li {
+    list-style-type: none;
+}
+
+.package-version-info-table th {
+    width: 150px;
+    vertical-align: top;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.package-version-info-table .author-list {
+    margin: 0;
+    padding: 0;
+}
+.package-version-info-table .author-list li {
+    list-style-type: none;
+}
+
