@@ -106,6 +106,7 @@ function start_next_upload() {
     let options = {
         endpoint: tus_url,
         retryDelays: [0, 1000, 3000, 5000],
+        removeFingerprintOnSuccess: true,
         metadata: {
             "upload-token": upload_token,
             filename: upload_file.name
