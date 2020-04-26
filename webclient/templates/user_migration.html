@@ -1,0 +1,85 @@
+{% set selected_nav = "bananas" %}
+{% extends 'base.html' %}
+{% block header %}
+    <h1>{% block title %}User migration{% endblock %}</h1>
+{% endblock %}
+{% block content %}
+
+<p>
+Since 27 April 2020, BaNaNaS changed the authentication method to GitHub.
+If you uploaded content before that time, you need to migrate the author of that content once from your old OpenTTD account to a new GitHub account.
+The following steps help you make this happen. You only need to do this once for all your content.
+</p>
+
+<p>
+First, create a GitHub account if you don't already have one: <a href="https://github.com/" target="_blank">github.com/</a>
+</p>
+
+<p>
+Next, you have one of two options.
+You only need to do one of them, and only for one of your content.
+We will automatically migrate all your other content for you.
+</p>
+
+<hr/>
+
+<h3> Option one - TT-Forums (preferred) </h3>
+
+<ul>
+<li> Is the URL of any of your content linking to <a href="https://tt-forums.net">tt-forums.net</a>? </li>
+<li> Are you the topic starter of this thread? </li>
+</ul>
+
+<p>
+If so, fill in the next template, and send it to both `frosch` and `TrueBrain` via TT-Forums private message.
+</p>
+
+<blockquote>
+Subject: BaNaNaS author migration
+<pre>
+Hello,
+
+I would like to migrate the author of my BaNaNaS content to GitHub.
+
+Link to thread: &lt;copy here the URL of your thread&gt;
+GitHub profile page: &lt;copy here the URL of the GitHub profile page&gt;
+</pre>
+</blockquote>
+
+<h3> Option two - email </h3>
+
+<ul>
+<li> You still have access to the email-address you used to register your OpenTTD account? </li>
+</ul>
+
+<p>
+If so, fill in the next template, and send it to `info@openttd.org` via email.
+</p>
+
+<blockquote>
+Subject: BaNaNaS author migration
+<pre>
+Hello,
+
+I would like to migrate the author of my BaNaNaS content to GitHub.
+
+GitHub profile page: &lt;copy here the URL of the GitHub profile page&gt;
+</pre>
+</blockquote>
+
+<hr/>
+
+<p>
+Once we validated you are indeed the author, we will change your content over to your GitHub account.
+After this, you can edit and upload new content.
+</p>
+
+<p>
+If you have any questions, feel free to drop by on IRC (irc.oftc.net / #openttd), and we will be happy to answer them.
+</p>
+
+<p>
+Either way, sorry for the inconvenience.
+</p>
+
+{% endblock %}
