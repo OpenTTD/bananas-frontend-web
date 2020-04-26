@@ -27,6 +27,11 @@ def healthz_handler():
     return response
 
 
+@app.route("/manager/user-migration")
+def user_migration():
+    return template("user_migration.html")
+
+
 @app.route("/manager/tos")
 def tos_latest():
     return redirect("tos", version="1.3")
