@@ -10,20 +10,7 @@ _max_session_age = None
 _max_csrf_age = None
 _sessions = dict()
 
-auth_backend = {"method": None}
 SESSION_COOKIE = "bananas_sid"
-
-
-@click_additional_options
-@click.option(
-    "--authentication-method",
-    help="Authentication method to use.",
-    type=click.Choice(["developer", "github", "openttd"], case_sensitive=False),
-    default="github",
-    show_default=True,
-)
-def click_auth_backend(authentication_method):
-    auth_backend["method"] = authentication_method
 
 
 @click_additional_options
@@ -51,6 +38,7 @@ class SessionData:
     @ivar sid:          Session id (cookie)
     @ivar expires:      Session expire date
     @ivar is_auth:      Whether user is authenticated.
+    @ivar audience:     Dict with "name" and "settings-url".
     @ivar display_name: User's displayname, or None
     @ivar api_token:    Token for backend API.
     @ivar code_verifier: Code used during authentication (part of OAuth2 PCKE flow).
@@ -61,6 +49,7 @@ class SessionData:
         self.sid = secrets.token_hex(32)
         self.expires = datetime.datetime.utcnow() + _max_session_age
         self.is_auth = False
+        self.audience = None
         self.display_name = None
         self.api_token = None
         self.code_verifier = secrets.token_hex(32)

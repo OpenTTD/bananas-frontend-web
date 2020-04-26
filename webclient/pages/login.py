@@ -1,7 +1,6 @@
 import base64
 import hashlib
-
-from flask import request
+import flask
 
 from ..app import app
 from ..api import (
@@ -9,33 +8,60 @@ from ..api import (
     api_login_redirect,
     api_login_token,
 )
-from ..helpers import redirect
+from ..helpers import (
+    redirect,
+    template,
+)
 from ..session import (
-    auth_backend,
     get_session,
     start_session,
     stop_session,
 )
 
+_audiences = None
 
-@app.route("/login")
+
+def get_audiences():
+    global _audiences
+    if not _audiences:
+        _audiences = api_get(("config", "user-audiences"))
+    return _audiences
+
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
     session = get_session()
     if session is None:
         session = start_session()
 
-    if session.is_auth:
+    if session and session.is_auth:
         return redirect("manager_package_list")
 
-    digest = hashlib.sha256(session.code_verifier.encode()).digest()
-    code_challenge = base64.urlsafe_b64encode(digest).decode().rstrip("=")
+    audiences = get_audiences()
 
-    return api_login_redirect(auth_backend.get("method"), code_challenge)
+    if flask.request.method == "POST":
+        form = flask.request.form
+
+        if session.audience:
+            # Don't authenticate twice for the same session.
+            session = start_session()
+
+        for audience in audiences:
+            if audience["name"] in form:
+                session.audience = audience
+                break
+
+        if session.audience:
+            digest = hashlib.sha256(session.code_verifier.encode()).digest()
+            code_challenge = base64.urlsafe_b64encode(digest).decode().rstrip("=")
+            return api_login_redirect(session.audience["name"], code_challenge)
+
+    return template("login.html", audiences=audiences)
 
 
 @app.route("/login-callback")
 def login_callback():
-    code = request.args.get("code")
+    code = flask.request.args.get("code")
 
     session = get_session()
     if session is None:

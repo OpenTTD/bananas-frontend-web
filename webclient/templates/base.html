@@ -15,7 +15,12 @@
     {% if session and session.is_auth %}
     <div id="header-session">
         <p>Hello {{ session.display_name }}</p>
+        <p>
+        {% if session.audience and session.audience.get("settings-url") %}
+        <a href="{{ session.audience["settings-url"] }}">Review access</a> |
+        {% endif %}
         <a href="/logout">Logout</a>
+        </p>
     </div>
     {% endif %}
     <div id="header-logo">

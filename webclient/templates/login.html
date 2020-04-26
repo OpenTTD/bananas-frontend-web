@@ -1,0 +1,15 @@
+{% set selected_nav = "manager" %}
+{% extends 'base.html' %}
+{% block header %}
+    <h1>{% block title %}Login{% endblock %}</h1>
+{% endblock %}
+{% block content %}
+
+<p> BaNaNaS relies on external authentication providers. </p>
+<form method="post">
+    {% for audience in audiences %}
+    <button type="submit" name="{{ audience["name"] }}">{{ audience["description"] }}</button>
+    {% endfor %}
+</form>
+
+{% endblock %}
