@@ -18,6 +18,7 @@ var more_files = document.querySelector("li[id='more_files']");
 var file_selector = document.querySelector("input[id='file_selector']");
 var button_start = document.querySelector("button[id='start_upload']");
 var removed_files = document.querySelector("input[id='removed_files']");
+var button_autofill = document.querySelector("button[id='autofill']");
 var button_validate = document.querySelector("button[id='validate']");
 var button_publish = document.querySelector("button[id='publish']");
 button_start.addEventListener("click", add_upload);
@@ -96,6 +97,7 @@ function add_upload() {
 }
 
 function start_next_upload() {
+    button_autofill.disabled = upload_queue.length > 0;
     button_validate.disabled = upload_queue.length > 0;
     button_publish.disabled = upload_queue.length > 0;
     if (upload_queue.length == 0) return;
