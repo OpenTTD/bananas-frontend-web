@@ -55,7 +55,7 @@ h5, .h5 {
 	background: url("/static/img/header-bg.png") repeat;
 	height: 90px;
 	margin: 0px auto;
-	width: 940px;
+	width: 1000px;
 }
 #header-left {
 	background: url("/static/img/header-bg-left.png") repeat-y;
@@ -68,6 +68,22 @@ h5, .h5 {
 	float: right;
 	height: 90px;
 	width: 15px;
+}
+
+#header-session {
+	float: left;
+	width: 400px;
+	margin-top: 15px;
+	margin-left: 15px;
+	text-align: left;
+	font-size: 12px;
+	line-height: 15px;
+}
+#header-session p {
+	color: #DDDDDD;
+}
+#header-session a {
+	color: #DDDDDD;
 }
 
 #header-logo {
@@ -130,7 +146,7 @@ h5, .h5 {
 	margin: 0px auto;
 	min-height: 32px;
 	overflow: hidden;
-	width: 940px;
+	width: 1000px;
 }
 #navigation-left {
 	background: url("/static/img/navigation-bg-left.png") no-repeat;
@@ -175,7 +191,7 @@ h5, .h5 {
 #content-main {
 	background-color: white;
 	margin: 7px auto;
-	width: 916px;
+	width: 976px;
 	padding: 7px;
     border-radius: 4px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
@@ -201,7 +217,7 @@ body > footer {
 	overflow: hidden;
 	border-radius: 5px;
 	box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.11);
-	width: 916px;
+	width: 976px;
 }
 
 #hr-clear {

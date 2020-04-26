@@ -12,6 +12,12 @@
 <header id="header">
     <div id="header-left"></div>
     <div id="header-right"></div>
+    {% if session and session.is_auth %}
+    <div id="header-session">
+        <p>Hello {{ session.display_name }}</p>
+        <a href="/logout">Logout</a>
+    </div>
+    {% endif %}
     <div id="header-logo">
         <div id="openttd-logo">
             <div id="openttd-logo-text-bananas"><a href="/"><img src="/static/img/openttd-logo-bananas.png" alt="BaNaNaS"></a></div>
@@ -34,11 +40,6 @@
         <li {% if selected_nav == "scenario" %}class="selected"{% endif %}><a href="/package/scenario">Scenarios</a></li>
         <li {% if selected_nav == "heightmap" %}class="selected"{% endif %}><a href="/package/heightmap">Heightmaps</a></li>
         <li {% if selected_nav == "manager" %}class="selected"{% endif %}><a href="/manager">Manager</a></li>
-        {% if session and session.is_auth %}
-        <li>{{ session.display_name }}</li>
-        <li><a href="/logout">Logout</a></li>
-        {% endif %}
-        </li>
     </ul>
 </nav>
 <div id="content-main">
