@@ -32,8 +32,10 @@
     </tr>
     <tr><th>Compatibility</th><td>
         <ul>
-        {% for compat in version["compatibility"] %}
-            <li>{{ compat["name"] }}: {{ compat["conditions"] | join(", ") }}</li>
+        {% for c in compatibility %}
+        {% if c[1] or c[2] %}
+            <li>{{ c[0]["description"] }}: {{ c[1] }}{% if c[1] and c[2] %}, {% endif %}{{ c[2] }}</li>
+        {% endif %}
         {% endfor %}
         </ul>
     </td></tr>

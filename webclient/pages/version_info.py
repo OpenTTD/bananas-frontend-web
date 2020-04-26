@@ -16,28 +16,32 @@ from ..helpers import (
 )
 from ..session import protected
 
-_licenses = [
-    "GPL v2",
-    "GPL v3",
-    "LGPL v2.1",
-    "CC-0 v1.0",
-    "CC-BY v3.0",
-    "CC-BY-SA v3.0",
-    "CC-BY-NC-SA v3.0",
-    "CC-BY-NC-ND v3.0",
-    "Custom",
-]
-_branches = ["master"]
 _dep_pattern = re.compile("([-a-z]*)/([0-9a-f]{8})/([0-9a-f]{8})$")
+_branches = None
+_licenses = None
+
+
+def get_branches():
+    global _branches
+    if not _branches:
+        _branches = api_get(("config", "branches"))
+    return _branches
+
+
+def get_licenses():
+    global _licenses
+    if not _licenses:
+        _licenses = api_get(("config", "licenses"))
+    return _licenses
 
 
 def get_compatibility(version):
     data = dict((c["name"], c["conditions"]) for c in version.get("compatibility", []))
 
     result = []
-    for branch in _branches:
+    for branch in get_branches():
         conditions = ["", ""]
-        for condition in data.get(branch, []):
+        for condition in data.get(branch["name"], []):
             if condition.startswith(">="):
                 conditions[0] = condition
             elif condition.startswith("<"):
@@ -63,10 +67,10 @@ def record_change(changes, data, key, value, empty_values=False):
 
 def record_change_compatibility(changes, data, form):
     compatability = []
-    for branch in _branches:
+    for branch in get_branches():
         conditions = []
-        condition_min = form.get("compatibility_{}_min".format(branch), "").strip()
-        condition_max = form.get("compatibility_{}_max".format(branch), "").strip()
+        condition_min = form.get("compatibility_{}_min".format(branch["name"]), "").strip()
+        condition_max = form.get("compatibility_{}_max".format(branch["name"]), "").strip()
 
         if condition_min:
             conditions.append(condition_min)
@@ -74,7 +78,7 @@ def record_change_compatibility(changes, data, form):
             conditions.append(condition_max)
 
         if conditions:
-            compatability.append({"name": branch, "conditions": conditions})
+            compatability.append({"name": branch["name"], "conditions": conditions})
 
     record_change(changes, data, "compatibility", compatability, True)
 
@@ -139,7 +143,9 @@ def version_info(content_type, unique_id, upload_date):
             if len(dep_version) == 1:
                 dep.update(dep_version[0])
 
-    return template("version_info.html", package=package, version=version, latest=latest)
+    compatibility = get_compatibility(version)
+
+    return template("version_info.html", package=package, version=version, latest=latest, compatibility=compatibility)
 
 
 @app.route("/manager/<content_type>/<unique_id>/<upload_date>")
@@ -160,7 +166,11 @@ def manager_version_info(session, content_type, unique_id, upload_date):
             if len(dep_version) == 1:
                 dep.update(dep_version[0])
 
-    return template("manager_version_info.html", session=session, package=package, version=version)
+    compatibility = get_compatibility(version)
+
+    return template(
+        "manager_version_info.html", session=session, package=package, version=version, compatibility=compatibility
+    )
 
 
 @app.route("/manager/<content_type>/<unique_id>/<upload_date>/edit", methods=["GET", "POST"])
@@ -311,6 +321,7 @@ def manager_new_package_upload(session, token):
 
     deps_editable = True
     compatibility = get_compatibility(version)
+    licenses = get_licenses()
 
     csrf_token = session.create_csrf_token(csrf_context)
     response = template(
@@ -319,7 +330,7 @@ def manager_new_package_upload(session, token):
         package=package,
         version=version,
         compatibility=compatibility,
-        licenses=_licenses,
+        licenses=licenses,
         accept_tos=accept_tos,
         deps_editable=deps_editable,
         messages=messages,
