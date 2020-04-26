@@ -41,4 +41,4 @@ COPY --from=nodejs /code/node_modules/tus-js-client/dist/tus.min.js /code/webcli
 COPY --from=nodejs /code/node_modules/tus-js-client/dist/tus.min.js.map /code/webclient/static/tus.min.js.map
 
 ENTRYPOINT ["python", "-m", "webclient"]
-CMD ["--authentication-method", "github", "--api-url", "https://api.bananas.staging.openttd.org", "--frontend-url", "http://localhost:5000", "run", "-p", "80", "-h", "0.0.0.0"]
+CMD ["--api-url", "https://api.bananas.staging.openttd.org", "--frontend-url", "http://localhost:5000", "run", "-p", "80", "-h", "0.0.0.0"]

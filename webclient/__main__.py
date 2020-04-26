@@ -10,10 +10,7 @@ from .app import app
 from .click import click_additional_options
 from .helpers import click_urls
 from .sentry import click_sentry
-from .session import (
-    click_auth_backend,
-    click_max_age,
-)
+from .session import click_max_age
 
 
 # Patch the werkzeug logger to only log errors
@@ -39,7 +36,6 @@ def click_logging():
 @click_sentry
 @click_urls
 @click_api
-@click_auth_backend
 @click_max_age
 def cli():
     pass
