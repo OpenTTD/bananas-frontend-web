@@ -34,7 +34,7 @@
             {% if package["latest"]["download-url"] %}
                 <td><a href="{{ package["latest"]["download-url"] }}">{{ (package["latest"]["filesize"] | int) // 1024 }} kB</a></td>
             {% else %}
-                <td>Not available</td>
+                <td>Available ingame</td>
             {% endif %}
         {% else %}
             <td></td><td></td><td></td><td>Not available</td>
