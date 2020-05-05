@@ -24,6 +24,11 @@
         <th>Upload date</th>
     </tr>
 </thead>
+
+{% if not packages %}
+<p>If you used BaNaNaS before 27 April 2020, <a href="/manager/user-migration">see here how to migrate your user account.</a></p>
+{% endif %}
+
 <tbody>
 {% for package in packages %}
     <tr class="{{ loop.cycle('odd', 'even') }}">
