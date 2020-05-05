@@ -1,7 +1,7 @@
 {% set selected_nav = content_type %}
 {% extends 'base.html' %}
 {% block header %}
-    <h1>{% block title %}{{ content_type }}{% endblock %}</h1>
+    <h1>{% block title %}{{ globals.content_types[content_type].plural }}{% endblock %}</h1>
 {% endblock %}
 {% block content %}
 

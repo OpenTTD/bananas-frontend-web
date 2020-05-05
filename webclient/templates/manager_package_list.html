@@ -27,7 +27,7 @@
 <tbody>
 {% for package in packages %}
     <tr class="{{ loop.cycle('odd', 'even') }}">
-        <td>{{ package["content-type"] }}</td>
+        <td>{{ globals.content_types[package["content-type"]].singular }}</td>
         <td>{{ package["unique-id"] }}</td>
         <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}">{{ package["name"] }}</a></td>
         <td>{{ package["num-all"] }}</td>

@@ -34,16 +34,9 @@
     <div id="navigation-right"></div>
     <ul id="navigation-bar">
         <li {% if selected_nav == "bananas" %}class="selected"{% endif %}><a href="/">BaNaNaS</a></li>
-        <li {% if selected_nav == "base-graphics" %}class="selected"{% endif %}><a href="/package/base-graphics">Base-Graphics</a></li>
-        <li {% if selected_nav == "base-sounds" %}class="selected"{% endif %}><a href="/package/base-sounds">Base-Sounds</a></li>
-        <li {% if selected_nav == "base-music" %}class="selected"{% endif %}><a href="/package/base-music">Base-Music</a></li>
-        <li {% if selected_nav == "newgrf" %}class="selected"{% endif %}><a href="/package/newgrf">NewGRFs</a></li>
-        <li {% if selected_nav == "ai" %}class="selected"{% endif %}><a href="/package/ai">AIs</a></li>
-        <li {% if selected_nav == "ai-library" %}class="selected"{% endif %}><a href="/package/ai-library">AI-Libraries</a></li>
-        <li {% if selected_nav == "game-script" %}class="selected"{% endif %}><a href="/package/game-script">Game-Scripts</a></li>
-        <li {% if selected_nav == "game-script-library" %}class="selected"{% endif %}><a href="/package/game-script-library">Game-Script-Libraries</a></li>
-        <li {% if selected_nav == "scenario" %}class="selected"{% endif %}><a href="/package/scenario">Scenarios</a></li>
-        <li {% if selected_nav == "heightmap" %}class="selected"{% endif %}><a href="/package/heightmap">Heightmaps</a></li>
+        {% for key, name in globals.content_types.items() %}
+        <li {% if selected_nav == key %}class="selected"{% endif %}><a href="/package/{{ key }}">{{ name.plural }}</a></li>
+        {% endfor %}
         <li {% if selected_nav == "manager" %}class="selected"{% endif %}><a href="/manager">Manager</a></li>
     </ul>
 </nav>
@@ -71,7 +64,7 @@
         <a href="https://www.openttd.org/policy.html">Privacy Policy</a>
     </div>
     <div id="content-bottom-copyright">
-        Copyright &copy; 2005-{{ copyyear }} OpenTTD Team
+        Copyright &copy; 2005-{{ globals.copyright_year }} OpenTTD Team
     </div>
 </footer>
 </body>
