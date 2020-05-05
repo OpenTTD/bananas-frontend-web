@@ -2,12 +2,33 @@ import click
 import datetime
 import flask
 import urllib
+from collections import OrderedDict
 
 from .click import click_additional_options
 
 _api_url = None
 _frontend_url = None
 _tus_url = None  # None means equal to _api_url
+
+
+def content_type(key, singular, plural):
+    return (key, {"singular": singular, "plural": plural})
+
+
+_content_types = OrderedDict(
+    [
+        content_type("base-graphics", "Base-Graphics", "Base-Graphics"),
+        content_type("base-sounds", "Base-Sounds", "Base-Sounds"),
+        content_type("base-music", "Base-Music", "Base-Music"),
+        content_type("newgrf", "NewGRF", "NewGRFs"),
+        content_type("ai", "AI", "AIs"),
+        content_type("ai-library", "AI-Library", "AI-Libraries"),
+        content_type("game-script", "Game-Script", "Game-Scripts"),
+        content_type("game-script-library", "Game-Script-Library", "Game-Script-Libraries"),
+        content_type("scenario", "Scenario", "Scenarios"),
+        content_type("heightmap", "Heightmap", "Heightmaps"),
+    ]
+)
 
 
 @click_additional_options
@@ -41,7 +62,10 @@ def template(*args, **kwargs):
         messages.append(kwargs["message"])
     if "message" in flask.request.args:
         messages.append(flask.request.args["message"])
-    kwargs["copyyear"] = datetime.datetime.utcnow().year
+    kwargs["globals"] = {
+        "copyright_year": datetime.datetime.utcnow().year,
+        "content_types": _content_types,
+    }
 
     response = flask.make_response(flask.render_template(*args, **kwargs))
     response.headers["Content-Security-Policy"] = "default-src 'self'"
