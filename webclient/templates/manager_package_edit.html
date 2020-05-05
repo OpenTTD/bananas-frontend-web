@@ -7,7 +7,7 @@
 
 <form method="post">
 <input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
-<table class="package-edit-table">
+<table class="package-details-table">
 <tr><th>Content Id</th><td>{{ package["content-type"] }}/{{ package["unique-id"] }}</td></tr>
 <tr><td>Name</td><td>
     <input type="text" name="name" value="{{ package["name"] }}"/>

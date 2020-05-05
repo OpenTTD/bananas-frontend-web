@@ -83,86 +83,29 @@
 }
 
 /* the package table declarations are repetitive and can possibly be consolidated, they were written in a situation where JFDI > DRY */
-.package-info-table {
+.package-details-table {
     width: 100%;
 }
-.package-info-table th {
+.package-details-table th {
     width: 150px;
     vertical-align: top;
     padding-top: 7px;
     padding-bottom: 7px;
 }
-.package-info-table .tag-list {
+.package-details-table .tag-list {
     margin: 0;
     padding: 0;
 }
-.package-info-table .tag-list li {
+.package-details-table .tag-list li {
     display: inline-block;
     padding-right: 10px;
     margin-right: 10px;
     border-right: solid 1px #ddd;
 }
-.package-info-table .author-list {
+.package-details-table .author-list {
     margin: 0;
     padding: 0;
 }
-.package-info-table .author-list li {
+.package-details-table .author-list li {
     list-style-type: none;
 }
-
-.package-edit-table th {
-    width: 150px;
-    vertical-align: top;
-    padding-top: 7px;
-    padding-bottom: 7px;
-}
-.package-edit-table .author-list {
-    margin: 0;
-    padding: 0;
-}
-.package-edit-table .author-list li {
-    list-style-type: none;
-}
-
-.package-upload-table th {
-    width: 150px;
-    vertical-align: top;
-    padding-top: 7px;
-    padding-bottom: 7px;
-}
-.package-upload-table .author-list {
-    margin: 0;
-    padding: 0;
-}
-.package-upload-table .author-list li {
-    list-style-type: none;
-}
-
-.package-version-edit-table th {
-    width: 150px;
-    vertical-align: top;
-    padding-top: 7px;
-    padding-bottom: 7px;
-}
-.package-version-edit-table .author-list {
-    margin: 0;
-    padding: 0;
-}
-.package-version-edit-table .author-list li {
-    list-style-type: none;
-}
-
-.package-version-info-table th {
-    width: 150px;
-    vertical-align: top;
-    padding-top: 7px;
-    padding-bottom: 7px;
-}
-.package-version-info-table .author-list {
-    margin: 0;
-    padding: 0;
-}
-.package-version-info-table .author-list li {
-    list-style-type: none;
-}
-
