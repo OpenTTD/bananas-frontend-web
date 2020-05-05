@@ -8,7 +8,7 @@
 
 <form method="post">
 <input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
-<table class="package-version-edit-table">
+<table class="package-details-table">
 <tr><th>Content Id</th><td>{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
 <tr><th>Name</th><td>
     Leave empty to use the name from the package.<br/>
