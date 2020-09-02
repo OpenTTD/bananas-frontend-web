@@ -10,7 +10,9 @@ log = logging.getLogger(__name__)
 @click_additional_options
 @click.option("--sentry-dsn", help="Sentry DSN.")
 @click.option(
-    "--sentry-environment", help="Environment we are running in.", default="development",
+    "--sentry-environment",
+    help="Environment we are running in.",
+    default="development",
 )
 def click_sentry(sentry_dsn, sentry_environment):
     if not sentry_dsn:
@@ -22,5 +24,7 @@ def click_sentry(sentry_dsn, sentry_environment):
 
     sentry_sdk.init(sentry_dsn, release=release, environment=sentry_environment)
     log.info(
-        "Sentry initialized with release='%s' and environment='%s'", release, sentry_environment,
+        "Sentry initialized with release='%s' and environment='%s'",
+        release,
+        sentry_environment,
     )

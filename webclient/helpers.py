@@ -33,7 +33,11 @@ _content_types = OrderedDict(
 
 @click_additional_options
 @click.option(
-    "--api-url", help="BaNaNaS API URL.", default="https://api.bananas.openttd.org", show_default=True, metavar="URL",
+    "--api-url",
+    help="BaNaNaS API URL.",
+    default="https://api.bananas.openttd.org",
+    show_default=True,
+    metavar="URL",
 )
 @click.option(
     "--tus-url",
