@@ -22,7 +22,11 @@ SESSION_COOKIE = "bananas_sid"
     metavar="SECONDS",
 )
 @click.option(
-    "--csrf-expire", help="Time for the CSRF token to expire.", default=60 * 30, show_default=True, metavar="SECONDS",
+    "--csrf-expire",
+    help="Time for the CSRF token to expire.",
+    default=60 * 30,
+    show_default=True,
+    metavar="SECONDS",
 )
 def click_max_age(session_expire, csrf_expire):
     global _max_session_age, _max_csrf_age
