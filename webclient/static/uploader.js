@@ -29,7 +29,11 @@ var upload_instance = null;
 
 function get_uuid() {
     let url = upload_instance.url;
-    return url.substr(url.lastIndexOf("/") + 1);
+    if (url != null) {
+        return url.substr(url.lastIndexOf("/") + 1);
+    } else {
+        return null;
+    }
 }
 
 function get_file(filename) {
