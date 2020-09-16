@@ -13,17 +13,21 @@ FROM python:3.8-slim
 ARG BUILD_DATE=""
 ARG BUILD_VERSION="dev"
 
-LABEL maintainer="truebrain@openttd.org"
-LABEL org.label-schema.schema-version="1.0"
-LABEL org.label-schema.build-date=${BUILD_DATE}
-LABEL org.label-schema.version=${BUILD_VERSION}
+LABEL maintainer="OpenTTD Dev Team <info@openttd.org>"
+LABEL org.opencontainers.image.created=${BUILD_DATE}
+LABEL org.opencontainers.image.authors="OpenTTD Dev Team <info@openttd.org>"
+LABEL org.opencontainers.image.url="https://github.com/OpenTTD/bananas-frontend-web"
+LABEL org.opencontainers.image.source="https://github.com/OpenTTD/bananas-frontend-web"
+LABEL org.opencontainers.image.version=${BUILD_VERSION}
+LABEL org.opencontainers.image.licenses="GPLv2"
+LABEL org.opencontainers.image.title="Front-end to the BaNaNaS API"
+LABEL org.opencontainers.image.description="This is a front-end for browsing and upload content to OpenTTD's content service, called BaNaNaS."
 
 WORKDIR /code
 
 COPY requirements.txt \
         LICENSE \
         README.md \
-        .version \
         /code/
 # Needed for Sentry to know what version we are running
 RUN echo "${BUILD_VERSION}" > /code/.version
@@ -32,9 +36,9 @@ RUN pip --no-cache-dir install -r requirements.txt
 
 # Validate that what was installed was what was expected
 RUN pip freeze 2>/dev/null > requirements.installed \
-    && diff -u --strip-trailing-cr requirements.txt requirements.installed 1>&2 \
-    || ( echo "!! ERROR !! requirements.txt defined different packages or versions for installation" \
-        && exit 1 ) 1>&2
+        && diff -u --strip-trailing-cr requirements.txt requirements.installed 1>&2 \
+        || ( echo "!! ERROR !! requirements.txt defined different packages or versions for installation" \
+                && exit 1 ) 1>&2
 
 COPY webclient /code/webclient
 COPY --from=nodejs /code/node_modules/tus-js-client/dist/tus.min.js /code/webclient/static/tus.min.js
