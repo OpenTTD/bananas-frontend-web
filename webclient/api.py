@@ -88,6 +88,8 @@ def api_call(method, path, params=None, json=None, session=None, return_errors=F
             error = str(r.json().get("errors", "API call failed"))
             return (None, error)
     except Exception:
+        # If anything failed we did not capture, return the latest error we
+        # have to the caller
         pass
 
     if return_errors:
