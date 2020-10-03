@@ -2,7 +2,6 @@ import flask
 
 from ..app import app
 from ..helpers import (
-    not_found,
     redirect,
     template,
 )
@@ -41,6 +40,6 @@ def tos_latest():
 def tos(version):
     tos = _tos_versions.get(version)
     if not tos:
-        return not_found()
+        return redirect("root", message="ToS version doesn't exist")
 
     return template(tos)

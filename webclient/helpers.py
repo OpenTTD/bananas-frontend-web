@@ -94,7 +94,3 @@ def tus_url():
 
 def redirect(*args, **kwargs):
     return flask.redirect(flask.url_for(*args, **kwargs))
-
-
-def not_found():
-    flask.abort(redirect("root", message="Data not found"))
