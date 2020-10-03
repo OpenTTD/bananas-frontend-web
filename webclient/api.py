@@ -92,10 +92,10 @@ def api_call(method, path, params=None, json=None, session=None, return_errors=F
         # have to the caller
         pass
 
-    if return_errors:
-        return (None, "API call failed")
-    else:
+    if not return_errors:
         flask.abort(error_response)
+
+    return (None, "API call failed")
 
 
 def api_get(*args, **kwargs):
