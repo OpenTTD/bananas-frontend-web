@@ -4,7 +4,7 @@ import flask
 import urllib
 from collections import OrderedDict
 
-from .click import click_additional_options
+from openttd_helpers import click_helper
 
 _api_url = None
 _frontend_url = None
@@ -31,7 +31,7 @@ _content_types = OrderedDict(
 )
 
 
-@click_additional_options
+@click_helper.extend
 @click.option(
     "--api-url",
     help="BaNaNaS API URL.",
