@@ -1,3 +1,5 @@
+click
 Flask
+openttd-helpers
 requests
 sentry_sdk

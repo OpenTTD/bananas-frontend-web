@@ -3,8 +3,9 @@ import flask
 import requests
 import urllib
 
+from openttd_helpers import click_helper
+
 from .app import app
-from .click import click_additional_options
 from .helpers import (
     api_host,
     external_url_for,
@@ -15,7 +16,7 @@ from .session import stop_session
 _client_id = None
 
 
-@click_additional_options
+@click_helper.extend
 @click.option("--client-id", help="Client-id to use for authentication", default="webclient", show_default=True)
 def click_api(client_id):
     global _client_id

@@ -3,7 +3,8 @@ import datetime
 import flask
 import secrets
 
-from .click import click_additional_options
+from openttd_helpers import click_helper
+
 from .helpers import redirect
 
 _max_session_age = None
@@ -13,7 +14,7 @@ _sessions = dict()
 SESSION_COOKIE = "bananas_sid"
 
 
-@click_additional_options
+@click_helper.extend
 @click.option(
     "--session-expire",
     help="Time for a session to expire.",
