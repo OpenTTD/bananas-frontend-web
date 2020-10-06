@@ -43,19 +43,18 @@
 <table class="package-details-table">
 <tr><th>Content Id</th><td>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
 <tr><th>Name</th><td>
-    Enter the name of the package <b>without version number</b>. There is a separate entry for the version.
-    {% if package %}Leave empty to use the name from the package.{% endif %}<br/>
-    <input type="text" name="name" value="{{ version["name"] }}" placeholder="{{ package["name"] }}"/>
+    <input type="text" name="name" value="{{ version["name"] }}" placeholder="{{ package["name"] }}"/><br/>
+    <p id="input-desc">Enter the name of the package <b>without the version number</b>. There is a separate entry for the version.
+    {% if package %}Leave empty to use the name from the package.{% endif %}</p>
 </td></tr>
 <tr><th>Project site</th><td>
-    {% if package %}Leave empty to use the URL from the package.{% endif %}<br/>
     <input type="url" name="url" value="{{ version["url"] }}" placeholder="{{ package["url"] }}"/>
+    <p id="input-desc">{% if package %}Leave empty to use the URL from the package.{% endif %}</p>
 </td></tr>
 <tr><th>Version</th><td>
     <input type="text" name="version" value="{{ version["version"] }}"/>
 </td></tr>
 <tr><th>License</th><td>
-    Unsure which license to pick? <a href="https://www.tt-forums.net/viewtopic.php?f=68&amp;t=55814" target="_blank">Look here</a><br/>
     <select name="license">
     {% if not version["license"] %}
         <option value="empty">Choose a license</option>
@@ -64,32 +63,33 @@
         <option value="{{ license["name"] }}" {% if version["license"] == license["name"] %}selected{% endif %}>{{ license["name"] }}</option>
     {% endfor %}
     </select>
+    <p id="input-desc">Unsure which license to pick? <a href="https://www.tt-forums.net/viewtopic.php?f=68&amp;t=55814" target="_blank">Look here</a></p>
 </td></tr>
 <tr><th>Compatibility</th><td>
-    Enter version requirements like "&gt;= 1.2.0" or "&lt; 1.10.0".
     <table>
         <tr>
-            <th>Branch</th>
+            <!-- <th>Branch</th> -->
             <th>Minimum requirement</th>
             <th>Maximum requirement</th>
         </tr>
         <tr>
         {% for c in compatibility %}
-            <td>{{ c[0]["description"] }}</td>
+            <!-- <td>{{ c[0]["description"] }}</td> -->
             <td><input type="text" name="compatibility_{{ c[0]["name"] }}_min" value="{{ c[1] }}"/></td>
             <td><input type="text" name="compatibility_{{ c[0]["name"] }}_max" value="{{ c[2] }}"/></td>
         {% endfor %}
         </tr>
     </table>
+    <p id="input-desc">Enter version requirements like "&gt;= 1.2.0" or "&lt; 1.10.0"</p>
 </td></tr>
 <tr><th>Dependencies</th><td>
 {% if deps_editable %}
-Enter one content-id per row. You can find the 'Content Id' on the version detail page of every content item.<br/>
 <textarea name="dependencies" cols="50" rows="10">
 {%- for dep in version["dependencies"] -%}
 {{ dep["content-type"] }}/{{ dep["unique-id"] }}/{{ dep["md5sum-partial"] }}
 {% endfor -%}
 </textarea>
+<p id="input-desc">Enter one content-id per row. You can find the 'Content Id' on the version detail page of every content item.</p>
 {% else %}
 <ul>
 {% for dep in version["dependencies"] %}
@@ -98,7 +98,7 @@ Enter one content-id per row. You can find the 'Content Id' on the version detai
 </ul>
 {% endif %}
 </td></tr>
-<tr><th>Tags</th><td>Enter one tag per row{% if package %}, leave empty to use the tags from the package{% endif %}:<br/>
+<tr><th>Tags</th><td>
 <textarea name="tags" cols="20" rows="10" placeholder="
 {%- for t in package["tags"] -%}
 {{ t }}
@@ -107,9 +107,11 @@ Enter one content-id per row. You can find the 'Content Id' on the version detai
 {%- for t in version["tags"] -%}
 {{ t }}
 {% endfor -%}
-</textarea></td></tr>
+</textarea>
+<p id="input-desc">Enter one tag per row{% if package %}, leave empty to use the tags from the package{% endif %}</p>
+</td></tr>
 <tr><th>Description</th><td>
-    {% if package %}Leave empty to use the description from the package.{% endif %}<br/>
+    {% if package %}Leave empty to use the description from the package.<br/>{% endif %}
 <textarea name="description" cols="50" rows="20" placeholder="{{ package["description"] }}">
 {{- version["description"] -}}
 </textarea></td></tr>
