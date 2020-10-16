@@ -31,7 +31,7 @@
 
 #bananas-table th {
 	text-align: left;
-	text-decoration: underline;
+	text-decoration: none;
 }
 
 #bananas-table td {
@@ -42,16 +42,20 @@
 	vertical-align: top;
 }
 
+#bananas-table tr {
+	height: 20px;
+}
+
 #bananas-table .odd {
 	background-color: #EEEEEE;
+	transition: 0.5s;
 }
 #bananas-table .even {
-	background-color: #FFFFFF;
+	background-color: #f5f5f5;
+	transition: 0.5s;
 }
 #bananas-table tr.odd:hover, #bananas-table tr.even:hover, #bananas-table tr.odd:hover td, #bananas-table tr.even:hover td {
-	background-color: #CCCCCC;
-	border-bottom: 1px dashed #000000;
-	border-top: 1px dashed #000000;
+	background-color: #dcdcdc;
 }
 
 #bananas-table .name {
