@@ -8,7 +8,7 @@
 <form method="post">
 <input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
 <h3>Step 1: Terms of service</h3>
-<p>Please read our <a href="/manager/tos" target="_blank">terms of service</a>. This is no lawyer blah-blah. This is a volunteer project, please do not try to cheat the system.</p>
+<p>Please read our <a href="/manager/tos" target="_blank">terms of service</a> (last updated 2020-11-01). This is no lawyer blah-blah. This is a volunteer project, please do not try to cheat the system.</p>
 <p>
     <input type="checkbox" name="tos" value="accepted" {% if accept_tos %} checked {% endif %}/>
     <label for="tos">I confirm that I am one of the authors, and I have read and understood the <a href="/manager/tos" target="_blank">terms of service</a></label>
@@ -64,6 +64,10 @@
     {% endfor %}
     </select>
     <p id="input-desc">Unsure which license to pick? <a href="https://www.tt-forums.net/viewtopic.php?f=68&amp;t=55814" target="_blank">Look here</a></p>
+    <p id="input-desc">
+        <b>Note</b>: if you pick GPL v2, GPL v3 or LGPL v2.1, you are obligated to also make your source code available.
+        Please make sure to link to your source code in "Project site", "Description" and/or uploaded README.
+    </p>
 </td></tr>
 <tr><th>Compatibility</th><td>
     <table>
