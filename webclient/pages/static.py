@@ -11,6 +11,7 @@ _tos_versions = {
     "1.1": "tos-1.1.html",
     "1.2": "tos-1.2.html",
     "1.3": "tos-1.3.html",
+    "1.4": "tos-1.4.html",
 }
 
 
@@ -33,7 +34,7 @@ def user_migration():
 
 @app.route("/manager/tos")
 def tos_latest():
-    return redirect("tos", version="1.3")
+    return redirect("tos", version="1.4")
 
 
 @app.route("/manager/tos/<version>")
