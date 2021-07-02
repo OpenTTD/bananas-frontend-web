@@ -1,10 +1,10 @@
 # BaNaNaS web front-end
 
-[![GitHub License](https://img.shields.io/github/license/OpenTTD/bananas-frontend-web)](https://github.com/OpenTTD/bananas-frontend-web/blob/master/LICENSE)
+[![GitHub License](https://img.shields.io/github/license/OpenTTD/bananas-frontend-web)](https://github.com/OpenTTD/bananas-frontend-web/blob/main/LICENSE)
 [![GitHub Tag](https://img.shields.io/github/v/tag/OpenTTD/bananas-frontend-web?include_prereleases&label=stable)](https://github.com/OpenTTD/bananas-frontend-web/releases)
-[![GitHub commits since latest release](https://img.shields.io/github/commits-since/OpenTTD/bananas-frontend-web/latest/master)](https://github.com/OpenTTD/bananas-frontend-web/commits/master)
+[![GitHub commits since latest release](https://img.shields.io/github/commits-since/OpenTTD/bananas-frontend-web/latest/main)](https://github.com/OpenTTD/bananas-frontend-web/commits/main)
 
-[![GitHub Workflow Status (Testing)](https://img.shields.io/github/workflow/status/OpenTTD/bananas-frontend-web/Testing/master?label=master)](https://github.com/OpenTTD/bananas-frontend-web/actions?query=workflow%3ATesting)
+[![GitHub Workflow Status (Testing)](https://img.shields.io/github/workflow/status/OpenTTD/bananas-frontend-web/Testing/main?label=main)](https://github.com/OpenTTD/bananas-frontend-web/actions?query=workflow%3ATesting)
 [![GitHub Workflow Status (Publish Image)](https://img.shields.io/github/workflow/status/OpenTTD/bananas-frontend-web/Publish%20image?label=publish)](https://github.com/OpenTTD/bananas-frontend-web/actions?query=workflow%3A%22Publish+image%22)
 [![GitHub Workflow Status (Deployments)](https://img.shields.io/github/workflow/status/OpenTTD/bananas-frontend-web/Deployment?label=deployment)](https://github.com/OpenTTD/bananas-frontend-web/actions?query=workflow%3A%22Deployment%22)
 
@@ -14,7 +14,7 @@
 This is a front-end for browsing and upload content to OpenTTD's content service, called BaNaNaS.
 It works together with [bananas-api](https://github.com/OpenTTD/bananas-api), which serves the HTTP API.
 
-See [introduction.md](https://github.com/OpenTTD/bananas-api/tree/master/docs/introduction.md) for more documentation about the different BaNaNaS components and how they work together.
+See [introduction.md](https://github.com/OpenTTD/bananas-api/tree/main/docs/introduction.md) for more documentation about the different BaNaNaS components and how they work together.
 
 ## Development
 
