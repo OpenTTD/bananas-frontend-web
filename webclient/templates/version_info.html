@@ -38,7 +38,7 @@
     {% endif %}
     </tr>
     <tr><th>Compatibility</th><td>
-        <ul>
+        <ul class="compatibility">
         {% for c in compatibility %}
         {% if c[1] or c[2] %}
             <li>{{ c[0]["description"] }}: {{ c[1] }}{% if c[1] and c[2] %}, {% endif %}{{ c[2] }}</li>
@@ -47,7 +47,7 @@
         </ul>
     </td></tr>
     <tr><th>Dependencies</th><td>
-        <ul>
+        <ul class="dependencies">
         {% for dep in version["dependencies"] %}
             <li><a href="/package/{{ dep["content-type"] }}/{{ dep["unique-id"] }}/{{ dep["upload-date"] }}">{{ dep["name"] }} {{ dep["version"] }}</a></li>
         {% endfor %}
