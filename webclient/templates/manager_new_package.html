@@ -76,13 +76,13 @@
             <th>Minimum requirement</th>
             <th>Maximum requirement</th>
         </tr>
-        <tr>
         {% for c in compatibility %}
-            <!-- <td>{{ c[0]["description"] }}</td> -->
+        <tr>
+            <td>{{ c[0]["description"] }}</td>
             <td><input type="text" name="compatibility_{{ c[0]["name"] }}_min" value="{{ c[1] }}"/></td>
             <td><input type="text" name="compatibility_{{ c[0]["name"] }}_max" value="{{ c[2] }}"/></td>
-        {% endfor %}
         </tr>
+        {% endfor %}
     </table>
     <p id="input-desc">Enter version requirements like "&gt;= 1.2.0" or "&lt; 1.10.0"</p>
 </td></tr>
