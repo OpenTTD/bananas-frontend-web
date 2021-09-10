@@ -113,3 +113,11 @@
 .package-details-table .author-list li {
     list-style-type: none;
 }
+.package-details-table .compatibility {
+    margin: 0 0 0 13px;
+    padding: 0;
+}
+.package-details-table .dependency {
+    margin: 0 0 0 13px;
+    padding: 0;
+}
