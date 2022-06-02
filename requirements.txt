@@ -6,7 +6,7 @@ Flask==2.0.3
 idna==3.3
 itsdangerous==2.1.0
 Jinja2==3.1.2
-MarkupSafe==2.1.0
+MarkupSafe==2.1.1
 openttd-helpers==1.0.1
 requests==2.27.1
 sentry-sdk==1.5.12
