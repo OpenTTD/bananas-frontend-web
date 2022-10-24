@@ -13,4 +13,4 @@ requests==2.28.1
 sentry-sdk==1.9.7
 urllib3==1.26.12
 Werkzeug==2.2.2
-zipp==3.8.1
+zipp==3.10.0
