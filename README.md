@@ -4,9 +4,9 @@
 [![GitHub Tag](https://img.shields.io/github/v/tag/OpenTTD/bananas-frontend-web?include_prereleases&label=stable)](https://github.com/OpenTTD/bananas-frontend-web/releases)
 [![GitHub commits since latest release](https://img.shields.io/github/commits-since/OpenTTD/bananas-frontend-web/latest/main)](https://github.com/OpenTTD/bananas-frontend-web/commits/main)
 
-[![GitHub Workflow Status (Testing)](https://img.shields.io/github/workflow/status/OpenTTD/bananas-frontend-web/Testing/main?label=main)](https://github.com/OpenTTD/bananas-frontend-web/actions?query=workflow%3ATesting)
-[![GitHub Workflow Status (Publish Image)](https://img.shields.io/github/workflow/status/OpenTTD/bananas-frontend-web/Publish%20image?label=publish)](https://github.com/OpenTTD/bananas-frontend-web/actions?query=workflow%3A%22Publish+image%22)
-[![GitHub Workflow Status (Deployments)](https://img.shields.io/github/workflow/status/OpenTTD/bananas-frontend-web/Deployment?label=deployment)](https://github.com/OpenTTD/bananas-frontend-web/actions?query=workflow%3A%22Deployment%22)
+[![GitHub Workflow Status (Testing)](https://img.shields.io/github/actions/workflow/status/OpenTTD/bananas-frontend-web/testing.yml?branc=main&label=main)](https://github.com/OpenTTD/bananas-frontend-web/actions/workflows/testing.yml)
+[![GitHub Workflow Status (Publish Image)](https://img.shields.io/github/actions/workflow/status/OpenTTD/bananas-frontend-web/publish.yml?label=publish)](https://github.com/OpenTTD/bananas-frontend-web/actions/workflows/publish.yml)
+[![GitHub Workflow Status (Deployments)](https://img.shields.io/github/actions/workflow/status/OpenTTD/bananas-frontend-web/deployment.yml?label=deployment)](https://github.com/OpenTTD/bananas-frontend-web/actions/workflows/deployment.yml)
 
 [![GitHub deployments (Staging)](https://img.shields.io/github/deployments/OpenTTD/bananas-frontend-web/staging?label=staging)](https://github.com/OpenTTD/bananas-frontend-web/deployments)
 [![GitHub deployments (Production)](https://img.shields.io/github/deployments/OpenTTD/bananas-frontend-web/production?label=production)](https://github.com/OpenTTD/bananas-frontend-web/deployments)
