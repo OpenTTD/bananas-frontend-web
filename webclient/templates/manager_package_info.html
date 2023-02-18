@@ -10,18 +10,29 @@
 <table class="package-details-table">
 <tbody>
     <tr><th>Content Id</th><td>{{ package["content-type"] }}/{{ package["unique-id"] }}</td></tr>
+    {% if package["versions"] and package["versions"][0]["classification"] %}
+        <tr><th>Classification</th><td>
+            <table class="classification-table">
+            {% for key, value in package["versions"][0]["classification"].items() %}
+                <tr>
+                    <td>{{ key|title|replace("-", "") }}</td>
+                    {% if value == True %}
+                        <td>Yes</td>
+                    {% elif value == False %}
+                        <td>No</td>
+                    {% else %}
+                        <td>{{ value|replace("-", " ")|title }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </table>
+        </td></tr>
+    {% endif %}
     <tr><th>Name</th><td>{{ package["name"] }}</td></tr>
     <tr><th>Project site</th><td>
     {% if package["url"] %}
         <a href="{{ package["url"] }}" target="_blank">{{ package["url"] }}</a>
     {% endif %}
-    </td></tr>
-    <tr><th>Tags</th><td>
-        <ul class="tag-list">
-        {% for t in package["tags"] %}
-            <li>{{ t }}</li>
-        {% endfor %}
-        </ul>
     </td></tr>
     <tr><th>Authors</th><td>
         <ul class="author-list">
@@ -42,7 +53,7 @@
 
 <table id="bananas-table">
 <thead>
-    <tr>
+    <tr class="header">
         <th>Version</th>
         <th>Upload date</th>
         <th>MD5 (partial)</th>

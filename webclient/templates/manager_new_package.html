@@ -42,6 +42,24 @@
 
 <table class="package-details-table">
 <tr><th>Content Id</th><td>{{ version["content-type"] }}/{{ version["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
+{% if version["classification"] %}
+    <tr><th>Classification</th><td>
+        <table class="classification-table">
+        {% for key, value in version["classification"].items() %}
+            <tr>
+                <td>{{ key|title|replace("-", "") }}</td>
+                {% if value == True %}
+                    <td>Yes</td>
+                {% elif value == False %}
+                    <td>No</td>
+                {% else %}
+                    <td>{{ value|replace("-", " ")|title }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </table>
+    </td></tr>
+{% endif %}
 <tr><th>Name</th><td>
     <input type="text" name="name" value="{{ version["name"] }}" placeholder="{{ package["name"] }}"/><br/>
     <p id="input-desc">Enter the name of the package <b>without the version number</b>. There is a separate entry for the version.
@@ -101,18 +119,6 @@
 {% endfor %}
 </ul>
 {% endif %}
-</td></tr>
-<tr><th>Tags</th><td>
-<textarea name="tags" cols="20" rows="10" placeholder="
-{%- for t in package["tags"] -%}
-{{ t }}
-{% endfor -%}
-">
-{%- for t in version["tags"] -%}
-{{ t }}
-{% endfor -%}
-</textarea>
-<p id="input-desc">Enter one tag per row{% if package %}, leave empty to use the tags from the package{% endif %}</p>
 </td></tr>
 <tr><th>Description</th><td>
     {% if package %}Leave empty to use the description from the package.<br/>{% endif %}

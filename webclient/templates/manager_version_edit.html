@@ -10,6 +10,24 @@
 <input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
 <table class="package-details-table">
 <tr><th>Content Id</th><td>{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
+{% if version["classification"] %}
+    <tr><th>Classification</th><td>
+        <table class="classification-table">
+        {% for key, value in version["classification"].items() %}
+            <tr>
+                <td>{{ key|title|replace("-", "") }}</td>
+                {% if value == True %}
+                    <td>Yes</td>
+                {% elif value == False %}
+                    <td>No</td>
+                {% else %}
+                    <td>{{ value|replace("-", " ")|title }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </table>
+    </td></tr>
+{% endif %}
 <tr><th>Name</th><td>
     Leave empty to use the name from the package.<br/>
     <input type="text" name="name" value="{{ version["name"] }}" placeholder="{{ package["name"] }}"/>
@@ -54,16 +72,6 @@ Enter one content-id per row. You can find the 'Content Id' on the version detai
 </ul>
 {% endif %}
 </td></tr>
-<tr><th>Tags</th><td>Enter one tag per row, leave empty to use the tags from the package:<br/>
-<textarea name="tags" cols="20" rows="10" placeholder="
-{%- for t in package["tags"] -%}
-{{ t }}
-{% endfor -%}
-">
-{%- for t in version["tags"] -%}
-{{ t }}
-{% endfor -%}
-</textarea></td></tr>
 <tr><th>Description</th><td>
     Leave empty to use the description from the package.<br/>
 <textarea name="description" cols="50" rows="20" placeholder="{{ package["description"] }}">
