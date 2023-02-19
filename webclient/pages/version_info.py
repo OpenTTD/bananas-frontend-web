@@ -105,14 +105,6 @@ def record_change_dependencies(changes, data, form, messages):
     return valid_data
 
 
-def record_change_tags(changes, data, tags):
-    tags = tags.strip().splitlines()
-    tags = set(t.strip() for t in tags)
-    tags.discard("")
-    tags = sorted(tags)
-    record_change(changes, data, "tags", tags, True)
-
-
 def record_change_descripton(changes, data, desc):
     desc = "\n".join(t.rstrip() for t in desc.strip().splitlines())
     record_change(changes, data, "description", desc, True)
@@ -193,7 +185,6 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
         record_change_compatibility(changes, version, form)
         if not record_change_dependencies(changes, version, form, messages):
             valid_data = False
-        record_change_tags(changes, version, form.get("tags"))
         record_change_descripton(changes, version, form.get("description"))
 
         version.update(changes)
@@ -264,7 +255,6 @@ def manager_new_package_upload(session, token):
         record_change_compatibility(changes, version, form)
         if not record_change_dependencies(changes, version, form, messages):
             valid_data = False
-        record_change_tags(changes, version, form.get("tags"))
         record_change_descripton(changes, version, form.get("description"))
 
         version.update(changes)

@@ -15,12 +15,6 @@
 <tr><th>Project site</th><td>
     <input type="url" name="url" value="{{ package["url"] }}"/>
 </td></tr>
-<tr><th>Tags</th><td>Enter one tag per row:<br/>
-<textarea name="tags" cols="20" rows="10">
-{%- for t in package["tags"] -%}
-{{ t }}
-{% endfor -%}
-</textarea></td></tr>
 <tr><th>Authors</th><td><ul class="author-list">
 {% for a in package["authors"] %}
     <li>{{ a["display-name"] }}</li>

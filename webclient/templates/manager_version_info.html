@@ -11,6 +11,24 @@
 <table class="package-details-table">
 <tbody>
     <tr><th>Content Id</th><td>{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["md5sum-partial"] }}</td></tr>
+    {% if version["classification"] %}
+        <tr><th>Classification</th><td>
+            <table class="classification-table">
+            {% for key, value in version["classification"].items() %}
+                <tr>
+                    <td>{{ key|title|replace("-", "") }}</td>
+                    {% if value == True %}
+                        <td>Yes</td>
+                    {% elif value == False %}
+                        <td>No</td>
+                    {% else %}
+                        <td>{{ value|replace("-", " ")|title }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </table>
+        </td></tr>
+    {% endif %}
     <tr><th>Name</th><td>{{ version["name"] or package["name"] }}</td></tr>
     <tr><th>Project site</th><td>
     {% set url = version["url"] or package["url"] %}
@@ -43,14 +61,6 @@
         <ul class="dependencies">
         {% for dep in version["dependencies"] %}
            <li><a href="/package/{{ dep["content-type"] }}/{{ dep["unique-id"] }}/{{ dep["upload-date"] }}" target="_blank">{{ dep["name"] }} {{ dep["version"] }}</a></li>
-        {% endfor %}
-        </ul>
-    </td></tr>
-    <tr><th>Tags</th><td>
-        <ul class="tag-list">
-        {% set tags = version["tags"] or package["tags"] %}
-        {% for t in tags %}
-            <li>{{ t }}</li>
         {% endfor %}
         </ul>
     </td></tr>
