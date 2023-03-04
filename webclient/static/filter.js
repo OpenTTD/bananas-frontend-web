@@ -25,9 +25,35 @@ function filterList() {
         let match = true;
         let filters = document.getElementsByClassName("filter-select");
         for (let filter of filters) {
-            let value = row.dataset[filter.name];
+            /* Filter that is not set is always a match. */
+            if (filter.value == "") continue;
 
-            if (filter.value != "" && value != filter.value) {
+            if (filter.value == "(none)") {
+                /* If the filter is set to "(none)", then the entry should not have
+                 * this key at all. */
+                for (let key in row.dataset) {
+                    if (key == filter.name || key.startsWith(filter.name + "--")) {
+                        match = false;
+                        break;
+                    }
+                }
+                continue;
+            }
+
+            /* Find all the dataset entries that match this filter. Some can
+             * end with --<number>, to have unique entries in the dataset.
+             * But that postfix should be ignored for matching. */
+            let matches = 0;
+            for (let key in row.dataset) {
+                if (key == filter.name || key.startsWith(filter.name + "--")) {
+                    if (row.dataset[key] == filter.value) {
+                        matches++;
+                    }
+                }
+            }
+
+            if (matches == 0) {
+                /* If there are no matches, this entry is not a match. */
                 match = false;
                 break;
             }
@@ -55,13 +81,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let list = document.getElementById("bananas-table");
     for (var i = 0; i < list.rows.length; i++) {
         let row = list.rows[i];
-        for (let key in row.dataset) {
-            let value = row.dataset[key];
+        for (let rawkey in row.dataset) {
+            let value = row.dataset[rawkey];
+
+            /* If a key ends with --<index>-<number>, remove this postfix. We do this,
+             * as some entries, like regions, are in fact a list. "dataset"
+             * doesn't support this, so we postfix it to make the key unique. */
+            let key = rawkey.replace(/--\d+-\d+$/, "");
 
             if (classifications.has(key)) {
                 classifications.get(key).add(value);
             } else {
                 classifications.set(key, new Set([value]));
+            }
+
+            /* For multi-selects, add a "None" option. */
+            if (key != rawkey) {
+                classifications.get(key).add("(none)")
             }
         }
     }
@@ -87,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         let option = document.createElement("option");
         option.value = "";
-        option.text = "All";
+        option.text = "(All)";
         select.appendChild(option);
 
         for (let value of Array.from(classification[1]).sort()) {

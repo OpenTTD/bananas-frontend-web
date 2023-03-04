@@ -39,6 +39,20 @@
                     {% endif %}
                 {% endfor %}
             {% endif %}
+            {% set regions = package["latest"]["regions"] or package["regions"] %}
+            {% if regions %}
+                {% macro render_region(index, count, region) -%}
+                    data-region--{{index}}-{{ count }}="{{ globals.regions[region].name }}"
+
+                    {% if globals.regions[region].parent %}
+                        {{ render_region(index, count + 1, globals.regions[region].parent) }}
+                    {% endif %}
+                {%- endmacro %}
+
+                {% for region in regions %}
+                    {{ render_region(loop.index0, 0, region) }}
+                {% endfor %}
+            {% endif %}
             >
             <td>{{ package["unique-id"] }}</td>
             {% if content_type == "newgrf" %}

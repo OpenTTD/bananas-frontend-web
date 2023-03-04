@@ -9,6 +9,7 @@ from openttd_helpers import click_helper
 _api_url = None
 _frontend_url = None
 _tus_url = None  # None means equal to _api_url
+_regions = None
 
 
 def content_type(key, singular, plural):
@@ -29,6 +30,21 @@ _content_types = OrderedDict(
         content_type("heightmap", "Heightmap", "Heightmaps"),
     ]
 )
+
+
+def get_regions():
+    # Delayed import to avoid circular imports
+    from .api import api_get
+
+    global _regions
+    if not _regions:
+        _regions = {}
+
+        regions = api_get(("config", "regions"))
+        for region in regions:
+            _regions[region["code"]] = region
+
+    return _regions
 
 
 @click_helper.extend
@@ -69,6 +85,7 @@ def template(*args, **kwargs):
     kwargs["globals"] = {
         "copyright_year": datetime.datetime.utcnow().year,
         "content_types": _content_types,
+        "regions": get_regions(),
     }
 
     response = flask.make_response(flask.render_template(*args, **kwargs))

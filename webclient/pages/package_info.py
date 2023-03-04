@@ -58,6 +58,12 @@ def manager_package_edit(session, content_type, unique_id):
         record_change(changes, package, "name", form.get("name").strip())
         record_change(changes, package, "url", form.get("url").strip())
 
+        regions = form.get("regions").strip().splitlines()
+        regions = set(t.strip() for t in regions)
+        regions.discard("")
+        regions = sorted(regions)
+        record_change(changes, package, "regions", regions)
+
         desc = "\n".join(t.rstrip() for t in form.get("description").strip().splitlines())
         record_change(changes, package, "description", desc)
 
