@@ -9,6 +9,7 @@ from ..api import (
     api_put,
 )
 from ..helpers import (
+    get_regions,
     redirect,
     template,
     tus_host,
@@ -105,7 +106,26 @@ def record_change_dependencies(changes, data, form, messages):
     return valid_data
 
 
-def record_change_descripton(changes, data, desc):
+def record_change_regions(changes, data, regions, messages):
+    valid_data = True
+
+    regions = regions.strip().splitlines()
+    regions = set(r.strip() for r in regions)
+    regions.discard("")
+    regions = sorted(regions)
+
+    known_regions = get_regions()
+    for region in regions:
+        if region not in known_regions:
+            valid_data = False
+            messages.append("Invalid region: {}".format(region))
+
+    record_change(changes, data, "regions", regions, True)
+
+    return valid_data
+
+
+def record_change_description(changes, data, desc):
     desc = "\n".join(t.rstrip() for t in desc.strip().splitlines())
     record_change(changes, data, "description", desc, True)
 
@@ -185,7 +205,9 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
         record_change_compatibility(changes, version, form)
         if not record_change_dependencies(changes, version, form, messages):
             valid_data = False
-        record_change_descripton(changes, version, form.get("description"))
+        if not record_change_regions(changes, version, form.get("regions"), messages):
+            valid_data = False
+        record_change_description(changes, version, form.get("description"))
 
         version.update(changes)
         if not valid_csrf:
@@ -255,7 +277,9 @@ def manager_new_package_upload(session, token):
         record_change_compatibility(changes, version, form)
         if not record_change_dependencies(changes, version, form, messages):
             valid_data = False
-        record_change_descripton(changes, version, form.get("description"))
+        if not record_change_regions(changes, version, form.get("regions"), messages):
+            valid_data = False
+        record_change_description(changes, version, form.get("description"))
 
         version.update(changes)
         if not valid_csrf:
@@ -331,5 +355,5 @@ def manager_new_package_upload(session, token):
 
     # Allow connecting to the tus host from this page. It is always on a
     # different domain than we are.
-    response.headers["Content-Security-Policy"] = "default-src 'self'; connect-src " + tus_host()
+    response.headers["Content-Security-Policy"] = f"default-src 'self'; connect-src 'self' {tus_host()}"
     return response

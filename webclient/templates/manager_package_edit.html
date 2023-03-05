@@ -20,6 +20,20 @@
     <li>{{ a["display-name"] }}</li>
 {% endfor %}
 </ul></td></tr>
+{% if package["content-type"] and (package["content-type"] == "newgrf" or package["content-type"] == "scenario" or package["content-type"] == "heightmap") %}
+<tr><th>Regions<br/><small>Only available with NewGRFs, Heightmaps, and Scenarios</small></th><td>
+<textarea name="regions" id="regions" cols="20" rows="10">
+{%- for r in package["regions"] -%}
+{{ r }}
+{% endfor -%}
+</textarea>
+<span class="region-search">Search: <input type="text" id="region-search" placeholder="Start typing ..." /></span>
+<span class="region-search"><ul id="region-list"></ul></span>
+<p id="input-desc">Enter one region per row. Maximum 10 regions.</p>
+</td></tr>
+{% else %}
+<input type="hidden" name="regions" />
+{% endif %}
 <tr><th>Description</th><td>
 <textarea name="description" cols="50" rows="20">
 {{- package["description"] -}}
@@ -27,5 +41,7 @@
 </table>
 <input type="submit" value="Save"/>
 </form>
+
+<script src="/static/regions.js"></script>
 
 {% endblock %}

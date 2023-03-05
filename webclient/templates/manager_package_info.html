@@ -28,6 +28,29 @@
             </table>
         </td></tr>
     {% endif %}
+    {% if package["regions"] %}
+    <tr><th>Regions</th><td>
+        <table class="classification-table">
+            {% macro render_region(count, region) -%}
+                {% if count != 0 %}
+                /
+                {% endif %}
+
+                {{ globals.regions[region].name }}
+
+                {% if globals.regions[region].parent %}
+                    {{ render_region(count + 1, globals.regions[region].parent) }}
+                {% endif %}
+            {%- endmacro %}
+
+            {% for region in package["regions"] %}
+                <tr>
+                    <td>{{ region }}</td><td>{{ render_region(0, region) }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </td></tr>
+    {% endif %}
     <tr><th>Name</th><td>{{ package["name"] }}</td></tr>
     <tr><th>Project site</th><td>
     {% if package["url"] %}

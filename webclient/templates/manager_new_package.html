@@ -102,7 +102,7 @@
         </tr>
         {% endfor %}
     </table>
-    <p id="input-desc">Enter version requirements like "&gt;= 1.2.0" or "&lt; 1.10.0"</p>
+    <p id="input-desc">Enter version requirements like "&gt;= 1.2.0" or "&lt; 13.0".</p>
 </td></tr>
 <tr><th>Dependencies</th><td>
 {% if deps_editable %}
@@ -120,11 +120,26 @@
 </ul>
 {% endif %}
 </td></tr>
+{% if not package["name"] and version["content-type"] and (version["content-type"] == "newgrf" or version["content-type"] == "scenario" or version["content-type"] == "heightmap") %}
+<tr><th>Regions<br/><small>Only available with NewGRFs, Heightmaps, and Scenarios</small></th><td>
+<textarea name="regions" id="regions" cols="20" rows="10">
+{%- for r in version["regions"] -%}
+{{ r }}
+{% endfor -%}
+</textarea>
+<span class="region-search">Search: <input type="text" id="region-search" placeholder="Start typing ..." /></span>
+<span class="region-search"><ul id="region-list"></ul></span>
+<p id="input-desc">Enter one region per row. Maximum 10 regions.{% if package %} Leave empty to use the regions from the package.{% endif %}</p>
+</td></tr>
+{% else %}
+<input type="hidden" name="regions" />
+{% endif %}
 <tr><th>Description</th><td>
-    {% if package %}Leave empty to use the description from the package.<br/>{% endif %}
 <textarea name="description" cols="50" rows="20" placeholder="{{ package["description"] }}">
 {{- version["description"] -}}
-</textarea></td></tr>
+</textarea>
+{% if package %}<p id="input-desc">Leave empty to use the description from the package.</p>{% endif %}
+</td></tr>
 </table>
 
 <h3>Step 4: Validate and publish</h3>
@@ -152,6 +167,7 @@ Warnings:
 
 </form>
 
+<script src="/static/regions.js"></script>
 <script src="/static/tus.min.js"></script>
 <script src="/static/uploader.js"></script>
 

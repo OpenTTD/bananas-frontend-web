@@ -149,3 +149,19 @@
 	margin-bottom: 6px;
 	width: 150px;
 }
+
+.region-search {
+	margin-left: 10px;
+	vertical-align: top;
+}
+
+.region-search > ul {
+	display: inline-block;
+	height: 170px;
+	margin: 0;
+	overflow: auto;
+}
+.region-search > ul > li {
+	cursor: pointer;
+	text-decoration: underline;
+}

@@ -29,18 +29,17 @@
     </td></tr>
 {% endif %}
 <tr><th>Name</th><td>
-    Leave empty to use the name from the package.<br/>
     <input type="text" name="name" value="{{ version["name"] }}" placeholder="{{ package["name"] }}"/>
+    <p id="input-desc">Leave empty to use the name from the package.</p>
 </td></tr>
 <tr><th>Project site</th><td>
-    Leave empty to use the URL from the package.<br/>
     <input type="url" name="url" value="{{ version["url"] }}" placeholder="{{ package["url"] }}"/>
+    <p id="input-desc">Leave empty to use the URL from the package.</p>
 </td></tr>
 <tr><th>Version</th><td>
     <input type="text" name="version" value="{{ version["version"] }}"/>
 </td></tr>
 <tr><th>Compatibility</th><td>
-    Enter version requirements like "&gt;= 1.2.0" or "&lt; 1.10.0".
     <table>
         <tr>
             <th>Branch</th>
@@ -55,15 +54,16 @@
         </tr>
         {% endfor %}
     </table>
+    <p id="input-desc">Enter version requirements like "&gt;= 1.2.0" or "&lt; 13.0".</p>
 </td></tr>
 <tr><th>Dependencies</th><td>
 {% if deps_editable %}
-Enter one content-id per row. You can find the 'Content Id' on the version detail page of every content item.<br/>
 <textarea name="dependencies" cols="50" rows="10">
 {%- for dep in version["dependencies"] -%}
 {{ dep["content-type"] }}/{{ dep["unique-id"] }}/{{ dep["md5sum-partial"] }}
 {% endfor -%}
 </textarea>
+<p id="input-desc">Enter one content-id per row. You can find the 'Content Id' on the version detail page of every content item.</p>
 {% else %}
 <ul>
 {% for dep in version["dependencies"] %}
@@ -73,10 +73,11 @@ Enter one content-id per row. You can find the 'Content Id' on the version detai
 {% endif %}
 </td></tr>
 <tr><th>Description</th><td>
-    Leave empty to use the description from the package.<br/>
 <textarea name="description" cols="50" rows="20" placeholder="{{ package["description"] }}">
 {{- version["description"] -}}
-</textarea></td></tr>
+</textarea>
+<p id="input-desc">Leave empty to use the description from the package.</p>
+</td></tr>
 </table>
 <input type="submit" value="Save"/>
 </form>
