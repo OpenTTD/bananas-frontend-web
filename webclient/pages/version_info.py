@@ -205,8 +205,6 @@ def manager_version_edit(session, content_type, unique_id, upload_date):
         record_change_compatibility(changes, version, form)
         if not record_change_dependencies(changes, version, form, messages):
             valid_data = False
-        if not record_change_regions(changes, version, form.get("regions"), messages):
-            valid_data = False
         record_change_description(changes, version, form.get("description"))
 
         version.update(changes)
