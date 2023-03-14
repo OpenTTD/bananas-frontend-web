@@ -17,6 +17,9 @@
         {% if content_type == "newgrf" %}
             <th class="set">Set</th>
         {% endif %}
+        {% if content_type == "scenario" %}
+            <th class="set">Climate</th>
+        {% endif %}
         <th>Name</th>
         <th class="site">Project site</th>
         <th class="version">Latest version</th>
@@ -58,6 +61,13 @@
             {% if content_type == "newgrf" %}
                 {% if package["latest"]["classification"] %}
                     <td>{{ package["latest"]["classification"]["set"]|replace("-", " ")|title }}</td>
+                {% else %}
+                    <td>Unclassified</td>
+                {% endif %}
+            {% endif %}
+            {% if content_type == "scenario" %}
+                {% if package["latest"]["classification"] %}
+                    <td>{{ package["latest"]["classification"]["climate"]|replace("-", " ")|title }}</td>
                 {% else %}
                     <td>Unclassified</td>
                 {% endif %}
