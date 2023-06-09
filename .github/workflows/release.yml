@@ -11,5 +11,5 @@ jobs:
     uses: OpenTTD/actions/.github/workflows/rw-entry-release-docker-nomad.yml@v4
     secrets: inherit
     with:
-      service: bananas
+      service: bananas-web
       url: https://bananas.openttd.org/
