@@ -15,5 +15,5 @@ jobs:
     uses: OpenTTD/actions/.github/workflows/rw-entry-preview-docker-nomad.yml@v4
     secrets: inherit
     with:
-      service: bananas-preview
+      service: bananas-web-preview
       url: https://bananas-preview.openttd.org/
