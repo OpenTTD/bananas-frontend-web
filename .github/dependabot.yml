@@ -3,12 +3,16 @@ updates:
 - package-ecosystem: "pip"
   directory: "/"
   schedule:
-    interval: "daily"
-  rebase-strategy: "disabled"
-  open-pull-requests-limit: 10
+    interval: "monthly"
+  groups:
+    dependencies-pip:
+      patterns:
+      - "*"
 - package-ecosystem: "npm"
   directory: "/"
   schedule:
-    interval: "daily"
-  rebase-strategy: "disabled"
-  open-pull-requests-limit: 10
+    interval: "monthly"
+  groups:
+    dependencies-npm:
+      patterns:
+      - "*"
