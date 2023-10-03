@@ -113,6 +113,7 @@ function start_next_upload() {
         endpoint: tus_url,
         retryDelays: [0, 1000, 3000, 5000],
         removeFingerprintOnSuccess: true,
+        chunkSize: 50 * 1024 * 1024, /* Cloudflare limits to 100 MB */
         metadata: {
             "upload-token": upload_token,
             filename: upload_file.name
