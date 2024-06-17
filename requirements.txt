@@ -11,6 +11,6 @@ MarkupSafe==2.1.5
 openttd-helpers==1.4.0
 requests==2.31.0
 sentry-sdk==1.40.6
-urllib3==2.2.1
+urllib3==2.2.2
 Werkzeug==3.0.1
 zipp==3.17.0
