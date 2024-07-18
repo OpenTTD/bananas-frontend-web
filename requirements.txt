@@ -10,7 +10,7 @@ Jinja2==3.1.4
 MarkupSafe==2.1.5
 openttd-helpers==1.4.0
 requests==2.32.3
-sentry-sdk==2.7.1
+sentry-sdk==2.8.0
 urllib3==2.2.2
 Werkzeug==3.0.3
 zipp==3.19.2
