@@ -1,4 +1,4 @@
-FROM node:13 as nodejs
+FROM node:13 AS nodejs
 
 WORKDIR /code
 
@@ -8,7 +8,7 @@ COPY package-lock.json \
 
 RUN npm install
 
-FROM python:3.8-slim
+FROM python:3.11-slim
 
 ARG BUILD_DATE=""
 ARG BUILD_VERSION="dev"
