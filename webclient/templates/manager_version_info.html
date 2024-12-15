@@ -41,13 +41,6 @@
     <tr><th>MD5 (partial)</th><td>{{ version["md5sum-partial"] }}</td></tr>
     <tr><th>License</th><td>{{ version["license"] }}</td></tr>
     <tr><th>Download availability</th><td>{{ version["availability"] }}</td></tr>
-    <tr><th>Download</th>
-    {% if version["download-url"] %}
-        <td><a href="{{ version["download-url"] }}">{{ (version["filesize"] | int) // 1024 }} kB</a></td>
-    {% else %}
-        <td>Not available</td>
-    {% endif %}
-    </tr>
     <tr><th>Compatibility</th><td>
         <ul class="compatibility">
         {% for c in compatibility %}

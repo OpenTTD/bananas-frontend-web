@@ -94,9 +94,7 @@
         <td>{{ version["upload-date"] }}</td>
         <td>{{ version["md5sum-partial"] }}</td>
         <td>{{ version["license"] }}</td>
-        {% if version["download-url"] %}
-            <td><a href="{{ version["download-url"] }}">{{ (version["filesize"] | int) // 1024 }} kB</a></td>
-        {% elif version["availability"] == "new-games" %}
+        {% if version["availability"] == "new-games" %}
             <td>Available ingame</td>
         {% else %}
             <td>Only for savegames</td>
