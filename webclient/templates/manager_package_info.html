@@ -81,7 +81,7 @@
         <th>Upload date</th>
         <th>MD5 (partial)</th>
         <th>License</th>
-        <th>Availability</th>
+        <th>Download availability</th>
         <th>Edit meta data</th>
     </tr>
 </thead>
@@ -92,7 +92,11 @@
         <td>{{ version["upload-date"] }}</td>
         <td>{{ version["md5sum-partial"] }}</td>
         <td>{{ version["license"] }}</td>
-        <td>{{ version["availability"] }}</td>
+        {% if version["availability"] == "new-games" %}
+            <td>Available ingame</td>
+        {% else %}
+            <td>Only for savegames</td>
+        {% endif %}
         <td><a href="/manager/{{ package["content-type"] }}/{{ package["unique-id"] }}/{{ version["upload-date"] }}/edit">Edit</a></td>
     </tr>
 {% endfor %}
