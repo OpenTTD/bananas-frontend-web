@@ -16,6 +16,6 @@
   },
   "homepage": "https://github.com/OpenTTD/bananas-frontend-web#readme",
   "dependencies": {
-    "tus-js-client": "^4.1.0"
+    "tus-js-client": "^4.3.1"
   }
 }
