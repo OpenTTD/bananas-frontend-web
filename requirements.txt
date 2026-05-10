@@ -8,7 +8,7 @@ itsdangerous==2.2.0
 Jinja2==3.1.6
 MarkupSafe==3.0.2
 openttd-helpers==1.4.0
-requests==2.32.4
+requests==2.33.0
 sentry-sdk==2.30.0
 urllib3==2.4.0
 Werkzeug==3.1.3
